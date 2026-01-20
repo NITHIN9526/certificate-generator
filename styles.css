@@ -1,0 +1,155 @@
+:root{
+  --bg:#f3f4f6;
+  --panel:#fff;
+  --muted:#666;
+  --accent:#114b8a;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family: "Roboto", system-ui, -apple-system, "Segoe UI", sans-serif;
+  background:linear-gradient(180deg,#eef2f7 0%,var(--bg) 100%);
+  color:#111;
+  display:flex;
+  flex-direction:column;
+  min-height:100vh;
+}
+
+/* Header */
+.app-header{
+  padding:18px 24px;
+  text-align:center;
+}
+.app-header h1{margin:0;font-family:"Playfair Display",serif}
+.app-header p{margin:6px 0 0;color:var(--muted)}
+
+/* Main layout */
+.app-main{
+  display:flex;
+  gap:20px;
+  padding:20px;
+  width:100%;
+  align-items:flex-start;
+  justify-content:center;
+  flex:1;
+}
+
+/* Form panel */
+.form-panel{
+  width:360px;
+  background:var(--panel);
+  padding:18px;
+  border-radius:8px;
+  box-shadow:0 6px 18px rgba(17,75,138,0.06);
+}
+.form-panel label{
+  display:block;
+  margin-bottom:12px;
+  font-size:14px;
+  color:#222;
+}
+.form-panel input[type="text"],
+.form-panel select{
+  width:100%;
+  padding:8px 10px;
+  margin-top:6px;
+  border-radius:6px;
+  border:1px solid #ddd;
+  font-size:14px;
+}
+.form-panel input[type="file"]{margin-top:8px}
+.form-actions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.form-actions button{
+  flex:1;
+  padding:8px 10px;
+  border-radius:6px;
+  border:0;
+  cursor:pointer;
+  background:var(--accent);
+  color:#fff;
+  font-weight:600;
+}
+.form-actions button#download-pdf{background:#0b6cd3}
+.form-actions button#preview-btn{background:#1f7bd8}
+
+/* Preview panel */
+.preview-panel{
+  flex:1;
+  max-width:900px;
+  min-width:320px;
+  background:transparent;
+}
+.preview-label{color:var(--muted);margin-bottom:8px;font-size:13px}
+
+/* Certificate */
+.certificate{
+  width:100%;
+  max-width:900px;
+  height:620px;
+  margin:0 auto;
+  border-radius:8px;
+  padding:36px;
+  box-shadow:0 8px 30px rgba(12,36,75,0.08);
+  background:linear-gradient(180deg,#fff 0%, #fbfcfe 100%);
+  position:relative;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* Inner */
+.cert-inner{
+  width:100%;
+  height:100%;
+  padding:36px;
+  text-align:center;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  gap:14px;
+}
+
+/* Logo */
+.cert-logo{
+  width:140px;
+  height:auto;
+  margin:0 auto;
+  object-fit:contain;
+}
+
+/* Text elements */
+.cert-title{font-family:"Playfair Display",serif;margin:0;font-size:26px;color:var(--accent)}
+.cert-subtitle{margin:0;color:var(--muted)}
+.cert-name{margin:6px 0;font-size:44px;font-weight:700;letter-spacing:0.4px}
+.cert-event{color:var(--muted);font-size:16px;margin:0}
+.cert-meta{display:flex;gap:12px;justify-content:center;margin-top:14px;color:var(--muted)}
+.cert-footer{display:flex;flex-direction:column;align-items:center;margin-top:28px}
+.cert-sig{width:140px;height:auto;object-fit:contain}
+
+/* Template: classic */
+.certificate.classic{
+  border:6px solid #e6eef8;
+  background:linear-gradient(180deg,#fff 0%, #fff 100%);
+}
+.certificate.classic .cert-name{
+  font-family:"Playfair Display",serif;
+}
+
+/* Template: modern */
+.certificate.modern{
+  background:linear-gradient(180deg,#ffffff 0%, #f7fbff 100%);
+  border-left:14px solid #0b6cd3;
+}
+.certificate.modern .cert-title{color:#0b6cd3}
+.certificate.modern .cert-name{font-family:Roboto, sans-serif; font-size:40px}
+
+/* Responsive */
+@media (max-width:1000px){
+  .app-main{flex-direction:column;align-items:stretch;padding:12px}
+  .form-panel{width:100%}
+  .preview-panel{max-width:100%}
+  .certificate{height:520px}
+}

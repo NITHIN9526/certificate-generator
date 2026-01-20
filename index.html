@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Certificate Generator</title>
+  <link rel="stylesheet" href="styles.css" />
+  <!-- Google Fonts (optional) -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="app-header">
+    <h1>Certificate Generator</h1>
+    <p>Create and export participant certificates (PNG / PDF)</p>
+  </header>
+
+  <main class="app-main">
+    <section class="form-panel">
+      <form id="cert-form" onsubmit="return false;">
+        <label>
+          Participant name
+          <input id="participant" type="text" placeholder="Full Name" value="Jane Participant" />
+        </label>
+
+        <label>
+          Event / Course title
+          <input id="event" type="text" placeholder="Event Title" value="Advanced Widget Workshop" />
+        </label>
+
+        <label>
+          Date
+          <input id="date" type="text" placeholder="2026-01-01" value="2026-01-20" />
+        </label>
+
+        <label>
+          Organizer / Issuer
+          <input id="issuer" type="text" placeholder="Organizing Body" value="Acme Academy" />
+        </label>
+
+        <label>
+          Template
+          <select id="template-select">
+            <option value="classic">Classic (elegant)</option>
+            <option value="modern">Modern</option>
+          </select>
+        </label>
+
+        <label>
+          Logo (optional)
+          <input id="logo-input" type="file" accept="image/*" />
+        </label>
+
+        <label>
+          Signature (optional)
+          <input id="sig-input" type="file" accept="image/*" />
+        </label>
+
+        <div class="form-actions">
+          <button id="preview-btn" type="button">Update Preview</button>
+          <button id="download-png" type="button">Download PNG</button>
+          <button id="download-pdf" type="button">Download PDF</button>
+        </div>
+      </form>
+
+      <p class="notes">
+        Tip: Use a high-resolution logo and signature for best PDF quality. For batch generation, consider a server-side script.
+      </p>
+    </section>
+
+    <section class="preview-panel">
+      <div class="preview-label">Preview</div>
+
+      <!-- Certificate container — this will be captured by html2canvas -->
+      <div id="certificate" class="certificate classic">
+        <div class="cert-inner">
+          <img id="cert-logo" class="cert-logo" src="" alt="" hidden />
+          <h2 class="cert-title">Certificate of Participation</h2>
+          <p class="cert-subtitle">This is to certify that</p>
+          <h1 id="cert-name" class="cert-name">Jane Participant</h1>
+          <p id="cert-event" class="cert-event">has successfully participated in <strong>Advanced Widget Workshop</strong></p>
+          <div class="cert-meta">
+            <div class="cert-date">Date: <span id="cert-date">2026-01-20</span></div>
+            <div class="cert-issuer">Issued by: <span id="cert-issuer">Acme Academy</span></div>
+          </div>
+
+          <div class="cert-footer">
+            <img id="cert-sig" class="cert-sig" src="" alt="signature" hidden />
+            <div class="sig-label">Organizer</div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <small>Built with html2canvas + jsPDF — Template-based certificate generator</small>
+  </footer>
+
+  <!-- Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <script src="script.js"></script>
+</body>
+</html>
