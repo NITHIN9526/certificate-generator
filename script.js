@@ -272,7 +272,12 @@ async function createBatchZip(participants) {
       
       // Update certificate with participant data
       certName.textContent = p.name;
-      certEvent.innerHTML = `has successfully participated in <strong>${p.event}</strong>`;
+      // Safely set event text while preserving <strong> styling
+      certEvent.textContent = '';
+      certEvent.appendChild(document.createTextNode('has successfully participated in '));
+      const strongEvent = document.createElement('strong');
+      strongEvent.textContent = p.event;
+      certEvent.appendChild(strongEvent);
       certDate.textContent = p.date;
       certIssuer.textContent = p.issuer;
       cert.className = `certificate ${certTemplate}`;
