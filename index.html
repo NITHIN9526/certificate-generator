@@ -5,70 +5,204 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Certificate Generator</title>
   <link rel="stylesheet" href="styles.css" />
-  <!-- Google Fonts (optional) -->
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <!-- Material Icons -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 </head>
 <body>
   <header class="app-header">
-    <h1>Certificate Generator</h1>
-    <p>Create and export participant certificates (PNG / PDF)</p>
+    <div class="header-content">
+      <div class="header-left">
+        <span class="material-icons header-icon">card_giftcard</span>
+        <div>
+          <h1>Certificate Generator</h1>
+          <p>Professional batch certificate creation</p>
+        </div>
+      </div>
+      <div class="header-badge">v2.0</div>
+    </div>
   </header>
 
   <main class="app-main">
-    <section class="form-panel">
-      <form id="cert-form" onsubmit="return false;">
-        <label>
-          Participant name
-          <input id="participant" type="text" placeholder="Full Name" value="Jane Participant" />
-        </label>
-
-        <label>
-          Event / Course title
-          <input id="event" type="text" placeholder="Event Title" value="Advanced Widget Workshop" />
-        </label>
-
-        <label>
-          Date
-          <input id="date" type="text" placeholder="2026-01-01" value="2026-01-20" />
-        </label>
-
-        <label>
-          Organizer / Issuer
-          <input id="issuer" type="text" placeholder="Organizing Body" value="Acme Academy" />
-        </label>
-
-        <label>
-          Template
-          <select id="template-select">
-            <option value="classic">Classic (elegant)</option>
-            <option value="modern">Modern</option>
-          </select>
-        </label>
-
-        <label>
-          Logo (optional)
-          <input id="logo-input" type="file" accept="image/*" />
-        </label>
-
-        <label>
-          Signature (optional)
-          <input id="sig-input" type="file" accept="image/*" />
-        </label>
-
-        <div class="form-actions">
-          <button id="preview-btn" type="button">Update Preview</button>
-          <button id="download-png" type="button">Download PNG</button>
-          <button id="download-pdf" type="button">Download PDF</button>
+    <div class="left-sidebar">
+      <section class="form-panel">
+        <div class="panel-header">
+          <span class="material-icons">settings</span>
+          <h2>Single Certificate</h2>
         </div>
-      </form>
+        <form id="cert-form" onsubmit="return false;">
+          <div class="form-group">
+            <label>
+              <span class="label-icon material-icons">person</span>
+              Participant name
+            </label>
+            <input id="participant" type="text" placeholder="Full Name" value="Jane Participant" />
+          </div>
+
+          <div class="form-group">
+            <label>
+              <span class="label-icon material-icons">category</span>
+              Category
+            </label>
+            <select id="category-select">
+              <option value="sports">🏆 Sports</option>
+              <option value="arts">🎨 Arts</option>
+              <option value="academics">📚 Academics</option>
+              <option value="participation">🎯 Participation</option>
+              <option value="excellence">⭐ Excellence</option>
+              <option value="achievement">🥇 Achievement</option>
+              <option value="leadership">👥 Leadership</option>
+              <option value="innovation">💡 Innovation</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>
+              <span class="label-icon material-icons">school</span>
+              Event / Course title
+            </label>
+            <input id="event" type="text" placeholder="Event Title" value="Advanced Widget Workshop" />
+          </div>
+
+          <div class="form-group">
+            <label>
+              <span class="label-icon material-icons">calendar_today</span>
+              Date
+            </label>
+            <input id="date" type="text" placeholder="2026-01-01" value="2026-01-20" />
+          </div>
+
+          <div class="form-group">
+            <label>
+              <span class="label-icon material-icons">business</span>
+              Organizer / Issuer
+            </label>
+            <input id="issuer" type="text" placeholder="Organizing Body" value="Acme Academy" />
+          </div>
+
+          <div class="form-group">
+            <label>
+              <span class="label-icon material-icons">palette</span>
+              Template Design
+            </label>
+            <select id="template-select">
+              <optgroup label="Professional">
+                <option value="classic">Classic (Elegant)</option>
+                <option value="modern">Modern (Contemporary)</option>
+                <option value="gold">Gold (Premium)</option>
+              </optgroup>
+              <optgroup label="Sports">
+                <option value="sports-dynamic">Sports Dynamic</option>
+                <option value="sports-medal">Sports Medal</option>
+                <option value="sports-champion">Sports Champion</option>
+              </optgroup>
+              <optgroup label="Arts">
+                <option value="arts-creative">Arts Creative</option>
+                <option value="arts-vibrant">Arts Vibrant</option>
+                <option value="arts-gallery">Arts Gallery</option>
+              </optgroup>
+              <optgroup label="Academics">
+                <option value="academic-formal">Academic Formal</option>
+                <option value="academic-modern">Academic Modern</option>
+                <option value="academic-distinction">Academic Distinction</option>
+              </optgroup>
+              <optgroup label="Specialty">
+                <option value="excellence-premium">Excellence Premium</option>
+                <option value="achievement-bold">Achievement Bold</option>
+                <option value="leadership-elite">Leadership Elite</option>
+              </optgroup>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>
+              <span class="label-icon material-icons">image</span>
+              Logo (optional)
+            </label>
+            <input id="logo-input" type="file" accept="image/*" />
+          </div>
+
+          <div class="form-group">
+            <label>
+              <span class="label-icon material-icons">edit</span>
+              Signature (optional)
+            </label>
+            <input id="sig-input" type="file" accept="image/*" />
+          </div>
+
+          <div class="form-actions">
+            <button id="preview-btn" type="button" class="btn btn-secondary">
+              <span class="material-icons">preview</span>
+              Preview
+            </button>
+            <button id="download-png" type="button" class="btn btn-primary">
+              <span class="material-icons">image</span>
+              PNG
+            </button>
+            <button id="download-pdf" type="button" class="btn btn-success">
+              <span class="material-icons">picture_as_pdf</span>
+              PDF
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <section class="form-panel batch-panel">
+        <div class="panel-header">
+          <span class="material-icons">batch_prediction</span>
+          <h2>Batch Certificate</h2>
+        </div>
+        <div class="batch-info">
+          <p>Upload an Excel file (.xlsx) with participant data to generate multiple certificates at once!</p>
+        </div>
+        <div class="excel-template">
+          <p><strong>Excel Format Required (5 columns):</strong></p>
+          <div class="template-example">
+            <code>
+              Name | Event | Date | Issuer | Category<br>
+              John Doe | Football Championship | 2026-01-20 | Sports Academy | sports<br>
+              Jane Smith | Painting Exhibition | 2026-01-20 | Arts Institute | arts<br>
+              Alice Brown | Mathematics Olympiad | 2026-01-20 | Education Board | academics
+            </code>
+          </div>
+          <p style="font-size: 12px; color: #64748b; margin-top: 8px;">
+            <strong>Categories:</strong> sports, arts, academics, participation, excellence, achievement, leadership, innovation
+          </p>
+        </div>
+        <div class="form-group">
+          <label>
+            <span class="label-icon material-icons">upload_file</span>
+            Upload Excel File
+          </label>
+          <input id="excel-input" type="file" accept=".xlsx,.xls" />
+        </div>
+        <button id="process-excel" type="button" class="btn btn-primary btn-block">
+          <span class="material-icons">cloud_download</span>
+          Process & Download All
+        </button>
+        <div id="progress-container" class="progress-container" style="display: none;">
+          <div class="progress-info">
+            <span id="progress-text">Processing: 0/0</span>
+            <span id="progress-percent">0%</span>
+          </div>
+          <div class="progress-bar">
+            <div id="progress-fill" class="progress-fill"></div>
+          </div>
+        </div>
+      </section>
 
       <p class="notes">
-        Tip: Use a high-resolution logo and signature for best PDF quality. For batch generation, consider a server-side script.
+        💡 <strong>Tip:</strong> Use high-resolution images for best quality. Batch processing downloads all certificates as a ZIP file.
       </p>
-    </section>
+    </div>
+
 
     <section class="preview-panel">
-      <div class="preview-label">Preview</div>
+      <div class="preview-header">
+        <span class="material-icons">preview</span>
+        Certificate Preview
+      </div>
 
       <!-- Certificate container — this will be captured by html2canvas -->
       <div id="certificate" class="certificate classic">
@@ -94,10 +228,27 @@
   </main>
 
   <footer class="app-footer">
-    <small>Built with html2canvas + jsPDF — Template-based certificate generator</small>
+    <small>🚀 Professional Certificate Generator • Batch processing with Excel • Export as PNG/PDF</small>
   </footer>
 
+  <!-- Modal for batch processing -->
+  <div id="modal-overlay" class="modal-overlay" style="display: none;"></div>
+  <div id="batch-modal" class="batch-modal" style="display: none;">
+    <div class="modal-header">
+      <h3>Batch Processing Complete</h3>
+      <button class="modal-close" onclick="closeBatchModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <p id="modal-message"></p>
+      <div id="modal-stats"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary" onclick="closeBatchModal()">Close</button>
+    </div>
+  </div>
+
   <!-- Libraries -->
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
