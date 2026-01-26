@@ -55,7 +55,7 @@ function updatePreview() {
   certDate.textContent = dateInput.value || '';
   certIssuer.textContent = issuerInput.value || '';
 
-  cert.classList.remove('classic','modern','gold','sports-dynamic','sports-medal','sports-champion','arts-creative','arts-vibrant','arts-gallery','academic-formal','academic-modern','academic-distinction','excellence-premium','achievement-bold','leadership-elite');
+  cert.classList.remove('classic','modern','gold','sports-dynamic','sports-medal','sports-champion','sports-fitness','sports-tournament','sports-achievement','arts-creative','arts-vibrant','arts-gallery','arts-performance','arts-design','arts-photography','academic-formal','academic-modern','academic-distinction','excellence-premium','achievement-bold','leadership-elite','minimalist-blue','gradient-sunset','elegant-vintage','geometric-modern','rainbow-vibrant','dark-professional','pastel-soft','bold-statement');
   cert.classList.add(templateSelect.value);
 }
 
