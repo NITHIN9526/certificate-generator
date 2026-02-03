@@ -18,6 +18,9 @@ const downloadPdfBtn = document.getElementById('download-pdf');
 const excelInput = document.getElementById('excel-input');
 const processExcelBtn = document.getElementById('process-excel');
 
+const orientationLandscapeBtn = document.getElementById('orientation-landscape');
+const orientationPortraitBtn = document.getElementById('orientation-portrait');
+
 const cert = document.getElementById('certificate');
 const certName = document.getElementById('cert-name');
 const certEvent = document.getElementById('cert-event');
@@ -34,6 +37,7 @@ const progressPercent = document.getElementById('progress-percent');
 // Global variables for Excel batch processing
 let logoDataUrl = null;
 let sigDataUrl = null;
+let currentOrientation = 'landscape';
 
 // Category to template suggestions map
 const categoryTemplateMap = {
@@ -57,6 +61,10 @@ function updatePreview() {
 
   cert.classList.remove('classic','modern','gold','sports-dynamic','sports-medal','sports-champion','sports-fitness','sports-tournament','sports-achievement','arts-creative','arts-vibrant','arts-gallery','arts-performance','arts-design','arts-photography','academic-formal','academic-modern','academic-distinction','excellence-premium','achievement-bold','leadership-elite','minimalist-blue','gradient-sunset','elegant-vintage','geometric-modern','rainbow-vibrant','dark-professional','pastel-soft','bold-statement');
   cert.classList.add(templateSelect.value);
+  
+  // Apply orientation class
+  cert.classList.remove('landscape', 'portrait');
+  cert.classList.add(currentOrientation);
 }
 
 // Read file input and set src of the image
@@ -97,6 +105,21 @@ sigInput.addEventListener('change', (e) => {
 });
 
 previewBtn.addEventListener('click', updatePreview);
+
+// Orientation handlers
+orientationLandscapeBtn.addEventListener('click', () => {
+  currentOrientation = 'landscape';
+  orientationLandscapeBtn.classList.add('active');
+  orientationPortraitBtn.classList.remove('active');
+  updatePreview();
+});
+
+orientationPortraitBtn.addEventListener('click', () => {
+  currentOrientation = 'portrait';
+  orientationPortraitBtn.classList.add('active');
+  orientationLandscapeBtn.classList.remove('active');
+  updatePreview();
+});
 
 // Category change handler - suggests appropriate templates
 categorySelect.addEventListener('change', (e) => {
@@ -280,7 +303,7 @@ async function createBatchZip(participants) {
       certEvent.appendChild(strongEvent);
       certDate.textContent = p.date;
       certIssuer.textContent = p.issuer;
-      cert.className = `certificate ${certTemplate}`;
+      cert.className = `certificate ${certTemplate} ${currentOrientation}`;
       
       // Generate PNG
       const canvas = await html2canvas(cert, { scale: 2, useCORS: true });
@@ -292,8 +315,9 @@ async function createBatchZip(participants) {
       
       // Also generate PDF
       const { jsPDF } = window.jspdf;
+      const pdfOrientation = canvas.width > canvas.height ? 'landscape' : 'portrait';
       const pdf = new jsPDF({
-        orientation: 'landscape',
+        orientation: pdfOrientation,
         unit: 'pt',
         format: [canvas.width, canvas.height]
       });
@@ -338,7 +362,7 @@ async function createBatchWithoutZip(participants) {
       certEvent.innerHTML = `has successfully participated in <strong>${p.event}</strong>`;
       certDate.textContent = p.date;
       certIssuer.textContent = p.issuer;
-      cert.className = `certificate ${template}`;
+      cert.className = `certificate ${template} ${currentOrientation}`;
       
       const canvas = await html2canvas(cert, { scale: 2, useCORS: true });
       const dataURL = canvas.toDataURL('image/png', 1.0);
