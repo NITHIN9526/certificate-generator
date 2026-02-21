@@ -10,6 +10,8 @@ const templateSelect = document.getElementById('template-select');
 
 const logoInput = document.getElementById('logo-input');
 const sigInput = document.getElementById('sig-input');
+const bgInput = document.getElementById('bg-input');
+const bgToggle = document.getElementById('bg-toggle');
 
 const previewBtn = document.getElementById('preview-btn');
 const downloadPngBtn = document.getElementById('download-png');
@@ -34,6 +36,7 @@ const progressPercent = document.getElementById('progress-percent');
 // Global variables for Excel batch processing
 let logoDataUrl = null;
 let sigDataUrl = null;
+let bgDataUrl = null;
 
 // Category to template suggestions map
 const categoryTemplateMap = {
@@ -47,16 +50,65 @@ const categoryTemplateMap = {
   'innovation': ['arts-creative', 'modern', 'excellence-premium']
 };
 
+const certEventPrefix = 'has successfully participated in ';
+
+function renderCertificateEvent(eventText, fallback = 'Event / Course') {
+  const strong = document.createElement('strong');
+  strong.textContent = String(eventText ?? '').trim() || fallback;
+  certEvent.textContent = certEventPrefix;
+  certEvent.appendChild(strong);
+}
+
+function sanitizeFileBaseName(name, fallback = 'certificate') {
+  const sanitized = String(name ?? '')
+    .trim()
+    .replace(/[^a-z0-9]+/gi, '_')
+    .replace(/^_+|_+$/g, '');
+  return sanitized || fallback;
+}
+
+function createUniqueFileBaseName(name, index, usedNames) {
+  const base = sanitizeFileBaseName(name, `participant_${index + 1}`);
+  if (!usedNames) return base;
+
+  let candidate = base;
+  let counter = 2;
+  while (usedNames.has(candidate)) {
+    candidate = `${base}_${counter}`;
+    counter++;
+  }
+
+  usedNames.add(candidate);
+  return candidate;
+}
+
+function applyCustomBackground() {
+  const shouldUseCustomBg = Boolean(bgDataUrl && bgToggle.checked);
+
+  if (shouldUseCustomBg) {
+    cert.style.backgroundImage = `linear-gradient(rgba(255,255,255,0.82), rgba(255,255,255,0.82)), url('${bgDataUrl}')`;
+    cert.style.backgroundPosition = 'center';
+    cert.style.backgroundRepeat = 'no-repeat';
+    cert.style.backgroundSize = 'cover';
+  } else {
+    cert.style.backgroundImage = '';
+    cert.style.backgroundPosition = '';
+    cert.style.backgroundRepeat = '';
+    cert.style.backgroundSize = '';
+  }
+}
+
 // Apply initial values
 function updatePreview() {
   certName.textContent = participantInput.value || 'Participant Name';
-  certEvent.innerHTML = `has successfully participated in <strong>${eventInput.value || 'Event / Course'}</strong>`;
+  renderCertificateEvent(eventInput.value, 'Event / Course');
 
   certDate.textContent = dateInput.value || '';
   certIssuer.textContent = issuerInput.value || '';
 
   cert.classList.remove('classic','modern','gold','sports-dynamic','sports-medal','sports-champion','sports-fitness','sports-tournament','sports-achievement','arts-creative','arts-vibrant','arts-gallery','arts-performance','arts-design','arts-photography','academic-formal','academic-modern','academic-distinction','excellence-premium','achievement-bold','leadership-elite','minimalist-blue','gradient-sunset','elegant-vintage','geometric-modern','rainbow-vibrant','dark-professional','pastel-soft','bold-statement');
   cert.classList.add(templateSelect.value);
+  applyCustomBackground();
 }
 
 // Read file input and set src of the image
@@ -96,6 +148,18 @@ sigInput.addEventListener('change', (e) => {
   });
 });
 
+bgInput.addEventListener('change', (e) => {
+  const f = e.target.files[0];
+  readFileAsDataURL(f, (dataUrl) => {
+    bgDataUrl = dataUrl;
+    bgToggle.disabled = !dataUrl;
+    bgToggle.checked = Boolean(dataUrl);
+    applyCustomBackground();
+  });
+});
+
+bgToggle.addEventListener('change', applyCustomBackground);
+
 previewBtn.addEventListener('click', updatePreview);
 
 // Category change handler - suggests appropriate templates
@@ -120,8 +184,9 @@ downloadPngBtn.addEventListener('click', async () => {
   try {
     const canvas = await html2canvas(cert, { scale: 2, useCORS: true });
     const dataURL = canvas.toDataURL('image/png', 1.0);
+    const fileBaseName = sanitizeFileBaseName(participantInput.value, 'certificate');
     const link = document.createElement('a');
-    link.download = `${participantInput.value || 'certificate'}.png`;
+    link.download = `${fileBaseName}.png`;
     link.href = dataURL;
     document.body.appendChild(link);
     link.click();
@@ -142,6 +207,7 @@ downloadPdfBtn.addEventListener('click', async () => {
   try {
     const canvas = await html2canvas(cert, { scale: 2, useCORS: true });
     const imgData = canvas.toDataURL('image/png', 1.0);
+    const fileBaseName = sanitizeFileBaseName(participantInput.value, 'certificate');
     const { jsPDF } = window.jspdf;
     
     const pdf = new jsPDF({
@@ -151,7 +217,7 @@ downloadPdfBtn.addEventListener('click', async () => {
     });
 
     pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
-    pdf.save(`${participantInput.value || 'certificate'}.pdf`);
+    pdf.save(`${fileBaseName}.pdf`);
   } catch(e) {
     alert('Error generating PDF: ' + e.message);
   } finally {
@@ -203,19 +269,23 @@ async function processExcelFile(file) {
       
       // Parse Excel data (skip header row if present)
       let participants = [];
-      const startRow = jsonData[0] && (jsonData[0][0] === 'Name' || jsonData[0][0] === 'name') ? 1 : 0;
+      const firstCell = String((jsonData[0] && jsonData[0][0]) ?? '').trim().toLowerCase();
+      const startRow = firstCell === 'name' ? 1 : 0;
       
       for (let i = startRow; i < jsonData.length; i++) {
         const row = jsonData[i];
-        if (row && row[0]) { // Ensure row has data
-          participants.push({
-            name: String(row[0] || '').trim(),
-            event: String(row[1] || eventInput.value).trim(),
-            date: String(row[2] || dateInput.value).trim(),
-            issuer: String(row[3] || issuerInput.value).trim(),
-            category: String(row[4] || categorySelect.value).trim()
-          });
-        }
+        if (!row) continue;
+
+        const name = String(row[0] ?? '').trim();
+        if (!name) continue;
+
+        participants.push({
+          name,
+          event: String(row[1] ?? '').trim() || eventInput.value.trim() || 'Event / Course',
+          date: String(row[2] ?? '').trim() || dateInput.value.trim(),
+          issuer: String(row[3] ?? '').trim() || issuerInput.value.trim(),
+          category: String(row[4] ?? '').trim().toLowerCase() || String(categorySelect.value ?? '').trim().toLowerCase()
+        });
       }
 
       if (participants.length === 0) {
@@ -259,10 +329,12 @@ async function createBatchZip(participants) {
   let successCount = 0;
   const total = participants.length;
   const template = templateSelect.value;
+  const usedFileNames = new Set();
 
   for (let i = 0; i < participants.length; i++) {
     try {
       const p = participants[i];
+      const fileBaseName = createUniqueFileBaseName(p.name, i, usedFileNames);
       
       // Determine template based on category if provided
       let certTemplate = template;
@@ -272,10 +344,11 @@ async function createBatchZip(participants) {
       
       // Update certificate with participant data
       certName.textContent = p.name;
-      certEvent.innerHTML = `has successfully participated in <strong>${p.event}</strong>`;
+      renderCertificateEvent(p.event, 'Event / Course');
       certDate.textContent = p.date;
       certIssuer.textContent = p.issuer;
       cert.className = `certificate ${certTemplate}`;
+      applyCustomBackground();
       
       // Generate PNG
       const canvas = await html2canvas(cert, { scale: 2, useCORS: true });
@@ -283,7 +356,7 @@ async function createBatchZip(participants) {
       const base64Data = imgData.split(',')[1];
       
       // Add to ZIP
-      zip.file(`${p.name.replace(/[^a-z0-9]/gi, '_')}.png`, base64Data, { base64: true });
+      zip.file(`${fileBaseName}.png`, base64Data, { base64: true });
       
       // Also generate PDF
       const { jsPDF } = window.jspdf;
@@ -294,7 +367,7 @@ async function createBatchZip(participants) {
       });
       pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
       const pdfData = pdf.output('arraybuffer');
-      zip.file(`${p.name.replace(/[^a-z0-9]/gi, '_')}.pdf`, pdfData, { binary: true });
+      zip.file(`${fileBaseName}.pdf`, pdfData, { binary: true });
       
       successCount++;
       updateProgress(successCount, total);
@@ -306,11 +379,13 @@ async function createBatchZip(participants) {
   try {
     const zipBlob = await zip.generateAsync({ type: 'blob' });
     const link = document.createElement('a');
-    link.href = URL.createObjectURL(zipBlob);
+    const zipUrl = URL.createObjectURL(zipBlob);
+    link.href = zipUrl;
     link.download = `certificates_${new Date().getTime()}.zip`;
     document.body.appendChild(link);
     link.click();
     link.remove();
+    URL.revokeObjectURL(zipUrl);
     
     showBatchComplete(successCount, total);
   } catch(e) {
@@ -324,21 +399,28 @@ async function createBatchWithoutZip(participants) {
   let successCount = 0;
   const total = participants.length;
   const template = templateSelect.value;
+  const usedFileNames = new Set();
 
   for (let i = 0; i < participants.length; i++) {
     try {
       const p = participants[i];
+      const fileBaseName = createUniqueFileBaseName(p.name, i, usedFileNames);
+      let certTemplate = template;
+      if (p.category && categoryTemplateMap[p.category]) {
+        certTemplate = categoryTemplateMap[p.category][0];
+      }
       
       certName.textContent = p.name;
-      certEvent.innerHTML = `has successfully participated in <strong>${p.event}</strong>`;
+      renderCertificateEvent(p.event, 'Event / Course');
       certDate.textContent = p.date;
       certIssuer.textContent = p.issuer;
-      cert.className = `certificate ${template}`;
+      cert.className = `certificate ${certTemplate}`;
+      applyCustomBackground();
       
       const canvas = await html2canvas(cert, { scale: 2, useCORS: true });
       const dataURL = canvas.toDataURL('image/png', 1.0);
       const link = document.createElement('a');
-      link.download = `${p.name.replace(/[^a-z0-9]/gi, '_')}.png`;
+      link.download = `${fileBaseName}.png`;
       link.href = dataURL;
       document.body.appendChild(link);
       link.click();

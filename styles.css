@@ -235,6 +235,30 @@ body{
   background:var(--accent-dark);
 }
 
+.inline-toggle{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-top:10px;
+  margin-bottom:4px;
+  color:var(--text-secondary);
+  font-size:13px;
+  font-weight:500;
+}
+
+.inline-toggle input[type="checkbox"]{
+  width:16px;
+  height:16px;
+  margin:0;
+  accent-color:var(--accent);
+}
+
+.field-help{
+  margin:0;
+  font-size:12px;
+  color:var(--muted);
+}
+
 /* Button styles */
 .btn{
   display:inline-flex;
