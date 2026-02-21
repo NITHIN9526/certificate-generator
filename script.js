@@ -65,7 +65,13 @@ const templateClasses = [
   'rainbow-vibrant',
   'dark-professional',
   'pastel-soft',
-  'bold-statement'
+  'bold-statement',
+  'aurora-glass',
+  'emerald-royal',
+  'mono-grid',
+  'nebula-night',
+  'ivory-luxe',
+  'coral-wave'
 ];
 
 // Global variables for batch processing
@@ -76,17 +82,34 @@ let currentOrientation = 'landscape';
 
 // Category to template suggestions map
 const categoryTemplateMap = {
-  sports: ['sports-dynamic', 'sports-medal', 'sports-champion'],
-  arts: ['arts-creative', 'arts-vibrant', 'arts-gallery'],
-  academics: ['academic-formal', 'academic-modern', 'academic-distinction'],
-  participation: ['modern', 'classic', 'achievement-bold'],
-  excellence: ['excellence-premium', 'gold', 'achievement-bold'],
-  achievement: ['achievement-bold', 'sports-medal', 'excellence-premium'],
-  leadership: ['leadership-elite', 'excellence-premium', 'modern'],
-  innovation: ['arts-creative', 'modern', 'excellence-premium']
+  sports: ['sports-dynamic', 'sports-medal', 'sports-champion', 'sports-fitness', 'sports-tournament', 'sports-achievement', 'nebula-night', 'bold-statement'],
+  arts: ['arts-creative', 'arts-vibrant', 'arts-gallery', 'arts-performance', 'arts-design', 'arts-photography', 'aurora-glass', 'coral-wave', 'gradient-sunset', 'rainbow-vibrant', 'pastel-soft'],
+  academics: ['academic-formal', 'academic-modern', 'academic-distinction', 'mono-grid', 'ivory-luxe', 'minimalist-blue', 'classic'],
+  participation: ['modern', 'classic', 'minimalist-blue', 'pastel-soft', 'aurora-glass'],
+  excellence: ['excellence-premium', 'gold', 'ivory-luxe', 'emerald-royal', 'leadership-elite'],
+  achievement: ['achievement-bold', 'excellence-premium', 'sports-medal', 'sports-achievement', 'bold-statement'],
+  leadership: ['leadership-elite', 'emerald-royal', 'excellence-premium', 'modern', 'dark-professional', 'ivory-luxe'],
+  innovation: ['geometric-modern', 'mono-grid', 'aurora-glass', 'modern', 'minimalist-blue', 'gradient-sunset', 'rainbow-vibrant']
 };
 
 const certEventPrefix = 'has successfully participated in ';
+const templateOptionLabels = templateSelect
+  ? new Map(Array.from(templateSelect.options).map((option) => [option.value, option.textContent]))
+  : new Map();
+
+function updateCategoryTemplateRecommendations(category) {
+  if (!templateSelect || templateOptionLabels.size === 0) return;
+
+  const normalizedCategory = String(category ?? '').trim().toLowerCase();
+  const recommendedTemplates = new Set(categoryTemplateMap[normalizedCategory] || []);
+
+  Array.from(templateSelect.options).forEach((option) => {
+    const originalLabel = templateOptionLabels.get(option.value) || option.textContent;
+    option.textContent = recommendedTemplates.has(option.value)
+      ? `${originalLabel} [Recommended]`
+      : originalLabel;
+  });
+}
 
 function renderCertificateEvent(eventText, fallback = 'Event / Course') {
   const strong = document.createElement('strong');
@@ -294,8 +317,9 @@ if (orientationLandscapeBtn && orientationPortraitBtn) {
 if (categorySelect) {
   categorySelect.addEventListener('change', (e) => {
     const category = String(e.target.value ?? '').trim().toLowerCase();
-    const suggestedTemplates = categoryTemplateMap[category];
-    if (suggestedTemplates && suggestedTemplates.length > 0) {
+    const suggestedTemplates = categoryTemplateMap[category] || [];
+    updateCategoryTemplateRecommendations(category);
+    if (suggestedTemplates.length > 0 && !suggestedTemplates.includes(templateSelect.value)) {
       templateSelect.value = suggestedTemplates[0];
     }
     updatePreview();
@@ -588,4 +612,5 @@ if (orientationLandscapeBtn && orientationPortraitBtn) {
   orientationPortraitBtn.classList.remove('active');
 }
 
+updateCategoryTemplateRecommendations(categorySelect ? categorySelect.value : '');
 updatePreview();
