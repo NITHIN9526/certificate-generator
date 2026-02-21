@@ -170,14 +170,6 @@
                 <input id="cert-siglabel-input" type="text" value="Organizer" />
               </div>
               <div class="editor-control">
-                <label for="text-align-select">Text Alignment</label>
-                <select id="text-align-select">
-                  <option value="center">Center</option>
-                  <option value="left">Left</option>
-                  <option value="right">Right</option>
-                </select>
-              </div>
-              <div class="editor-control">
                 <label for="title-size-input">Title Size</label>
                 <div class="range-row">
                   <input id="title-size-input" type="range" min="18" max="42" value="28" />
@@ -212,6 +204,8 @@
               </div>
             </div>
             <button id="reset-text-styles" type="button" class="btn btn-secondary btn-block">Reset Text Styles</button>
+            <button id="reset-text-position" type="button" class="btn btn-secondary btn-block">Reset Text Position</button>
+            <p class="field-help">Tip: Click a text block in preview, then drag to move it.</p>
           </div>
 
           <div class="form-group">
@@ -360,6 +354,6 @@
   <!-- Libraries -->
   <script src="vendor/html2canvas-1.4.1.min.js"></script>
   <script src="vendor/jspdf-2.5.1.umd.min.js"></script>
-  <script src="script.js?v=20260221-text-editor"></script>
+  <script src="script.js?v=20260221-draggable-text"></script>
 </body>
 </html>

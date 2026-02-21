@@ -279,6 +279,25 @@ body{
   margin-top:10px;
 }
 
+#reset-text-position{
+  margin-top:8px;
+}
+
+.movable-text{
+  cursor:grab;
+  user-select:none;
+}
+
+.movable-text:active{
+  cursor:grabbing;
+}
+
+.movable-text.selected{
+  outline:2px dashed rgba(11,108,211,0.75);
+  outline-offset:4px;
+  border-radius:6px;
+}
+
 .form-panel input[type="file"]::file-selector-button{
   padding:6px 12px;
   background:var(--accent);

@@ -21,11 +21,11 @@ const nameSizeInput = document.getElementById('name-size-input');
 const nameSizeValue = document.getElementById('name-size-value');
 const eventSizeInput = document.getElementById('event-size-input');
 const eventSizeValue = document.getElementById('event-size-value');
-const textAlignSelect = document.getElementById('text-align-select');
 const titleColorInput = document.getElementById('title-color-input');
 const nameColorInput = document.getElementById('name-color-input');
 const bodyColorInput = document.getElementById('body-color-input');
 const resetTextStylesBtn = document.getElementById('reset-text-styles');
+const resetTextPositionBtn = document.getElementById('reset-text-position');
 
 const previewBtn = document.getElementById('preview-btn');
 const downloadPngBtn = document.getElementById('download-png');
@@ -128,10 +128,19 @@ const textStyleOverrides = {
   titleSize: null,
   nameSize: null,
   eventSize: null,
-  align: null,
   titleColor: null,
   nameColor: null,
   bodyColor: null
+};
+const movableTextElements = [certTitle, certSubtitle, certName, certEvent, certMeta, certSigLabel].filter(Boolean);
+const movableTextOffsets = new Map();
+const textDragState = {
+  element: null,
+  pointerId: null,
+  startX: 0,
+  startY: 0,
+  originX: 0,
+  originY: 0
 };
 
 function updateCategoryTemplateRecommendations(category) {
@@ -187,12 +196,6 @@ function syncTextControlsWithPreview() {
   updateRangeValueLabel(nameSizeInput, nameSizeValue);
   updateRangeValueLabel(eventSizeInput, eventSizeValue);
 
-  if (textStyleOverrides.align === null && textAlignSelect) {
-    const computedAlign = getComputedStyle(certInner || cert).textAlign;
-    const normalizedAlign = ['left', 'right', 'center'].includes(computedAlign) ? computedAlign : 'center';
-    textAlignSelect.value = normalizedAlign;
-  }
-
   if (textStyleOverrides.titleColor === null && titleColorInput) {
     titleColorInput.value = rgbToHex(getComputedStyle(certTitle).color);
   }
@@ -215,26 +218,6 @@ function applyTextEditorStyles() {
   certName.style.fontSize = textStyleOverrides.nameSize !== null ? `${textStyleOverrides.nameSize}px` : '';
   certEvent.style.fontSize = textStyleOverrides.eventSize !== null ? `${textStyleOverrides.eventSize}px` : '';
 
-  if (textStyleOverrides.align !== null) {
-    const align = textStyleOverrides.align;
-    if (certInner) certInner.style.textAlign = align;
-    certTitle.style.textAlign = align;
-    certSubtitle.style.textAlign = align;
-    certName.style.textAlign = align;
-    certEvent.style.textAlign = align;
-    if (certMeta) {
-      const justifyMap = { left: 'flex-start', center: 'center', right: 'flex-end' };
-      certMeta.style.justifyContent = justifyMap[align] || 'center';
-    }
-  } else {
-    if (certInner) certInner.style.textAlign = '';
-    certTitle.style.textAlign = '';
-    certSubtitle.style.textAlign = '';
-    certName.style.textAlign = '';
-    certEvent.style.textAlign = '';
-    if (certMeta) certMeta.style.justifyContent = '';
-  }
-
   certTitle.style.color = textStyleOverrides.titleColor || '';
   certName.style.color = textStyleOverrides.nameColor || '';
 
@@ -243,6 +226,99 @@ function applyTextEditorStyles() {
   certEvent.style.color = bodyColor;
   if (certMeta) certMeta.style.color = bodyColor;
   certSigLabel.style.color = bodyColor;
+}
+
+function setMovableTextTransform(element, x, y) {
+  element.style.transform = `translate(${x}px, ${y}px)`;
+  element.dataset.moveX = String(x);
+  element.dataset.moveY = String(y);
+}
+
+function selectMovableText(element) {
+  movableTextElements.forEach((item) => item.classList.toggle('selected', item === element));
+}
+
+function clearMovableTextSelection() {
+  movableTextElements.forEach((item) => item.classList.remove('selected'));
+}
+
+function resetMovableTextPositions() {
+  movableTextElements.forEach((element) => {
+    movableTextOffsets.set(element.id, { x: 0, y: 0 });
+    setMovableTextTransform(element, 0, 0);
+  });
+  clearMovableTextSelection();
+}
+
+function onMovableTextPointerDown(event) {
+  const element = event.currentTarget;
+  if (!(element instanceof HTMLElement)) return;
+
+  event.preventDefault();
+  selectMovableText(element);
+
+  const currentOffset = movableTextOffsets.get(element.id) || { x: 0, y: 0 };
+  textDragState.element = element;
+  textDragState.pointerId = event.pointerId;
+  textDragState.startX = event.clientX;
+  textDragState.startY = event.clientY;
+  textDragState.originX = currentOffset.x;
+  textDragState.originY = currentOffset.y;
+
+  if (typeof element.setPointerCapture === 'function') {
+    element.setPointerCapture(event.pointerId);
+  }
+}
+
+function onMovableTextPointerMove(event) {
+  if (!textDragState.element || event.pointerId !== textDragState.pointerId) return;
+
+  const dx = event.clientX - textDragState.startX;
+  const dy = event.clientY - textDragState.startY;
+  const nextX = Math.round(textDragState.originX + dx);
+  const nextY = Math.round(textDragState.originY + dy);
+
+  movableTextOffsets.set(textDragState.element.id, { x: nextX, y: nextY });
+  setMovableTextTransform(textDragState.element, nextX, nextY);
+}
+
+function onMovableTextPointerUp(event) {
+  if (!textDragState.element || event.pointerId !== textDragState.pointerId) return;
+
+  const currentElement = textDragState.element;
+  if (typeof currentElement.releasePointerCapture === 'function') {
+    currentElement.releasePointerCapture(event.pointerId);
+  }
+
+  textDragState.element = null;
+  textDragState.pointerId = null;
+}
+
+function initializeMovableTextEditor() {
+  movableTextElements.forEach((element) => {
+    element.classList.add('movable-text');
+    element.style.touchAction = 'none';
+
+    const storedX = Number(element.dataset.moveX || 0);
+    const storedY = Number(element.dataset.moveY || 0);
+    movableTextOffsets.set(element.id, { x: storedX, y: storedY });
+    setMovableTextTransform(element, storedX, storedY);
+
+    element.addEventListener('pointerdown', onMovableTextPointerDown);
+  });
+
+  window.addEventListener('pointermove', onMovableTextPointerMove);
+  window.addEventListener('pointerup', onMovableTextPointerUp);
+  window.addEventListener('pointercancel', onMovableTextPointerUp);
+
+  if (cert) {
+    cert.addEventListener('pointerdown', (event) => {
+      const target = event.target;
+      if (target instanceof Element && !target.closest('.movable-text')) {
+        clearMovableTextSelection();
+      }
+    });
+  }
 }
 
 function renderCertificateEvent(eventText, fallback = 'Event / Course') {
@@ -322,6 +398,7 @@ async function captureCertificateCanvas() {
   const exportCert = cert.cloneNode(true);
   exportCert.removeAttribute('id');
   exportCert.querySelectorAll('[id]').forEach((node) => node.removeAttribute('id'));
+  exportCert.querySelectorAll('.movable-text.selected').forEach((node) => node.classList.remove('selected'));
   exportCert.style.width = `${width}px`;
   exportCert.style.maxWidth = `${width}px`;
   exportCert.style.height = `${height}px`;
@@ -514,13 +591,6 @@ if (eventSizeInput) {
   });
 }
 
-if (textAlignSelect) {
-  textAlignSelect.addEventListener('change', (e) => {
-    textStyleOverrides.align = String(e.target.value || 'center');
-    applyTextEditorStyles();
-  });
-}
-
 if (titleColorInput) {
   titleColorInput.addEventListener('input', (e) => {
     textStyleOverrides.titleColor = String(e.target.value || '');
@@ -547,13 +617,16 @@ if (resetTextStylesBtn) {
     textStyleOverrides.titleSize = null;
     textStyleOverrides.nameSize = null;
     textStyleOverrides.eventSize = null;
-    textStyleOverrides.align = null;
     textStyleOverrides.titleColor = null;
     textStyleOverrides.nameColor = null;
     textStyleOverrides.bodyColor = null;
     applyTextEditorStyles();
     syncTextControlsWithPreview();
   });
+}
+
+if (resetTextPositionBtn) {
+  resetTextPositionBtn.addEventListener('click', resetMovableTextPositions);
 }
 
 if (previewBtn) {
@@ -874,5 +947,6 @@ if (orientationLandscapeBtn && orientationPortraitBtn) {
   orientationPortraitBtn.classList.remove('active');
 }
 
+initializeMovableTextEditor();
 updateCategoryTemplateRecommendations(categorySelect ? categorySelect.value : '');
 updatePreview();
