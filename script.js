@@ -79,6 +79,10 @@ let logoDataUrl = null;
 let sigDataUrl = null;
 let bgDataUrl = null;
 let currentOrientation = 'landscape';
+const exportRenderDimensions = {
+  landscape: { width: 1200, height: 768 },
+  portrait: { width: 840, height: 1080 }
+};
 
 // Category to template suggestions map
 const categoryTemplateMap = {
@@ -164,6 +168,34 @@ function applyCustomBackground() {
     cert.style.backgroundRepeat = '';
     cert.style.backgroundSize = '';
   }
+}
+
+function getExportRenderSize() {
+  return currentOrientation === 'portrait'
+    ? exportRenderDimensions.portrait
+    : exportRenderDimensions.landscape;
+}
+
+async function captureCertificateCanvas() {
+  const { width, height } = getExportRenderSize();
+
+  return html2canvas(cert, {
+    scale: 2,
+    useCORS: true,
+    windowWidth: Math.max(width + 120, 1280),
+    windowHeight: Math.max(height + 120, 1000),
+    onclone: (clonedDocument) => {
+      const clonedCert = clonedDocument.getElementById('certificate');
+      if (!clonedCert) return;
+
+      clonedCert.style.width = `${width}px`;
+      clonedCert.style.maxWidth = `${width}px`;
+      clonedCert.style.height = `${height}px`;
+      clonedCert.style.minHeight = `${height}px`;
+      clonedCert.style.margin = '0';
+      clonedCert.style.transform = 'none';
+    }
+  });
 }
 
 function updatePreview() {
@@ -332,7 +364,7 @@ if (downloadPngBtn) {
     setButtonLoading(downloadPngBtn, 'image', 'PNG', true);
 
     try {
-      const canvas = await html2canvas(cert, { scale: 2, useCORS: true });
+      const canvas = await captureCertificateCanvas();
       const dataURL = canvas.toDataURL('image/png', 1.0);
       const fileBaseName = sanitizeFileBaseName(participantInput.value, 'certificate');
 
@@ -356,7 +388,7 @@ if (downloadPdfBtn) {
     setButtonLoading(downloadPdfBtn, 'picture_as_pdf', 'PDF', true);
 
     try {
-      const canvas = await html2canvas(cert, { scale: 2, useCORS: true });
+      const canvas = await captureCertificateCanvas();
       const imgData = canvas.toDataURL('image/png', 1.0);
       const fileBaseName = sanitizeFileBaseName(participantInput.value, 'certificate');
       const { jsPDF } = window.jspdf;
@@ -480,7 +512,7 @@ async function createBatchZip(participants) {
       const templateClass = resolveTemplateForParticipant(participant, defaultTemplate);
       setCertificateData(participant, templateClass);
 
-      const canvas = await html2canvas(cert, { scale: 2, useCORS: true });
+      const canvas = await captureCertificateCanvas();
       const imgData = canvas.toDataURL('image/png', 1.0);
       const pngBase64 = imgData.split(',')[1];
       zip.file(`${fileBaseName}.png`, pngBase64, { base64: true });
@@ -533,7 +565,7 @@ async function createBatchWithoutZip(participants) {
       const templateClass = resolveTemplateForParticipant(participant, defaultTemplate);
       setCertificateData(participant, templateClass);
 
-      const canvas = await html2canvas(cert, { scale: 2, useCORS: true });
+      const canvas = await captureCertificateCanvas();
       const dataURL = canvas.toDataURL('image/png', 1.0);
       const link = document.createElement('a');
       link.download = `${fileBaseName}.png`;
