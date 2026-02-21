@@ -365,7 +365,7 @@ if (processExcelBtn) {
     progressContainer.style.display = 'flex';
 
     try {
-      await loadScriptOnce('https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js', 'XLSX');
+      await loadScriptOnce('vendor/xlsx-0.18.5.full.min.js', 'XLSX');
       await processExcelFile(file);
     } catch (e) {
       alert('Error: ' + e.message);
@@ -434,7 +434,7 @@ async function processExcelFile(file) {
 
 async function generateBatchCertificates(participants) {
   try {
-    await loadScriptOnce('https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js', 'JSZip');
+    await loadScriptOnce('vendor/jszip-3.10.1.min.js', 'JSZip');
     await createBatchZip(participants);
   } catch (e) {
     console.error('JSZip unavailable, using PNG fallback:', e);
