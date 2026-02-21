@@ -6,7 +6,7 @@
   <title>Certificate Generator</title>
   <link rel="stylesheet" href="styles.css?v=20260221-preview-orientation-fix" />
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400;500;700&family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&family=Merriweather:wght@400;700&family=Lora:wght@400;700&family=Nunito:wght@400;600;700&family=Raleway:wght@400;500;700&family=Oswald:wght@400;500;700&family=Bebas+Neue&family=Cinzel:wght@400;600;700&family=Libre+Baskerville:wght@400;700&family=Dancing+Script:wght@400;700&family=Pacifico&family=Ubuntu:wght@400;500;700&family=Inter:wght@400;500;600;700&family=Abril+Fatface&family=Cormorant+Garamond:wght@400;600;700&family=Fira+Sans:wght@400;500;700&family=Quicksand:wght@400;500;700&display=swap" rel="stylesheet">
   <!-- Material Icons -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 </head>
@@ -168,6 +168,30 @@
               <div class="editor-control">
                 <label for="cert-siglabel-input">Signature Label</label>
                 <input id="cert-siglabel-input" type="text" value="Organizer" />
+              </div>
+              <div class="editor-control">
+                <label for="title-font-select">Title Font</label>
+                <select id="title-font-select"></select>
+              </div>
+              <div class="editor-control">
+                <label for="subtitle-font-select">Subtitle Font</label>
+                <select id="subtitle-font-select"></select>
+              </div>
+              <div class="editor-control">
+                <label for="name-font-select">Name Font</label>
+                <select id="name-font-select"></select>
+              </div>
+              <div class="editor-control">
+                <label for="event-font-select">Event Font</label>
+                <select id="event-font-select"></select>
+              </div>
+              <div class="editor-control">
+                <label for="meta-font-select">Meta Font</label>
+                <select id="meta-font-select"></select>
+              </div>
+              <div class="editor-control">
+                <label for="sig-font-select">Signature Font</label>
+                <select id="sig-font-select"></select>
               </div>
               <div class="editor-control">
                 <label for="title-size-input">Title Size</label>
@@ -354,6 +378,6 @@
   <!-- Libraries -->
   <script src="vendor/html2canvas-1.4.1.min.js"></script>
   <script src="vendor/jspdf-2.5.1.umd.min.js"></script>
-  <script src="script.js?v=20260221-draggable-text"></script>
+  <script src="script.js?v=20260221-font-styles"></script>
 </body>
 </html>

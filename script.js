@@ -15,6 +15,12 @@ const bgToggle = document.getElementById('bg-toggle');
 const certTitleInput = document.getElementById('cert-title-input');
 const certSubtitleInput = document.getElementById('cert-subtitle-input');
 const certSigLabelInput = document.getElementById('cert-siglabel-input');
+const titleFontSelect = document.getElementById('title-font-select');
+const subtitleFontSelect = document.getElementById('subtitle-font-select');
+const nameFontSelect = document.getElementById('name-font-select');
+const eventFontSelect = document.getElementById('event-font-select');
+const metaFontSelect = document.getElementById('meta-font-select');
+const sigFontSelect = document.getElementById('sig-font-select');
 const titleSizeInput = document.getElementById('title-size-input');
 const titleSizeValue = document.getElementById('title-size-value');
 const nameSizeInput = document.getElementById('name-size-input');
@@ -128,10 +134,147 @@ const textStyleOverrides = {
   titleSize: null,
   nameSize: null,
   eventSize: null,
+  titleFont: null,
+  subtitleFont: null,
+  nameFont: null,
+  eventFont: null,
+  metaFont: null,
+  sigFont: null,
   titleColor: null,
   nameColor: null,
   bodyColor: null
 };
+const fontFamilyPresets = {
+  playfair_display: '"Playfair Display", serif',
+  roboto: 'Roboto, sans-serif',
+  poppins: 'Poppins, sans-serif',
+  montserrat: 'Montserrat, sans-serif',
+  merriweather: 'Merriweather, serif',
+  lora: 'Lora, serif',
+  nunito: 'Nunito, sans-serif',
+  raleway: 'Raleway, sans-serif',
+  oswald: 'Oswald, sans-serif',
+  bebas_neue: '"Bebas Neue", sans-serif',
+  cinzel: 'Cinzel, serif',
+  libre_baskerville: '"Libre Baskerville", serif',
+  dancing_script: '"Dancing Script", cursive',
+  pacifico: 'Pacifico, cursive',
+  ubuntu: 'Ubuntu, sans-serif',
+  inter: 'Inter, sans-serif',
+  abril_fatface: '"Abril Fatface", serif',
+  cormorant_garamond: '"Cormorant Garamond", serif',
+  fira_sans: '"Fira Sans", sans-serif',
+  quicksand: 'Quicksand, sans-serif',
+  open_sans: '"Open Sans", sans-serif',
+  lato: 'Lato, sans-serif',
+  source_sans_3: '"Source Sans 3", sans-serif',
+  source_serif_4: '"Source Serif 4", serif',
+  pt_sans: '"PT Sans", sans-serif',
+  pt_serif: '"PT Serif", serif',
+  work_sans: '"Work Sans", sans-serif',
+  manrope: 'Manrope, sans-serif',
+  josefin_sans: '"Josefin Sans", sans-serif',
+  dm_sans: '"DM Sans", sans-serif',
+  karla: 'Karla, sans-serif',
+  cabin: 'Cabin, sans-serif',
+  arvo: 'Arvo, serif',
+  bitter: 'Bitter, serif',
+  crimson_text: '"Crimson Text", serif',
+  cardo: 'Cardo, serif',
+  rubik: 'Rubik, sans-serif',
+  dm_serif_display: '"DM Serif Display", serif',
+  jost: 'Jost, sans-serif',
+  anton: 'Anton, sans-serif',
+  barlow: 'Barlow, sans-serif',
+  barlow_condensed: '"Barlow Condensed", sans-serif',
+  barlow_semi_condensed: '"Barlow Semi Condensed", sans-serif',
+  hind: 'Hind, sans-serif',
+  mukta: 'Mukta, sans-serif',
+  titillium_web: '"Titillium Web", sans-serif',
+  exo_2: '"Exo 2", sans-serif',
+  outfit: 'Outfit, sans-serif',
+  space_grotesk: '"Space Grotesk", sans-serif',
+  orbitron: 'Orbitron, sans-serif',
+  exo: 'Exo, sans-serif',
+  m_plus_1p: '"M PLUS 1p", sans-serif',
+  asap: 'Asap, sans-serif',
+  asap_condensed: '"Asap Condensed", sans-serif',
+  assistant: 'Assistant, sans-serif',
+  catamaran: 'Catamaran, sans-serif',
+  chivo: 'Chivo, sans-serif',
+  heebo: 'Heebo, sans-serif',
+  ibm_plex_sans: '"IBM Plex Sans", sans-serif',
+  istok_web: '"Istok Web", sans-serif',
+  kanit: 'Kanit, sans-serif',
+  khand: 'Khand, sans-serif',
+  lexend: 'Lexend, sans-serif',
+  libre_franklin: '"Libre Franklin", sans-serif',
+  mulish: 'Mulish, sans-serif',
+  noto_sans: '"Noto Sans", sans-serif',
+  nunito_sans: '"Nunito Sans", sans-serif',
+  oxygen: 'Oxygen, sans-serif',
+  overpass: 'Overpass, sans-serif',
+  prompt: 'Prompt, sans-serif',
+  public_sans: '"Public Sans", sans-serif',
+  questrial: 'Questrial, sans-serif',
+  ropa_sans: '"Ropa Sans", sans-serif',
+  saira: 'Saira, sans-serif',
+  sora: 'Sora, sans-serif',
+  urbanist: 'Urbanist, sans-serif',
+  varela_round: '"Varela Round", sans-serif',
+  yantramanav: 'Yantramanav, sans-serif',
+  alata: 'Alata, sans-serif',
+  archivo: 'Archivo, sans-serif',
+  archivo_narrow: '"Archivo Narrow", sans-serif',
+  baloo_2: '"Baloo 2", sans-serif',
+  figtree: 'Figtree, sans-serif',
+  eb_garamond: '"EB Garamond", serif',
+  vollkorn: 'Vollkorn, serif',
+  spectral: 'Spectral, serif',
+  bodoni_moda: '"Bodoni Moda", serif',
+  noto_serif: '"Noto Serif", serif',
+  noto_serif_display: '"Noto Serif Display", serif',
+  alegreya: 'Alegreya, serif',
+  alegreya_sc: '"Alegreya SC", serif',
+  prata: 'Prata, serif',
+  tinos: 'Tinos, serif',
+  fraunces: 'Fraunces, serif',
+  cormorant: 'Cormorant, serif',
+  cormorant_infant: '"Cormorant Infant", serif',
+  cormorant_sc: '"Cormorant SC", serif',
+  old_standard_tt: '"Old Standard TT", serif',
+  zilla_slab: '"Zilla Slab", serif',
+  quattrocento: 'Quattrocento, serif',
+  neuton: 'Neuton, serif',
+  domine: 'Domine, serif',
+  libre_caslon_text: '"Libre Caslon Text", serif',
+  bungee: 'Bungee, sans-serif',
+  caveat: 'Caveat, cursive',
+  courgette: 'Courgette, cursive',
+  great_vibes: '"Great Vibes", cursive',
+  kaushan_script: '"Kaushan Script", cursive',
+  lobster: 'Lobster, cursive',
+  merienda: 'Merienda, cursive',
+  permanent_marker: '"Permanent Marker", cursive',
+  sacramento: 'Sacramento, cursive',
+  satisfy: 'Satisfy, cursive',
+  yellowtail: 'Yellowtail, cursive',
+  amatic_sc: '"Amatic SC", cursive',
+  comfortaa: 'Comfortaa, cursive',
+  fredoka: 'Fredoka, sans-serif',
+  press_start_2p: '"Press Start 2P", cursive',
+  righteous: 'Righteous, cursive',
+  roboto_mono: '"Roboto Mono", monospace',
+  space_mono: '"Space Mono", monospace',
+  jetbrains_mono: '"JetBrains Mono", monospace',
+  fira_code: '"Fira Code", monospace',
+  silkscreen: 'Silkscreen, cursive',
+  teko: 'Teko, sans-serif',
+  abel: 'Abel, sans-serif',
+  marcellus: 'Marcellus, serif'
+};
+const fontPresetEntries = Object.entries(fontFamilyPresets);
+const loadedFontPresetKeys = new Set();
 const movableTextElements = [certTitle, certSubtitle, certName, certEvent, certMeta, certSigLabel].filter(Boolean);
 const movableTextOffsets = new Map();
 const textDragState = {
@@ -160,6 +303,80 @@ function updateCategoryTemplateRecommendations(category) {
 function updateRangeValueLabel(input, labelElement) {
   if (!input || !labelElement) return;
   labelElement.textContent = `${input.value}px`;
+}
+
+function fontDisplayName(fontStack) {
+  return fontStack.split(',')[0].replace(/"/g, '').trim();
+}
+
+function populateFontSelect(select) {
+  if (!select) return;
+  const selectedValue = select.value;
+  select.innerHTML = '';
+
+  const defaultOption = document.createElement('option');
+  defaultOption.value = '';
+  defaultOption.textContent = 'Template Default';
+  select.appendChild(defaultOption);
+
+  fontPresetEntries.forEach(([key, stack]) => {
+    const option = document.createElement('option');
+    option.value = key;
+    option.textContent = fontDisplayName(stack);
+    option.style.fontFamily = stack;
+    select.appendChild(option);
+  });
+
+  const hasSelected = Array.from(select.options).some((option) => option.value === selectedValue);
+  select.value = hasSelected ? selectedValue : '';
+}
+
+function initializeFontSelectors() {
+  [titleFontSelect, subtitleFontSelect, nameFontSelect, eventFontSelect, metaFontSelect, sigFontSelect].forEach(populateFontSelect);
+}
+
+function detectFontPresetKey(computedFontFamily) {
+  const normalized = String(computedFontFamily || '').toLowerCase();
+  for (const [key, stack] of fontPresetEntries) {
+    const primary = fontDisplayName(stack).toLowerCase();
+    if (normalized.includes(primary)) {
+      return key;
+    }
+  }
+  return '';
+}
+
+function ensureFontPresetLoaded(fontKey) {
+  if (!fontKey || loadedFontPresetKeys.has(fontKey)) return;
+
+  const fontStack = fontFamilyPresets[fontKey];
+  if (!fontStack) return;
+
+  const family = fontDisplayName(fontStack);
+  const familyQuery = encodeURIComponent(family).replace(/%20/g, '+');
+  const existingLink = document.querySelector(`link[data-font-key="${fontKey}"]`);
+  if (existingLink) {
+    loadedFontPresetKeys.add(fontKey);
+    return;
+  }
+
+  const link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.href = `https://fonts.googleapis.com/css2?family=${familyQuery}&display=swap`;
+  link.dataset.fontKey = fontKey;
+  document.head.appendChild(link);
+  loadedFontPresetKeys.add(fontKey);
+}
+
+function applyFontPreset(element, fontKey) {
+  if (!element) return;
+  if (!fontKey) {
+    element.style.fontFamily = '';
+    return;
+  }
+
+  ensureFontPresetLoaded(fontKey);
+  element.style.fontFamily = fontFamilyPresets[fontKey] || '';
 }
 
 function setControlNumber(input, value, fallback) {
@@ -196,6 +413,25 @@ function syncTextControlsWithPreview() {
   updateRangeValueLabel(nameSizeInput, nameSizeValue);
   updateRangeValueLabel(eventSizeInput, eventSizeValue);
 
+  if (textStyleOverrides.titleFont === null && titleFontSelect) {
+    titleFontSelect.value = detectFontPresetKey(getComputedStyle(certTitle).fontFamily);
+  }
+  if (textStyleOverrides.subtitleFont === null && subtitleFontSelect) {
+    subtitleFontSelect.value = detectFontPresetKey(getComputedStyle(certSubtitle).fontFamily);
+  }
+  if (textStyleOverrides.nameFont === null && nameFontSelect) {
+    nameFontSelect.value = detectFontPresetKey(getComputedStyle(certName).fontFamily);
+  }
+  if (textStyleOverrides.eventFont === null && eventFontSelect) {
+    eventFontSelect.value = detectFontPresetKey(getComputedStyle(certEvent).fontFamily);
+  }
+  if (textStyleOverrides.metaFont === null && metaFontSelect && certMeta) {
+    metaFontSelect.value = detectFontPresetKey(getComputedStyle(certMeta).fontFamily);
+  }
+  if (textStyleOverrides.sigFont === null && sigFontSelect) {
+    sigFontSelect.value = detectFontPresetKey(getComputedStyle(certSigLabel).fontFamily);
+  }
+
   if (textStyleOverrides.titleColor === null && titleColorInput) {
     titleColorInput.value = rgbToHex(getComputedStyle(certTitle).color);
   }
@@ -217,6 +453,14 @@ function applyTextEditorStyles() {
   certTitle.style.fontSize = textStyleOverrides.titleSize !== null ? `${textStyleOverrides.titleSize}px` : '';
   certName.style.fontSize = textStyleOverrides.nameSize !== null ? `${textStyleOverrides.nameSize}px` : '';
   certEvent.style.fontSize = textStyleOverrides.eventSize !== null ? `${textStyleOverrides.eventSize}px` : '';
+  applyFontPreset(certTitle, textStyleOverrides.titleFont);
+  applyFontPreset(certSubtitle, textStyleOverrides.subtitleFont);
+  applyFontPreset(certName, textStyleOverrides.nameFont);
+  applyFontPreset(certEvent, textStyleOverrides.eventFont);
+  if (certMeta) {
+    applyFontPreset(certMeta, textStyleOverrides.metaFont);
+  }
+  applyFontPreset(certSigLabel, textStyleOverrides.sigFont);
 
   certTitle.style.color = textStyleOverrides.titleColor || '';
   certName.style.color = textStyleOverrides.nameColor || '';
@@ -567,6 +811,54 @@ if (certSigLabelInput) {
   certSigLabelInput.addEventListener('input', applyTextEditorStyles);
 }
 
+if (titleFontSelect) {
+  titleFontSelect.addEventListener('change', (e) => {
+    textStyleOverrides.titleFont = String(e.target.value || '') || null;
+    ensureFontPresetLoaded(textStyleOverrides.titleFont);
+    applyTextEditorStyles();
+  });
+}
+
+if (subtitleFontSelect) {
+  subtitleFontSelect.addEventListener('change', (e) => {
+    textStyleOverrides.subtitleFont = String(e.target.value || '') || null;
+    ensureFontPresetLoaded(textStyleOverrides.subtitleFont);
+    applyTextEditorStyles();
+  });
+}
+
+if (nameFontSelect) {
+  nameFontSelect.addEventListener('change', (e) => {
+    textStyleOverrides.nameFont = String(e.target.value || '') || null;
+    ensureFontPresetLoaded(textStyleOverrides.nameFont);
+    applyTextEditorStyles();
+  });
+}
+
+if (eventFontSelect) {
+  eventFontSelect.addEventListener('change', (e) => {
+    textStyleOverrides.eventFont = String(e.target.value || '') || null;
+    ensureFontPresetLoaded(textStyleOverrides.eventFont);
+    applyTextEditorStyles();
+  });
+}
+
+if (metaFontSelect) {
+  metaFontSelect.addEventListener('change', (e) => {
+    textStyleOverrides.metaFont = String(e.target.value || '') || null;
+    ensureFontPresetLoaded(textStyleOverrides.metaFont);
+    applyTextEditorStyles();
+  });
+}
+
+if (sigFontSelect) {
+  sigFontSelect.addEventListener('change', (e) => {
+    textStyleOverrides.sigFont = String(e.target.value || '') || null;
+    ensureFontPresetLoaded(textStyleOverrides.sigFont);
+    applyTextEditorStyles();
+  });
+}
+
 if (titleSizeInput) {
   titleSizeInput.addEventListener('input', (e) => {
     textStyleOverrides.titleSize = Number(e.target.value);
@@ -617,6 +909,12 @@ if (resetTextStylesBtn) {
     textStyleOverrides.titleSize = null;
     textStyleOverrides.nameSize = null;
     textStyleOverrides.eventSize = null;
+    textStyleOverrides.titleFont = null;
+    textStyleOverrides.subtitleFont = null;
+    textStyleOverrides.nameFont = null;
+    textStyleOverrides.eventFont = null;
+    textStyleOverrides.metaFont = null;
+    textStyleOverrides.sigFont = null;
     textStyleOverrides.titleColor = null;
     textStyleOverrides.nameColor = null;
     textStyleOverrides.bodyColor = null;
@@ -947,6 +1245,7 @@ if (orientationLandscapeBtn && orientationPortraitBtn) {
   orientationPortraitBtn.classList.remove('active');
 }
 
+initializeFontSelectors();
 initializeMovableTextEditor();
 updateCategoryTemplateRecommendations(categorySelect ? categorySelect.value : '');
 updatePreview();
