@@ -2161,12 +2161,16 @@ body{
   .left-sidebar{width:100%}
   .preview-panel{max-width:100%}
   .certificate{height:520px;padding:32px}
+  .certificate.landscape{height:520px;max-width:1000px}
+  .certificate.portrait{height:740px;max-width:560px;margin:0 auto}
   .cert-inner{padding:32px}
 }
 
 @media (max-width:768px){
   .app-main{gap:16px;padding:12px}
   .certificate{height:400px;padding:24px;margin:0}
+  .certificate.landscape{height:260px;max-width:100%}
+  .certificate.portrait{height:420px;max-width:320px;margin:0 auto}
   .cert-inner{padding:24px;gap:12px}
   .cert-name{font-size:32px}
   .cert-title{font-size:20px}
