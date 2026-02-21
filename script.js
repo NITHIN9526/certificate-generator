@@ -178,24 +178,43 @@ function getExportRenderSize() {
 
 async function captureCertificateCanvas() {
   const { width, height } = getExportRenderSize();
+  const exportHost = document.createElement('div');
+  exportHost.style.position = 'fixed';
+  exportHost.style.left = '-10000px';
+  exportHost.style.top = '0';
+  exportHost.style.width = `${width}px`;
+  exportHost.style.height = `${height}px`;
+  exportHost.style.overflow = 'hidden';
+  exportHost.style.pointerEvents = 'none';
+  exportHost.style.opacity = '0';
+  exportHost.style.zIndex = '-1';
 
-  return html2canvas(cert, {
-    scale: 2,
-    useCORS: true,
-    windowWidth: Math.max(width + 120, 1280),
-    windowHeight: Math.max(height + 120, 1000),
-    onclone: (clonedDocument) => {
-      const clonedCert = clonedDocument.getElementById('certificate');
-      if (!clonedCert) return;
+  const exportCert = cert.cloneNode(true);
+  exportCert.removeAttribute('id');
+  exportCert.querySelectorAll('[id]').forEach((node) => node.removeAttribute('id'));
+  exportCert.style.width = `${width}px`;
+  exportCert.style.maxWidth = `${width}px`;
+  exportCert.style.height = `${height}px`;
+  exportCert.style.minHeight = `${height}px`;
+  exportCert.style.margin = '0';
+  exportCert.style.transform = 'none';
+  exportCert.style.display = 'flex';
 
-      clonedCert.style.width = `${width}px`;
-      clonedCert.style.maxWidth = `${width}px`;
-      clonedCert.style.height = `${height}px`;
-      clonedCert.style.minHeight = `${height}px`;
-      clonedCert.style.margin = '0';
-      clonedCert.style.transform = 'none';
-    }
-  });
+  exportHost.appendChild(exportCert);
+  document.body.appendChild(exportHost);
+
+  try {
+    return await html2canvas(exportCert, {
+      scale: 2,
+      useCORS: true,
+      width,
+      height,
+      windowWidth: Math.max(width + 200, 1600),
+      windowHeight: Math.max(height + 200, 1200)
+    });
+  } finally {
+    exportHost.remove();
+  }
 }
 
 function updatePreview() {
@@ -394,7 +413,7 @@ if (downloadPdfBtn) {
       const { jsPDF } = window.jspdf;
 
       const pdf = new jsPDF({
-        orientation: canvas.width > canvas.height ? 'landscape' : 'portrait',
+        orientation: currentOrientation,
         unit: 'pt',
         format: [canvas.width, canvas.height]
       });
@@ -519,7 +538,7 @@ async function createBatchZip(participants) {
 
       const { jsPDF } = window.jspdf;
       const pdf = new jsPDF({
-        orientation: canvas.width > canvas.height ? 'landscape' : 'portrait',
+        orientation: currentOrientation,
         unit: 'pt',
         format: [canvas.width, canvas.height]
       });
