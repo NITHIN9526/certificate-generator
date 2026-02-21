@@ -259,6 +259,31 @@ body{
   color:var(--muted);
 }
 
+/* Orientation buttons */
+.orientation-buttons{
+  display:flex;
+  gap:8px;
+}
+
+.btn-orientation{
+  flex:1;
+  background:#f1f5f9;
+  color:var(--text-primary);
+  border:1.5px solid #e2e8f0;
+  padding:10px 14px;
+}
+
+.btn-orientation:hover{
+  background:#e2e8f0;
+  border-color:var(--accent);
+}
+
+.btn-orientation.active{
+  background:var(--accent);
+  color:#fff;
+  border-color:var(--accent);
+}
+
 /* Button styles */
 .btn{
   display:inline-flex;
@@ -416,6 +441,23 @@ body{
   display:flex;
   align-items:center;
   justify-content:center;
+  transition:all 0.3s ease;
+}
+
+/* Landscape orientation (default) */
+.certificate.landscape{
+  width:100%;
+  max-width:1000px;
+  height:640px;
+  aspect-ratio:auto;
+}
+
+/* Portrait orientation */
+.certificate.portrait{
+  width:100%;
+  max-width:700px;
+  height:900px;
+  aspect-ratio:auto;
 }
 
 /* Inner */

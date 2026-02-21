@@ -20,6 +20,9 @@ const downloadPdfBtn = document.getElementById('download-pdf');
 const excelInput = document.getElementById('excel-input');
 const processExcelBtn = document.getElementById('process-excel');
 
+const orientationLandscapeBtn = document.getElementById('orientation-landscape');
+const orientationPortraitBtn = document.getElementById('orientation-portrait');
+
 const cert = document.getElementById('certificate');
 const certName = document.getElementById('cert-name');
 const certEvent = document.getElementById('cert-event');
@@ -33,21 +36,54 @@ const progressFill = document.getElementById('progress-fill');
 const progressText = document.getElementById('progress-text');
 const progressPercent = document.getElementById('progress-percent');
 
-// Global variables for Excel batch processing
+const templateClasses = [
+  'classic',
+  'modern',
+  'gold',
+  'sports-dynamic',
+  'sports-medal',
+  'sports-champion',
+  'sports-fitness',
+  'sports-tournament',
+  'sports-achievement',
+  'arts-creative',
+  'arts-vibrant',
+  'arts-gallery',
+  'arts-performance',
+  'arts-design',
+  'arts-photography',
+  'academic-formal',
+  'academic-modern',
+  'academic-distinction',
+  'excellence-premium',
+  'achievement-bold',
+  'leadership-elite',
+  'minimalist-blue',
+  'gradient-sunset',
+  'elegant-vintage',
+  'geometric-modern',
+  'rainbow-vibrant',
+  'dark-professional',
+  'pastel-soft',
+  'bold-statement'
+];
+
+// Global variables for batch processing
 let logoDataUrl = null;
 let sigDataUrl = null;
 let bgDataUrl = null;
+let currentOrientation = 'landscape';
 
 // Category to template suggestions map
 const categoryTemplateMap = {
-  'sports': ['sports-dynamic', 'sports-medal', 'sports-champion'],
-  'arts': ['arts-creative', 'arts-vibrant', 'arts-gallery'],
-  'academics': ['academic-formal', 'academic-modern', 'academic-distinction'],
-  'participation': ['modern', 'classic', 'achievement-bold'],
-  'excellence': ['excellence-premium', 'gold', 'achievement-bold'],
-  'achievement': ['achievement-bold', 'sports-medal', 'excellence-premium'],
-  'leadership': ['leadership-elite', 'excellence-premium', 'modern'],
-  'innovation': ['arts-creative', 'modern', 'excellence-premium']
+  sports: ['sports-dynamic', 'sports-medal', 'sports-champion'],
+  arts: ['arts-creative', 'arts-vibrant', 'arts-gallery'],
+  academics: ['academic-formal', 'academic-modern', 'academic-distinction'],
+  participation: ['modern', 'classic', 'achievement-bold'],
+  excellence: ['excellence-premium', 'gold', 'achievement-bold'],
+  achievement: ['achievement-bold', 'sports-medal', 'excellence-premium'],
+  leadership: ['leadership-elite', 'excellence-premium', 'modern'],
+  innovation: ['arts-creative', 'modern', 'excellence-premium']
 };
 
 const certEventPrefix = 'has successfully participated in ';
@@ -77,16 +113,25 @@ function createUniqueFileBaseName(name, index, usedNames) {
     candidate = `${base}_${counter}`;
     counter++;
   }
-
   usedNames.add(candidate);
   return candidate;
 }
 
+function applyCertificateTemplateClass(templateClass) {
+  cert.classList.remove(...templateClasses);
+  cert.classList.add(templateClass);
+}
+
+function applyCertificateOrientation() {
+  cert.classList.remove('landscape', 'portrait');
+  cert.classList.add(currentOrientation);
+}
+
 function applyCustomBackground() {
-  const shouldUseCustomBg = Boolean(bgDataUrl && bgToggle.checked);
+  const shouldUseCustomBg = Boolean(bgDataUrl && bgToggle && bgToggle.checked);
 
   if (shouldUseCustomBg) {
-    cert.style.backgroundImage = `linear-gradient(rgba(255,255,255,0.82), rgba(255,255,255,0.82)), url('${bgDataUrl}')`;
+    cert.style.backgroundImage = `linear-gradient(rgba(255,255,255,0.82), rgba(255,255,255,0.82)), url("${bgDataUrl}")`;
     cert.style.backgroundPosition = 'center';
     cert.style.backgroundRepeat = 'no-repeat';
     cert.style.backgroundSize = 'cover';
@@ -98,325 +143,372 @@ function applyCustomBackground() {
   }
 }
 
-// Apply initial values
 function updatePreview() {
   certName.textContent = participantInput.value || 'Participant Name';
   renderCertificateEvent(eventInput.value, 'Event / Course');
-
   certDate.textContent = dateInput.value || '';
   certIssuer.textContent = issuerInput.value || '';
 
-  cert.classList.remove('classic','modern','gold','sports-dynamic','sports-medal','sports-champion','sports-fitness','sports-tournament','sports-achievement','arts-creative','arts-vibrant','arts-gallery','arts-performance','arts-design','arts-photography','academic-formal','academic-modern','academic-distinction','excellence-premium','achievement-bold','leadership-elite','minimalist-blue','gradient-sunset','elegant-vintage','geometric-modern','rainbow-vibrant','dark-professional','pastel-soft','bold-statement');
-  cert.classList.add(templateSelect.value);
+  applyCertificateTemplateClass(templateSelect.value);
+  applyCertificateOrientation();
   applyCustomBackground();
 }
 
-// Read file input and set src of the image
 function readFileAsDataURL(file, cb) {
-  if (!file) return cb(null);
+  if (!file) {
+    cb(null);
+    return;
+  }
   const reader = new FileReader();
-  reader.onload = e => cb(e.target.result);
+  reader.onload = (e) => cb(e.target.result);
   reader.onerror = () => cb(null);
   reader.readAsDataURL(file);
 }
 
-logoInput.addEventListener('change', (e) => {
-  const f = e.target.files[0];
-  readFileAsDataURL(f, (dataUrl) => {
-    logoDataUrl = dataUrl;
-    if (dataUrl) {
-      certLogo.src = dataUrl;
-      certLogo.hidden = false;
-    } else {
-      certLogo.src = '';
-      certLogo.hidden = true;
-    }
-  });
-});
+function setCertificateData(participant, templateClass) {
+  certName.textContent = participant.name;
+  renderCertificateEvent(participant.event, 'Event / Course');
+  certDate.textContent = participant.date;
+  certIssuer.textContent = participant.issuer;
+  applyCertificateTemplateClass(templateClass);
+  applyCertificateOrientation();
+  applyCustomBackground();
+}
 
-sigInput.addEventListener('change', (e) => {
-  const f = e.target.files[0];
-  readFileAsDataURL(f, (dataUrl) => {
-    sigDataUrl = dataUrl;
-    if (dataUrl) {
-      certSig.src = dataUrl;
-      certSig.hidden = false;
-    } else {
-      certSig.src = '';
-      certSig.hidden = true;
-    }
-  });
-});
-
-bgInput.addEventListener('change', (e) => {
-  const f = e.target.files[0];
-  readFileAsDataURL(f, (dataUrl) => {
-    bgDataUrl = dataUrl;
-    bgToggle.disabled = !dataUrl;
-    bgToggle.checked = Boolean(dataUrl);
-    applyCustomBackground();
-  });
-});
-
-bgToggle.addEventListener('change', applyCustomBackground);
-
-previewBtn.addEventListener('click', updatePreview);
-
-// Category change handler - suggests appropriate templates
-categorySelect.addEventListener('change', (e) => {
-  const category = e.target.value;
-  const suggestedTemplates = categoryTemplateMap[category];
-  
-  // Set to first suggested template
-  if (suggestedTemplates && suggestedTemplates.length > 0) {
-    templateSelect.value = suggestedTemplates[0];
+function resolveTemplateForParticipant(participant, defaultTemplate) {
+  const normalizedCategory = String(participant.category ?? '').trim().toLowerCase();
+  if (normalizedCategory && categoryTemplateMap[normalizedCategory]) {
+    return categoryTemplateMap[normalizedCategory][0];
   }
-  
-  updatePreview();
-});
+  return defaultTemplate;
+}
 
-// Single Certificate Downloads
-downloadPngBtn.addEventListener('click', async () => {
-  updatePreview();
-  downloadPngBtn.disabled = true;
-  downloadPngBtn.innerHTML = '<span class="material-icons">hourglass_empty</span>Processing...';
-  
-  try {
-    const canvas = await html2canvas(cert, { scale: 2, useCORS: true });
-    const dataURL = canvas.toDataURL('image/png', 1.0);
-    const fileBaseName = sanitizeFileBaseName(participantInput.value, 'certificate');
-    const link = document.createElement('a');
-    link.download = `${fileBaseName}.png`;
-    link.href = dataURL;
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-  } catch(e) {
-    alert('Error generating PNG: ' + e.message);
-  } finally {
-    downloadPngBtn.disabled = false;
-    downloadPngBtn.innerHTML = '<span class="material-icons">image</span>PNG';
+function setButtonLoading(button, icon, text, isLoading) {
+  button.disabled = isLoading;
+  if (isLoading) {
+    button.innerHTML = '<span class="material-icons">hourglass_empty</span>Processing...';
+  } else {
+    button.innerHTML = `<span class="material-icons">${icon}</span>${text}`;
   }
-});
+}
 
-downloadPdfBtn.addEventListener('click', async () => {
-  updatePreview();
-  downloadPdfBtn.disabled = true;
-  downloadPdfBtn.innerHTML = '<span class="material-icons">hourglass_empty</span>Processing...';
-  
-  try {
-    const canvas = await html2canvas(cert, { scale: 2, useCORS: true });
-    const imgData = canvas.toDataURL('image/png', 1.0);
-    const fileBaseName = sanitizeFileBaseName(participantInput.value, 'certificate');
-    const { jsPDF } = window.jspdf;
-    
-    const pdf = new jsPDF({
-      orientation: canvas.width > canvas.height ? 'landscape' : 'portrait',
-      unit: 'pt',
-      format: [canvas.width, canvas.height]
+async function loadScriptOnce(url, globalName) {
+  if (window[globalName]) return;
+
+  const existing = document.querySelector(`script[data-lib="${globalName}"]`);
+  if (existing) {
+    await new Promise((resolve, reject) => {
+      existing.addEventListener('load', resolve, { once: true });
+      existing.addEventListener('error', reject, { once: true });
     });
-
-    pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
-    pdf.save(`${fileBaseName}.pdf`);
-  } catch(e) {
-    alert('Error generating PDF: ' + e.message);
-  } finally {
-    downloadPdfBtn.disabled = false;
-    downloadPdfBtn.innerHTML = '<span class="material-icons">picture_as_pdf</span>PDF';
-  }
-});
-
-// Excel batch processing
-processExcelBtn.addEventListener('click', async () => {
-  const file = excelInput.files[0];
-  
-  if (!file) {
-    alert('Please select an Excel file');
+    if (!window[globalName]) {
+      throw new Error(`Failed to load ${globalName}`);
+    }
     return;
   }
 
-  processExcelBtn.disabled = true;
-  progressContainer.style.display = 'flex';
-  
-  try {
-    // Load XLSX library dynamically
-    if (!window.XLSX) {
-      const script = document.createElement('script');
-      script.src = 'https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js';
-      script.onload = () => processExcelFile(file);
-      script.onerror = () => {
-        alert('Failed to load Excel library');
-        resetBatchUI();
-      };
-      document.head.appendChild(script);
-    } else {
-      processExcelFile(file);
-    }
-  } catch(e) {
-    alert('Error: ' + e.message);
-    resetBatchUI();
+  await new Promise((resolve, reject) => {
+    const script = document.createElement('script');
+    script.src = url;
+    script.dataset.lib = globalName;
+    script.onload = resolve;
+    script.onerror = reject;
+    document.head.appendChild(script);
+  });
+
+  if (!window[globalName]) {
+    throw new Error(`Failed to load ${globalName}`);
   }
-});
+}
 
-async function processExcelFile(file) {
-  const reader = new FileReader();
-  reader.onload = async (e) => {
+if (logoInput) {
+  logoInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    readFileAsDataURL(file, (dataUrl) => {
+      logoDataUrl = dataUrl;
+      if (dataUrl) {
+        certLogo.src = dataUrl;
+        certLogo.hidden = false;
+      } else {
+        certLogo.src = '';
+        certLogo.hidden = true;
+      }
+    });
+  });
+}
+
+if (sigInput) {
+  sigInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    readFileAsDataURL(file, (dataUrl) => {
+      sigDataUrl = dataUrl;
+      if (dataUrl) {
+        certSig.src = dataUrl;
+        certSig.hidden = false;
+      } else {
+        certSig.src = '';
+        certSig.hidden = true;
+      }
+    });
+  });
+}
+
+if (bgInput) {
+  bgInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    readFileAsDataURL(file, (dataUrl) => {
+      bgDataUrl = dataUrl;
+      if (bgToggle) {
+        bgToggle.disabled = !dataUrl;
+        bgToggle.checked = Boolean(dataUrl);
+      }
+      applyCustomBackground();
+    });
+  });
+}
+
+if (bgToggle) {
+  bgToggle.addEventListener('change', applyCustomBackground);
+}
+
+if (previewBtn) {
+  previewBtn.addEventListener('click', updatePreview);
+}
+
+if (orientationLandscapeBtn && orientationPortraitBtn) {
+  orientationLandscapeBtn.addEventListener('click', () => {
+    currentOrientation = 'landscape';
+    orientationLandscapeBtn.classList.add('active');
+    orientationPortraitBtn.classList.remove('active');
+    updatePreview();
+  });
+
+  orientationPortraitBtn.addEventListener('click', () => {
+    currentOrientation = 'portrait';
+    orientationPortraitBtn.classList.add('active');
+    orientationLandscapeBtn.classList.remove('active');
+    updatePreview();
+  });
+}
+
+if (categorySelect) {
+  categorySelect.addEventListener('change', (e) => {
+    const category = String(e.target.value ?? '').trim().toLowerCase();
+    const suggestedTemplates = categoryTemplateMap[category];
+    if (suggestedTemplates && suggestedTemplates.length > 0) {
+      templateSelect.value = suggestedTemplates[0];
+    }
+    updatePreview();
+  });
+}
+
+if (downloadPngBtn) {
+  downloadPngBtn.addEventListener('click', async () => {
+    updatePreview();
+    setButtonLoading(downloadPngBtn, 'image', 'PNG', true);
+
     try {
-      const data = new Uint8Array(e.target.result);
-      const workbook = XLSX.read(data, { type: 'array' });
-      const worksheet = workbook.Sheets[workbook.SheetNames[0]];
-      const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-      
-      // Parse Excel data (skip header row if present)
-      let participants = [];
-      const firstCell = String((jsonData[0] && jsonData[0][0]) ?? '').trim().toLowerCase();
-      const startRow = firstCell === 'name' ? 1 : 0;
-      
-      for (let i = startRow; i < jsonData.length; i++) {
-        const row = jsonData[i];
-        if (!row) continue;
+      const canvas = await html2canvas(cert, { scale: 2, useCORS: true });
+      const dataURL = canvas.toDataURL('image/png', 1.0);
+      const fileBaseName = sanitizeFileBaseName(participantInput.value, 'certificate');
 
-        const name = String(row[0] ?? '').trim();
-        if (!name) continue;
+      const link = document.createElement('a');
+      link.download = `${fileBaseName}.png`;
+      link.href = dataURL;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    } catch (e) {
+      alert('Error generating PNG: ' + e.message);
+    } finally {
+      setButtonLoading(downloadPngBtn, 'image', 'PNG', false);
+    }
+  });
+}
 
-        participants.push({
-          name,
-          event: String(row[1] ?? '').trim() || eventInput.value.trim() || 'Event / Course',
-          date: String(row[2] ?? '').trim() || dateInput.value.trim(),
-          issuer: String(row[3] ?? '').trim() || issuerInput.value.trim(),
-          category: String(row[4] ?? '').trim().toLowerCase() || String(categorySelect.value ?? '').trim().toLowerCase()
-        });
-      }
+if (downloadPdfBtn) {
+  downloadPdfBtn.addEventListener('click', async () => {
+    updatePreview();
+    setButtonLoading(downloadPdfBtn, 'picture_as_pdf', 'PDF', true);
 
-      if (participants.length === 0) {
-        alert('No valid participant data found in Excel file');
-        resetBatchUI();
-        return;
-      }
+    try {
+      const canvas = await html2canvas(cert, { scale: 2, useCORS: true });
+      const imgData = canvas.toDataURL('image/png', 1.0);
+      const fileBaseName = sanitizeFileBaseName(participantInput.value, 'certificate');
+      const { jsPDF } = window.jspdf;
 
-      // Generate certificates
-      await generateBatchCertificates(participants);
-    } catch(err) {
-      alert('Error processing Excel: ' + err.message);
+      const pdf = new jsPDF({
+        orientation: canvas.width > canvas.height ? 'landscape' : 'portrait',
+        unit: 'pt',
+        format: [canvas.width, canvas.height]
+      });
+
+      pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
+      pdf.save(`${fileBaseName}.pdf`);
+    } catch (e) {
+      alert('Error generating PDF: ' + e.message);
+    } finally {
+      setButtonLoading(downloadPdfBtn, 'picture_as_pdf', 'PDF', false);
+    }
+  });
+}
+
+if (processExcelBtn) {
+  processExcelBtn.addEventListener('click', async () => {
+    const file = excelInput && excelInput.files ? excelInput.files[0] : null;
+    if (!file) {
+      alert('Please select an Excel file');
+      return;
+    }
+
+    processExcelBtn.disabled = true;
+    progressContainer.style.display = 'flex';
+
+    try {
+      await loadScriptOnce('https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js', 'XLSX');
+      await processExcelFile(file);
+    } catch (e) {
+      alert('Error: ' + e.message);
       resetBatchUI();
     }
-  };
-  reader.readAsArrayBuffer(file);
+  });
+}
+
+async function processExcelFile(file) {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+
+    reader.onload = async (e) => {
+      try {
+        const data = new Uint8Array(e.target.result);
+        const workbook = window.XLSX.read(data, { type: 'array' });
+        const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+        const rows = window.XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+
+        const participants = [];
+        const firstCell = String((rows[0] && rows[0][0]) ?? '').trim().toLowerCase();
+        const startRow = firstCell === 'name' ? 1 : 0;
+        const defaultCategory = String(categorySelect.value ?? '').trim().toLowerCase();
+
+        for (let i = startRow; i < rows.length; i++) {
+          const row = rows[i];
+          if (!row) continue;
+
+          const name = String(row[0] ?? '').trim();
+          if (!name) continue;
+
+          participants.push({
+            name,
+            event: String(row[1] ?? '').trim() || eventInput.value.trim() || 'Event / Course',
+            date: String(row[2] ?? '').trim() || dateInput.value.trim(),
+            issuer: String(row[3] ?? '').trim() || issuerInput.value.trim(),
+            category: String(row[4] ?? '').trim().toLowerCase() || defaultCategory
+          });
+        }
+
+        if (participants.length === 0) {
+          alert('No valid participant data found in Excel file');
+          resetBatchUI();
+          resolve();
+          return;
+        }
+
+        await generateBatchCertificates(participants);
+      } catch (err) {
+        alert('Error processing Excel: ' + err.message);
+        resetBatchUI();
+      } finally {
+        resolve();
+      }
+    };
+
+    reader.onerror = () => {
+      alert('Failed to read Excel file');
+      resetBatchUI();
+      resolve();
+    };
+
+    reader.readAsArrayBuffer(file);
+  });
 }
 
 async function generateBatchCertificates(participants) {
-  const JSZip = window.JSZip;
-  
-  if (!JSZip) {
-    // Load JSZip for creating ZIP files
-    const script = document.createElement('script');
-    script.src = 'https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js';
-    script.onload = async () => {
-      await createBatchZip(participants);
-    };
-    script.onerror = async () => {
-      // Fallback: download as PNG files without ZIP
-      await createBatchWithoutZip(participants);
-    };
-    document.head.appendChild(script);
-  } else {
+  try {
+    await loadScriptOnce('https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js', 'JSZip');
     await createBatchZip(participants);
+  } catch (e) {
+    console.error('JSZip unavailable, using PNG fallback:', e);
+    await createBatchWithoutZip(participants);
   }
 }
 
 async function createBatchZip(participants) {
-  const zip = new JSZip();
-  let successCount = 0;
-  const total = participants.length;
-  const template = templateSelect.value;
+  const zip = new window.JSZip();
   const usedFileNames = new Set();
+  const total = participants.length;
+  const defaultTemplate = templateSelect.value;
+  let successCount = 0;
 
   for (let i = 0; i < participants.length; i++) {
+    const participant = participants[i];
     try {
-      const p = participants[i];
-      const fileBaseName = createUniqueFileBaseName(p.name, i, usedFileNames);
-      
-      // Determine template based on category if provided
-      let certTemplate = template;
-      if (p.category && categoryTemplateMap[p.category]) {
-        certTemplate = categoryTemplateMap[p.category][0];
-      }
-      
-      // Update certificate with participant data
-      certName.textContent = p.name;
-      renderCertificateEvent(p.event, 'Event / Course');
-      certDate.textContent = p.date;
-      certIssuer.textContent = p.issuer;
-      cert.className = `certificate ${certTemplate}`;
-      applyCustomBackground();
-      
-      // Generate PNG
+      const fileBaseName = createUniqueFileBaseName(participant.name, i, usedFileNames);
+      const templateClass = resolveTemplateForParticipant(participant, defaultTemplate);
+      setCertificateData(participant, templateClass);
+
       const canvas = await html2canvas(cert, { scale: 2, useCORS: true });
       const imgData = canvas.toDataURL('image/png', 1.0);
-      const base64Data = imgData.split(',')[1];
-      
-      // Add to ZIP
-      zip.file(`${fileBaseName}.png`, base64Data, { base64: true });
-      
-      // Also generate PDF
+      const pngBase64 = imgData.split(',')[1];
+      zip.file(`${fileBaseName}.png`, pngBase64, { base64: true });
+
       const { jsPDF } = window.jspdf;
       const pdf = new jsPDF({
-        orientation: 'landscape',
+        orientation: canvas.width > canvas.height ? 'landscape' : 'portrait',
         unit: 'pt',
         format: [canvas.width, canvas.height]
       });
       pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
-      const pdfData = pdf.output('arraybuffer');
-      zip.file(`${fileBaseName}.pdf`, pdfData, { binary: true });
-      
+      zip.file(`${fileBaseName}.pdf`, pdf.output('arraybuffer'), { binary: true });
+
       successCount++;
       updateProgress(successCount, total);
-    } catch(e) {
-      console.error(`Error processing ${participants[i].name}:`, e);
+    } catch (e) {
+      console.error(`Error processing ${participant.name}:`, e);
     }
   }
 
   try {
     const zipBlob = await zip.generateAsync({ type: 'blob' });
-    const link = document.createElement('a');
     const zipUrl = URL.createObjectURL(zipBlob);
+    const link = document.createElement('a');
     link.href = zipUrl;
-    link.download = `certificates_${new Date().getTime()}.zip`;
+    link.download = `certificates_${Date.now()}.zip`;
     document.body.appendChild(link);
     link.click();
     link.remove();
     URL.revokeObjectURL(zipUrl);
-    
+
     showBatchComplete(successCount, total);
-  } catch(e) {
+  } catch (e) {
     alert('Error creating ZIP: ' + e.message);
   }
-  
+
   resetBatchUI();
 }
 
 async function createBatchWithoutZip(participants) {
-  let successCount = 0;
-  const total = participants.length;
-  const template = templateSelect.value;
   const usedFileNames = new Set();
+  const total = participants.length;
+  const defaultTemplate = templateSelect.value;
+  let successCount = 0;
 
   for (let i = 0; i < participants.length; i++) {
+    const participant = participants[i];
     try {
-      const p = participants[i];
-      const fileBaseName = createUniqueFileBaseName(p.name, i, usedFileNames);
-      let certTemplate = template;
-      if (p.category && categoryTemplateMap[p.category]) {
-        certTemplate = categoryTemplateMap[p.category][0];
-      }
-      
-      certName.textContent = p.name;
-      renderCertificateEvent(p.event, 'Event / Course');
-      certDate.textContent = p.date;
-      certIssuer.textContent = p.issuer;
-      cert.className = `certificate ${certTemplate}`;
-      applyCustomBackground();
-      
+      const fileBaseName = createUniqueFileBaseName(participant.name, i, usedFileNames);
+      const templateClass = resolveTemplateForParticipant(participant, defaultTemplate);
+      setCertificateData(participant, templateClass);
+
       const canvas = await html2canvas(cert, { scale: 2, useCORS: true });
       const dataURL = canvas.toDataURL('image/png', 1.0);
       const link = document.createElement('a');
@@ -425,23 +517,23 @@ async function createBatchWithoutZip(participants) {
       document.body.appendChild(link);
       link.click();
       link.remove();
-      
+
       successCount++;
       updateProgress(successCount, total);
-    } catch(e) {
-      console.error(`Error processing ${participants[i].name}:`, e);
+    } catch (e) {
+      console.error(`Error processing ${participant.name}:`, e);
     }
   }
-  
+
   showBatchComplete(successCount, total);
   resetBatchUI();
 }
 
 function updateProgress(current, total) {
   const percentage = Math.round((current / total) * 100);
-  progressFill.style.width = percentage + '%';
+  progressFill.style.width = `${percentage}%`;
   progressText.textContent = `Processing: ${current}/${total}`;
-  progressPercent.textContent = percentage + '%';
+  progressPercent.textContent = `${percentage}%`;
 }
 
 function resetBatchUI() {
@@ -450,8 +542,6 @@ function resetBatchUI() {
   progressFill.style.width = '0%';
   progressText.textContent = 'Processing: 0/0';
   progressPercent.textContent = '0%';
-  
-  // Restore original certificate
   updatePreview();
 }
 
@@ -460,14 +550,18 @@ function showBatchComplete(success, total) {
   const overlay = document.getElementById('modal-overlay');
   const message = document.getElementById('modal-message');
   const stats = document.getElementById('modal-stats');
-  
-  message.textContent = `Successfully generated ${success} out of ${total} certificates!`;
-  stats.innerHTML = `
-    <div>✅ Completed: ${success}</div>
-    <div>❌ Failed: ${total - success}</div>
-    <div>📦 Download: Check your Downloads folder for the ZIP file</div>
-  `;
-  
+
+  message.textContent = `Successfully generated ${success} out of ${total} certificates.`;
+
+  stats.innerHTML = '';
+  const completedLine = document.createElement('div');
+  completedLine.textContent = `Completed: ${success}`;
+  const failedLine = document.createElement('div');
+  failedLine.textContent = `Failed: ${total - success}`;
+  const downloadLine = document.createElement('div');
+  downloadLine.textContent = 'Download: Check your Downloads folder for the ZIP file';
+  stats.append(completedLine, failedLine, downloadLine);
+
   modal.style.display = 'block';
   overlay.style.display = 'block';
 }
@@ -477,14 +571,21 @@ function closeBatchModal() {
   const overlay = document.getElementById('modal-overlay');
   modal.style.display = 'none';
   overlay.style.display = 'none';
-  excelInput.value = '';
+  if (excelInput) excelInput.value = '';
 }
 
-// Live-update on field change
-[participantInput, eventInput, dateInput, issuerInput, templateSelect, categorySelect].forEach(el => {
-  el.addEventListener('input', updatePreview);
-  el.addEventListener('change', updatePreview);
-});
+window.closeBatchModal = closeBatchModal;
 
-// Initialize preview
+[participantInput, eventInput, dateInput, issuerInput, templateSelect, categorySelect]
+  .filter(Boolean)
+  .forEach((el) => {
+    el.addEventListener('input', updatePreview);
+    el.addEventListener('change', updatePreview);
+  });
+
+if (orientationLandscapeBtn && orientationPortraitBtn) {
+  orientationLandscapeBtn.classList.add('active');
+  orientationPortraitBtn.classList.remove('active');
+}
+
 updatePreview();

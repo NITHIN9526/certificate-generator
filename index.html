@@ -46,14 +46,14 @@
               Category
             </label>
             <select id="category-select">
-              <option value="sports">🏆 Sports</option>
-              <option value="arts">🎨 Arts</option>
-              <option value="academics">📚 Academics</option>
-              <option value="participation">🎯 Participation</option>
-              <option value="excellence">⭐ Excellence</option>
-              <option value="achievement">🥇 Achievement</option>
-              <option value="leadership">👥 Leadership</option>
-              <option value="innovation">💡 Innovation</option>
+              <option value="sports">Sports</option>
+              <option value="arts">Arts</option>
+              <option value="academics">Academics</option>
+              <option value="participation">Participation</option>
+              <option value="excellence">Excellence</option>
+              <option value="achievement">Achievement</option>
+              <option value="leadership">Leadership</option>
+              <option value="innovation">Innovation</option>
             </select>
           </div>
 
@@ -133,6 +133,17 @@
 
           <div class="form-group">
             <label>
+              <span class="label-icon material-icons">crop_landscape</span>
+              Certificate Orientation
+            </label>
+            <div class="orientation-buttons">
+              <button id="orientation-landscape" type="button" class="btn btn-orientation active">Landscape</button>
+              <button id="orientation-portrait" type="button" class="btn btn-orientation">Portrait</button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>
               <span class="label-icon material-icons">image</span>
               Logo (optional)
             </label>
@@ -157,7 +168,7 @@
               <input id="bg-toggle" type="checkbox" disabled />
               Use uploaded background
             </label>
-            <p class="field-help">Turn this off anytime to use the selected template background.</p>
+            <p class="field-help">Turn this off to use the selected template background.</p>
           </div>
 
           <div class="form-actions">
@@ -183,7 +194,7 @@
           <h2>Batch Certificate</h2>
         </div>
         <div class="batch-info">
-          <p>Upload an Excel file (.xlsx) with participant data to generate multiple certificates at once!</p>
+          <p>Upload an Excel file (.xlsx) with participant data to generate multiple certificates at once.</p>
         </div>
         <div class="excel-template">
           <p><strong>Excel Format Required (5 columns):</strong></p>
@@ -222,10 +233,9 @@
       </section>
 
       <p class="notes">
-        💡 <strong>Tip:</strong> Use high-resolution images for best quality. Batch processing downloads all certificates as a ZIP file.
+        <strong>Tip:</strong> Use high-resolution images for best quality. Batch processing downloads all certificates as a ZIP file.
       </p>
     </div>
-
 
     <section class="preview-panel">
       <div class="preview-header">
@@ -233,7 +243,7 @@
         Certificate Preview
       </div>
 
-      <!-- Certificate container — this will be captured by html2canvas -->
+      <!-- Certificate container - this will be captured by html2canvas -->
       <div id="certificate" class="certificate classic">
         <div class="cert-inner">
           <img id="cert-logo" class="cert-logo" src="" alt="" hidden />
@@ -252,12 +262,11 @@
           </div>
         </div>
       </div>
-
     </section>
   </main>
 
   <footer class="app-footer">
-    <small>🚀 Professional Certificate Generator • Batch processing with Excel • Export as PNG/PDF</small>
+    <small>Professional Certificate Generator | Batch processing with Excel | Export as PNG/PDF</small>
   </footer>
 
   <!-- Modal for batch processing -->
@@ -277,10 +286,8 @@
   </div>
 
   <!-- Libraries -->
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
   <script src="script.js"></script>
 </body>
 </html>
