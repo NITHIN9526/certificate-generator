@@ -12,6 +12,20 @@ const logoInput = document.getElementById('logo-input');
 const sigInput = document.getElementById('sig-input');
 const bgInput = document.getElementById('bg-input');
 const bgToggle = document.getElementById('bg-toggle');
+const certTitleInput = document.getElementById('cert-title-input');
+const certSubtitleInput = document.getElementById('cert-subtitle-input');
+const certSigLabelInput = document.getElementById('cert-siglabel-input');
+const titleSizeInput = document.getElementById('title-size-input');
+const titleSizeValue = document.getElementById('title-size-value');
+const nameSizeInput = document.getElementById('name-size-input');
+const nameSizeValue = document.getElementById('name-size-value');
+const eventSizeInput = document.getElementById('event-size-input');
+const eventSizeValue = document.getElementById('event-size-value');
+const textAlignSelect = document.getElementById('text-align-select');
+const titleColorInput = document.getElementById('title-color-input');
+const nameColorInput = document.getElementById('name-color-input');
+const bodyColorInput = document.getElementById('body-color-input');
+const resetTextStylesBtn = document.getElementById('reset-text-styles');
 
 const previewBtn = document.getElementById('preview-btn');
 const downloadPngBtn = document.getElementById('download-png');
@@ -24,12 +38,17 @@ const orientationLandscapeBtn = document.getElementById('orientation-landscape')
 const orientationPortraitBtn = document.getElementById('orientation-portrait');
 
 const cert = document.getElementById('certificate');
+const certInner = document.getElementById('cert-inner');
+const certTitle = document.getElementById('cert-title');
+const certSubtitle = document.getElementById('cert-subtitle');
 const certName = document.getElementById('cert-name');
 const certEvent = document.getElementById('cert-event');
+const certMeta = document.getElementById('cert-meta');
 const certDate = document.getElementById('cert-date');
 const certIssuer = document.getElementById('cert-issuer');
 const certLogo = document.getElementById('cert-logo');
 const certSig = document.getElementById('cert-sig');
+const certSigLabel = document.getElementById('cert-sig-label');
 
 const progressContainer = document.getElementById('progress-container');
 const progressFill = document.getElementById('progress-fill');
@@ -100,6 +119,20 @@ const certEventPrefix = 'has successfully participated in ';
 const templateOptionLabels = templateSelect
   ? new Map(Array.from(templateSelect.options).map((option) => [option.value, option.textContent]))
   : new Map();
+const defaultCertificateText = {
+  title: 'Certificate of Participation',
+  subtitle: 'This is to certify that',
+  signatureLabel: 'Organizer'
+};
+const textStyleOverrides = {
+  titleSize: null,
+  nameSize: null,
+  eventSize: null,
+  align: null,
+  titleColor: null,
+  nameColor: null,
+  bodyColor: null
+};
 
 function updateCategoryTemplateRecommendations(category) {
   if (!templateSelect || templateOptionLabels.size === 0) return;
@@ -113,6 +146,103 @@ function updateCategoryTemplateRecommendations(category) {
       ? `${originalLabel} [Recommended]`
       : originalLabel;
   });
+}
+
+function updateRangeValueLabel(input, labelElement) {
+  if (!input || !labelElement) return;
+  labelElement.textContent = `${input.value}px`;
+}
+
+function setControlNumber(input, value, fallback) {
+  if (!input) return fallback;
+  const parsed = Number(value);
+  if (!Number.isFinite(parsed)) return fallback;
+
+  const min = Number(input.min || 0);
+  const max = Number(input.max || parsed);
+  const clamped = Math.min(max, Math.max(min, parsed));
+  input.value = String(Math.round(clamped));
+  return clamped;
+}
+
+function rgbToHex(value) {
+  const match = String(value || '').match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/i);
+  if (!match) return '#000000';
+
+  const toHex = (num) => Number(num).toString(16).padStart(2, '0');
+  return `#${toHex(match[1])}${toHex(match[2])}${toHex(match[3])}`;
+}
+
+function syncTextControlsWithPreview() {
+  if (!certTitle || !certName || !certEvent) return;
+
+  const titleSize = Math.round(parseFloat(getComputedStyle(certTitle).fontSize));
+  const nameSize = Math.round(parseFloat(getComputedStyle(certName).fontSize));
+  const eventSize = Math.round(parseFloat(getComputedStyle(certEvent).fontSize));
+
+  if (textStyleOverrides.titleSize === null) setControlNumber(titleSizeInput, titleSize, 28);
+  if (textStyleOverrides.nameSize === null) setControlNumber(nameSizeInput, nameSize, 48);
+  if (textStyleOverrides.eventSize === null) setControlNumber(eventSizeInput, eventSize, 16);
+  updateRangeValueLabel(titleSizeInput, titleSizeValue);
+  updateRangeValueLabel(nameSizeInput, nameSizeValue);
+  updateRangeValueLabel(eventSizeInput, eventSizeValue);
+
+  if (textStyleOverrides.align === null && textAlignSelect) {
+    const computedAlign = getComputedStyle(certInner || cert).textAlign;
+    const normalizedAlign = ['left', 'right', 'center'].includes(computedAlign) ? computedAlign : 'center';
+    textAlignSelect.value = normalizedAlign;
+  }
+
+  if (textStyleOverrides.titleColor === null && titleColorInput) {
+    titleColorInput.value = rgbToHex(getComputedStyle(certTitle).color);
+  }
+  if (textStyleOverrides.nameColor === null && nameColorInput) {
+    nameColorInput.value = rgbToHex(getComputedStyle(certName).color);
+  }
+  if (textStyleOverrides.bodyColor === null && bodyColorInput) {
+    bodyColorInput.value = rgbToHex(getComputedStyle(certEvent).color);
+  }
+}
+
+function applyTextEditorStyles() {
+  if (!certTitle || !certSubtitle || !certSigLabel) return;
+
+  certTitle.textContent = String(certTitleInput ? certTitleInput.value : '').trim() || defaultCertificateText.title;
+  certSubtitle.textContent = String(certSubtitleInput ? certSubtitleInput.value : '').trim() || defaultCertificateText.subtitle;
+  certSigLabel.textContent = String(certSigLabelInput ? certSigLabelInput.value : '').trim() || defaultCertificateText.signatureLabel;
+
+  certTitle.style.fontSize = textStyleOverrides.titleSize !== null ? `${textStyleOverrides.titleSize}px` : '';
+  certName.style.fontSize = textStyleOverrides.nameSize !== null ? `${textStyleOverrides.nameSize}px` : '';
+  certEvent.style.fontSize = textStyleOverrides.eventSize !== null ? `${textStyleOverrides.eventSize}px` : '';
+
+  if (textStyleOverrides.align !== null) {
+    const align = textStyleOverrides.align;
+    if (certInner) certInner.style.textAlign = align;
+    certTitle.style.textAlign = align;
+    certSubtitle.style.textAlign = align;
+    certName.style.textAlign = align;
+    certEvent.style.textAlign = align;
+    if (certMeta) {
+      const justifyMap = { left: 'flex-start', center: 'center', right: 'flex-end' };
+      certMeta.style.justifyContent = justifyMap[align] || 'center';
+    }
+  } else {
+    if (certInner) certInner.style.textAlign = '';
+    certTitle.style.textAlign = '';
+    certSubtitle.style.textAlign = '';
+    certName.style.textAlign = '';
+    certEvent.style.textAlign = '';
+    if (certMeta) certMeta.style.justifyContent = '';
+  }
+
+  certTitle.style.color = textStyleOverrides.titleColor || '';
+  certName.style.color = textStyleOverrides.nameColor || '';
+
+  const bodyColor = textStyleOverrides.bodyColor || '';
+  certSubtitle.style.color = bodyColor;
+  certEvent.style.color = bodyColor;
+  if (certMeta) certMeta.style.color = bodyColor;
+  certSigLabel.style.color = bodyColor;
 }
 
 function renderCertificateEvent(eventText, fallback = 'Event / Course') {
@@ -226,6 +356,8 @@ function updatePreview() {
   applyCertificateTemplateClass(templateSelect.value);
   applyCertificateOrientation();
   applyCustomBackground();
+  applyTextEditorStyles();
+  syncTextControlsWithPreview();
 }
 
 function readFileAsDataURL(file, cb) {
@@ -247,6 +379,7 @@ function setCertificateData(participant, templateClass) {
   applyCertificateTemplateClass(templateClass);
   applyCertificateOrientation();
   applyCustomBackground();
+  applyTextEditorStyles();
 }
 
 function resolveTemplateForParticipant(participant, defaultTemplate) {
@@ -343,6 +476,84 @@ if (bgInput) {
 
 if (bgToggle) {
   bgToggle.addEventListener('change', applyCustomBackground);
+}
+
+if (certTitleInput) {
+  certTitleInput.addEventListener('input', applyTextEditorStyles);
+}
+
+if (certSubtitleInput) {
+  certSubtitleInput.addEventListener('input', applyTextEditorStyles);
+}
+
+if (certSigLabelInput) {
+  certSigLabelInput.addEventListener('input', applyTextEditorStyles);
+}
+
+if (titleSizeInput) {
+  titleSizeInput.addEventListener('input', (e) => {
+    textStyleOverrides.titleSize = Number(e.target.value);
+    updateRangeValueLabel(titleSizeInput, titleSizeValue);
+    applyTextEditorStyles();
+  });
+}
+
+if (nameSizeInput) {
+  nameSizeInput.addEventListener('input', (e) => {
+    textStyleOverrides.nameSize = Number(e.target.value);
+    updateRangeValueLabel(nameSizeInput, nameSizeValue);
+    applyTextEditorStyles();
+  });
+}
+
+if (eventSizeInput) {
+  eventSizeInput.addEventListener('input', (e) => {
+    textStyleOverrides.eventSize = Number(e.target.value);
+    updateRangeValueLabel(eventSizeInput, eventSizeValue);
+    applyTextEditorStyles();
+  });
+}
+
+if (textAlignSelect) {
+  textAlignSelect.addEventListener('change', (e) => {
+    textStyleOverrides.align = String(e.target.value || 'center');
+    applyTextEditorStyles();
+  });
+}
+
+if (titleColorInput) {
+  titleColorInput.addEventListener('input', (e) => {
+    textStyleOverrides.titleColor = String(e.target.value || '');
+    applyTextEditorStyles();
+  });
+}
+
+if (nameColorInput) {
+  nameColorInput.addEventListener('input', (e) => {
+    textStyleOverrides.nameColor = String(e.target.value || '');
+    applyTextEditorStyles();
+  });
+}
+
+if (bodyColorInput) {
+  bodyColorInput.addEventListener('input', (e) => {
+    textStyleOverrides.bodyColor = String(e.target.value || '');
+    applyTextEditorStyles();
+  });
+}
+
+if (resetTextStylesBtn) {
+  resetTextStylesBtn.addEventListener('click', () => {
+    textStyleOverrides.titleSize = null;
+    textStyleOverrides.nameSize = null;
+    textStyleOverrides.eventSize = null;
+    textStyleOverrides.align = null;
+    textStyleOverrides.titleColor = null;
+    textStyleOverrides.nameColor = null;
+    textStyleOverrides.bodyColor = null;
+    applyTextEditorStyles();
+    syncTextControlsWithPreview();
+  });
 }
 
 if (previewBtn) {

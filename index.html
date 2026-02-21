@@ -151,6 +151,69 @@
             </div>
           </div>
 
+          <div class="form-group text-editor-group">
+            <label>
+              <span class="label-icon material-icons">text_fields</span>
+              Text Editor
+            </label>
+            <div class="editor-grid">
+              <div class="editor-control">
+                <label for="cert-title-input">Title Text</label>
+                <input id="cert-title-input" type="text" value="Certificate of Participation" />
+              </div>
+              <div class="editor-control">
+                <label for="cert-subtitle-input">Subtitle Text</label>
+                <input id="cert-subtitle-input" type="text" value="This is to certify that" />
+              </div>
+              <div class="editor-control">
+                <label for="cert-siglabel-input">Signature Label</label>
+                <input id="cert-siglabel-input" type="text" value="Organizer" />
+              </div>
+              <div class="editor-control">
+                <label for="text-align-select">Text Alignment</label>
+                <select id="text-align-select">
+                  <option value="center">Center</option>
+                  <option value="left">Left</option>
+                  <option value="right">Right</option>
+                </select>
+              </div>
+              <div class="editor-control">
+                <label for="title-size-input">Title Size</label>
+                <div class="range-row">
+                  <input id="title-size-input" type="range" min="18" max="42" value="28" />
+                  <span id="title-size-value" class="mini-value">28px</span>
+                </div>
+              </div>
+              <div class="editor-control">
+                <label for="name-size-input">Name Size</label>
+                <div class="range-row">
+                  <input id="name-size-input" type="range" min="28" max="70" value="48" />
+                  <span id="name-size-value" class="mini-value">48px</span>
+                </div>
+              </div>
+              <div class="editor-control">
+                <label for="event-size-input">Event Size</label>
+                <div class="range-row">
+                  <input id="event-size-input" type="range" min="12" max="30" value="16" />
+                  <span id="event-size-value" class="mini-value">16px</span>
+                </div>
+              </div>
+              <div class="editor-control color-control">
+                <label for="title-color-input">Title Color</label>
+                <input id="title-color-input" type="color" value="#0b6cd3" />
+              </div>
+              <div class="editor-control color-control">
+                <label for="name-color-input">Name Color</label>
+                <input id="name-color-input" type="color" value="#0f172a" />
+              </div>
+              <div class="editor-control color-control">
+                <label for="body-color-input">Body Color</label>
+                <input id="body-color-input" type="color" value="#475569" />
+              </div>
+            </div>
+            <button id="reset-text-styles" type="button" class="btn btn-secondary btn-block">Reset Text Styles</button>
+          </div>
+
           <div class="form-group">
             <label>
               <span class="label-icon material-icons">image</span>
@@ -254,20 +317,20 @@
 
       <!-- Certificate container - this will be captured by html2canvas -->
       <div id="certificate" class="certificate classic">
-        <div class="cert-inner">
+        <div id="cert-inner" class="cert-inner">
           <img id="cert-logo" class="cert-logo" src="" alt="" hidden />
-          <h2 class="cert-title">Certificate of Participation</h2>
-          <p class="cert-subtitle">This is to certify that</p>
+          <h2 id="cert-title" class="cert-title">Certificate of Participation</h2>
+          <p id="cert-subtitle" class="cert-subtitle">This is to certify that</p>
           <h1 id="cert-name" class="cert-name">Jane Participant</h1>
           <p id="cert-event" class="cert-event">has successfully participated in <strong>Advanced Widget Workshop</strong></p>
-          <div class="cert-meta">
+          <div id="cert-meta" class="cert-meta">
             <div class="cert-date">Date: <span id="cert-date">2026-01-20</span></div>
             <div class="cert-issuer">Issued by: <span id="cert-issuer">Acme Academy</span></div>
           </div>
 
           <div class="cert-footer">
             <img id="cert-sig" class="cert-sig" src="" alt="signature" hidden />
-            <div class="sig-label">Organizer</div>
+            <div id="cert-sig-label" class="sig-label">Organizer</div>
           </div>
         </div>
       </div>
@@ -297,6 +360,6 @@
   <!-- Libraries -->
   <script src="vendor/html2canvas-1.4.1.min.js"></script>
   <script src="vendor/jspdf-2.5.1.umd.min.js"></script>
-  <script src="script.js?v=20260221-orientation-fix"></script>
+  <script src="script.js?v=20260221-text-editor"></script>
 </body>
 </html>

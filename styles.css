@@ -210,13 +210,73 @@ body{
   transition:all 0.2s ease;
 }
 
+.form-panel input[type="color"]{
+  width:100%;
+  height:40px;
+  border-radius:8px;
+  border:1.5px solid #e2e8f0;
+  padding:4px;
+  background:#fff;
+  cursor:pointer;
+}
+
+.form-panel input[type="range"]{
+  width:100%;
+  accent-color:var(--accent);
+  cursor:pointer;
+}
+
 .form-panel input[type="text"]:focus,
 .form-panel input[type="file"]:focus,
-.form-panel select:focus{
+.form-panel select:focus,
+.form-panel input[type="color"]:focus{
   outline:none;
   border-color:var(--accent);
   box-shadow:0 0 0 3px rgba(11, 108, 211, 0.1);
   background-color:#fafbfc;
+}
+
+.text-editor-group{
+  border:1px solid #e2e8f0;
+  border-radius:10px;
+  padding:12px;
+  background:#f8fafc;
+}
+
+.editor-grid{
+  display:grid;
+  grid-template-columns:repeat(2, minmax(0, 1fr));
+  gap:10px;
+}
+
+.editor-control label{
+  display:block;
+  margin-bottom:6px;
+  font-size:12px;
+  font-weight:600;
+  color:#334155;
+}
+
+.range-row{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.mini-value{
+  min-width:44px;
+  font-size:12px;
+  font-weight:600;
+  color:#475569;
+  text-align:right;
+}
+
+.color-control{
+  align-self:end;
+}
+
+#reset-text-styles{
+  margin-top:10px;
 }
 
 .form-panel input[type="file"]::file-selector-button{
@@ -2171,6 +2231,7 @@ body{
   .certificate{height:400px;padding:24px;margin:0}
   .certificate.landscape{height:260px;max-width:100%}
   .certificate.portrait{height:420px;max-width:320px;margin:0 auto}
+  .editor-grid{grid-template-columns:1fr}
   .cert-inner{padding:24px;gap:12px}
   .cert-name{font-size:32px}
   .cert-title{font-size:20px}
