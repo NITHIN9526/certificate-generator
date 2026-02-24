@@ -284,10 +284,10 @@
           <h2>Batch Certificate</h2>
         </div>
         <div class="batch-info">
-          <p>Upload an Excel file (.xlsx) with participant data to generate multiple certificates at once.</p>
+          <p>Upload an Excel or CSV file (.xlsx, .xls, .csv) with participant data to generate multiple certificates at once.</p>
         </div>
         <div class="excel-template">
-          <p><strong>Excel Format Required (5 columns):</strong></p>
+          <p><strong>Spreadsheet Format Required (5 columns):</strong></p>
           <div class="template-example">
             <code>
               Name | Event | Date | Issuer | Category<br>
@@ -303,9 +303,9 @@
         <div class="form-group">
           <label>
             <span class="label-icon material-icons">upload_file</span>
-            Upload Excel File
+            Upload Excel/CSV File
           </label>
-          <input id="excel-input" type="file" accept=".xlsx,.xls" />
+          <input id="excel-input" type="file" accept=".xlsx,.xls,.csv,text/csv" />
         </div>
         <button id="process-excel" type="button" class="btn btn-primary btn-block">
           <span class="material-icons">cloud_download</span>

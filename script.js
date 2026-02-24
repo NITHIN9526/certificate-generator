@@ -1014,7 +1014,7 @@ if (processExcelBtn) {
   processExcelBtn.addEventListener('click', async () => {
     const file = excelInput && excelInput.files ? excelInput.files[0] : null;
     if (!file) {
-      alert('Please select an Excel file');
+      alert('Please select an Excel or CSV file');
       return;
     }
 
@@ -1022,13 +1022,51 @@ if (processExcelBtn) {
     progressContainer.style.display = 'flex';
 
     try {
-      await loadScriptOnce('vendor/xlsx-0.18.5.full.min.js', 'XLSX');
-      await processExcelFile(file);
+      if (isCsvFile(file)) {
+        await processCsvFile(file);
+      } else {
+        await loadScriptOnce('vendor/xlsx-0.18.5.full.min.js', 'XLSX');
+        await processExcelFile(file);
+      }
     } catch (e) {
       alert('Error: ' + e.message);
       resetBatchUI();
     }
   });
+}
+
+function isCsvFile(file) {
+  const name = String(file && file.name ? file.name : '').toLowerCase();
+  const mimeType = String(file && file.type ? file.type : '').toLowerCase();
+  return name.endsWith('.csv') || mimeType.includes('csv');
+}
+
+function buildParticipantsFromRows(rows) {
+  const participants = [];
+  const firstCell = String((rows[0] && rows[0][0]) ?? '')
+    .replace(/^\uFEFF/, '')
+    .trim()
+    .toLowerCase();
+  const startRow = firstCell === 'name' ? 1 : 0;
+  const defaultCategory = String(categorySelect.value ?? '').trim().toLowerCase();
+
+  for (let i = startRow; i < rows.length; i++) {
+    const row = rows[i];
+    if (!row) continue;
+
+    const name = String(row[0] ?? '').trim();
+    if (!name) continue;
+
+    participants.push({
+      name,
+      event: String(row[1] ?? '').trim() || eventInput.value.trim() || 'Event / Course',
+      date: String(row[2] ?? '').trim() || dateInput.value.trim(),
+      issuer: String(row[3] ?? '').trim() || issuerInput.value.trim(),
+      category: String(row[4] ?? '').trim().toLowerCase() || defaultCategory
+    });
+  }
+
+  return participants;
 }
 
 async function processExcelFile(file) {
@@ -1041,27 +1079,7 @@ async function processExcelFile(file) {
         const workbook = window.XLSX.read(data, { type: 'array' });
         const worksheet = workbook.Sheets[workbook.SheetNames[0]];
         const rows = window.XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-
-        const participants = [];
-        const firstCell = String((rows[0] && rows[0][0]) ?? '').trim().toLowerCase();
-        const startRow = firstCell === 'name' ? 1 : 0;
-        const defaultCategory = String(categorySelect.value ?? '').trim().toLowerCase();
-
-        for (let i = startRow; i < rows.length; i++) {
-          const row = rows[i];
-          if (!row) continue;
-
-          const name = String(row[0] ?? '').trim();
-          if (!name) continue;
-
-          participants.push({
-            name,
-            event: String(row[1] ?? '').trim() || eventInput.value.trim() || 'Event / Course',
-            date: String(row[2] ?? '').trim() || dateInput.value.trim(),
-            issuer: String(row[3] ?? '').trim() || issuerInput.value.trim(),
-            category: String(row[4] ?? '').trim().toLowerCase() || defaultCategory
-          });
-        }
+        const participants = buildParticipantsFromRows(rows);
 
         if (participants.length === 0) {
           alert('No valid participant data found in Excel file');
@@ -1086,6 +1104,88 @@ async function processExcelFile(file) {
     };
 
     reader.readAsArrayBuffer(file);
+  });
+}
+
+function parseCsvRows(csvText) {
+  const rows = [];
+  let row = [];
+  let cell = '';
+  let insideQuotes = false;
+  const normalized = String(csvText ?? '').replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+
+  // State machine parser that handles quoted commas and escaped double-quotes.
+  for (let i = 0; i < normalized.length; i++) {
+    const char = normalized[i];
+
+    if (char === '"') {
+      if (insideQuotes && normalized[i + 1] === '"') {
+        cell += '"';
+        i++;
+      } else {
+        insideQuotes = !insideQuotes;
+      }
+      continue;
+    }
+
+    if (char === ',' && !insideQuotes) {
+      row.push(cell);
+      cell = '';
+      continue;
+    }
+
+    if (char === '\n' && !insideQuotes) {
+      row.push(cell);
+      rows.push(row);
+      row = [];
+      cell = '';
+      continue;
+    }
+
+    cell += char;
+  }
+
+  if (cell !== '' || row.length > 0) {
+    row.push(cell);
+    rows.push(row);
+  }
+
+  return rows;
+}
+
+async function processCsvFile(file) {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+
+    reader.onload = async (e) => {
+      try {
+        const csvText = String(e.target.result ?? '');
+        const rows = parseCsvRows(csvText);
+        const participants = buildParticipantsFromRows(rows);
+
+        if (participants.length === 0) {
+          alert('No valid participant data found in CSV file');
+          resetBatchUI();
+          resolve();
+          return;
+        }
+
+        await generateBatchCertificates(participants);
+      } catch (err) {
+        alert('Error processing CSV: ' + err.message);
+        resetBatchUI();
+      } finally {
+        resolve();
+      }
+    };
+
+    reader.onerror = () => {
+      alert('Failed to read CSV file');
+      resetBatchUI();
+      resolve();
+    };
+
+    reader.readAsText(file);
   });
 }
 
