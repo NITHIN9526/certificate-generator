@@ -4,7 +4,6 @@
 
 Your certificate generator has been completely upgraded with a modern UI and Excel batch processing capabilities!
 
----
 
 ## 📦 What You Got
 
