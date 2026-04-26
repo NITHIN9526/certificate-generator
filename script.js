@@ -470,6 +470,7 @@ function applyTextEditorStyles() {
   certEvent.style.color = bodyColor;
   if (certMeta) certMeta.style.color = bodyColor;
   certSigLabel.style.color = bodyColor;
+  scheduleSave();
 }
 
 function setMovableTextTransform(element, x, y) {
@@ -761,6 +762,7 @@ if (logoInput) {
         certLogo.src = '';
         certLogo.hidden = true;
       }
+      scheduleSave();
     });
   });
 }
@@ -777,6 +779,7 @@ if (sigInput) {
         certSig.src = '';
         certSig.hidden = true;
       }
+      scheduleSave();
     });
   });
 }
@@ -791,12 +794,13 @@ if (bgInput) {
         bgToggle.checked = Boolean(dataUrl);
       }
       applyCustomBackground();
+      scheduleSave();
     });
   });
 }
 
 if (bgToggle) {
-  bgToggle.addEventListener('change', applyCustomBackground);
+  bgToggle.addEventListener('change', () => { applyCustomBackground(); scheduleSave(); });
 }
 
 if (certTitleInput) {
@@ -1347,5 +1351,200 @@ if (orientationLandscapeBtn && orientationPortraitBtn) {
 
 initializeFontSelectors();
 initializeMovableTextEditor();
-updateCategoryTemplateRecommendations(categorySelect ? categorySelect.value : '');
-updatePreview();
+
+// ─── Persistence: localStorage + Export/Import ───────────────────────────────
+
+const STORAGE_KEY = 'certgen_session_v25';
+let _saveTimer = null;
+
+function showSaveStatus(status) {
+  const el = document.getElementById('save-status');
+  const txt = document.getElementById('save-status-text');
+  if (!el || !txt) return;
+  el.className = 'save-status save-status--' + status;
+  const icons = { saved:'cloud_done', saving:'sync', error:'cloud_off', empty:'cloud_queue' };
+  const texts = { saved:'All changes saved', saving:'Saving…', error:'Save failed', empty:'No saved session' };
+  const icon = el.querySelector('.material-icons');
+  if (icon) icon.textContent = icons[status] || 'cloud_done';
+  txt.textContent = texts[status] || '';
+}
+
+function getSessionState() {
+  const offsets = {};
+  movableTextElements.forEach((el) => {
+    const o = movableTextOffsets.get(el.id) || { x: 0, y: 0 };
+    offsets[el.id] = o;
+  });
+  return {
+    version: '2.5',
+    participant: participantInput ? participantInput.value : '',
+    category: categorySelect ? categorySelect.value : '',
+    event: eventInput ? eventInput.value : '',
+    date: dateInput ? dateInput.value : '',
+    issuer: issuerInput ? issuerInput.value : '',
+    template: templateSelect ? templateSelect.value : '',
+    orientation: currentOrientation,
+    certTitle: certTitleInput ? certTitleInput.value : '',
+    certSubtitle: certSubtitleInput ? certSubtitleInput.value : '',
+    certSigLabel: certSigLabelInput ? certSigLabelInput.value : '',
+    textStyleOverrides: { ...textStyleOverrides },
+    textOffsets: offsets,
+    logoDataUrl: logoDataUrl,
+    sigDataUrl: sigDataUrl,
+    bgDataUrl: bgDataUrl,
+    bgToggleChecked: bgToggle ? bgToggle.checked : false
+  };
+}
+
+function applySessionState(state) {
+  if (!state || typeof state !== 'object') return;
+  if (participantInput && state.participant != null) participantInput.value = state.participant;
+  if (categorySelect && state.category) categorySelect.value = state.category;
+  if (eventInput && state.event != null) eventInput.value = state.event;
+  if (dateInput && state.date != null) dateInput.value = state.date;
+  if (issuerInput && state.issuer != null) issuerInput.value = state.issuer;
+  if (templateSelect && state.template) templateSelect.value = state.template;
+
+  if (state.orientation) {
+    currentOrientation = state.orientation;
+    if (orientationLandscapeBtn && orientationPortraitBtn) {
+      const isPortrait = state.orientation === 'portrait';
+      orientationPortraitBtn.classList.toggle('active', isPortrait);
+      orientationLandscapeBtn.classList.toggle('active', !isPortrait);
+    }
+  }
+
+  if (certTitleInput && state.certTitle != null) certTitleInput.value = state.certTitle;
+  if (certSubtitleInput && state.certSubtitle != null) certSubtitleInput.value = state.certSubtitle;
+  if (certSigLabelInput && state.certSigLabel != null) certSigLabelInput.value = state.certSigLabel;
+
+  if (state.textStyleOverrides && typeof state.textStyleOverrides === 'object') {
+    Object.assign(textStyleOverrides, state.textStyleOverrides);
+    const ov = state.textStyleOverrides;
+    if (ov.titleSize != null && titleSizeInput) { titleSizeInput.value = ov.titleSize; updateRangeValueLabel(titleSizeInput, titleSizeValue); }
+    if (ov.nameSize != null && nameSizeInput)  { nameSizeInput.value = ov.nameSize;   updateRangeValueLabel(nameSizeInput, nameSizeValue); }
+    if (ov.eventSize != null && eventSizeInput){ eventSizeInput.value = ov.eventSize; updateRangeValueLabel(eventSizeInput, eventSizeValue); }
+    if (ov.titleFont && titleFontSelect)        { titleFontSelect.value = ov.titleFont; ensureFontPresetLoaded(ov.titleFont); }
+    if (ov.subtitleFont && subtitleFontSelect)  { subtitleFontSelect.value = ov.subtitleFont; ensureFontPresetLoaded(ov.subtitleFont); }
+    if (ov.nameFont && nameFontSelect)          { nameFontSelect.value = ov.nameFont;  ensureFontPresetLoaded(ov.nameFont); }
+    if (ov.eventFont && eventFontSelect)        { eventFontSelect.value = ov.eventFont; ensureFontPresetLoaded(ov.eventFont); }
+    if (ov.metaFont && metaFontSelect)          { metaFontSelect.value = ov.metaFont;  ensureFontPresetLoaded(ov.metaFont); }
+    if (ov.sigFont && sigFontSelect)            { sigFontSelect.value = ov.sigFont;    ensureFontPresetLoaded(ov.sigFont); }
+    if (ov.titleColor && titleColorInput)       titleColorInput.value = ov.titleColor;
+    if (ov.nameColor && nameColorInput)         nameColorInput.value = ov.nameColor;
+    if (ov.bodyColor && bodyColorInput)         bodyColorInput.value = ov.bodyColor;
+  }
+
+  if (state.textOffsets && typeof state.textOffsets === 'object') {
+    Object.entries(state.textOffsets).forEach(([id, offset]) => {
+      const el = document.getElementById(id);
+      if (el && offset) { movableTextOffsets.set(id, offset); setMovableTextTransform(el, offset.x, offset.y); }
+    });
+  }
+
+  if (state.logoDataUrl) {
+    logoDataUrl = state.logoDataUrl;
+    if (certLogo) { certLogo.src = state.logoDataUrl; certLogo.hidden = false; }
+  }
+  if (state.sigDataUrl) {
+    sigDataUrl = state.sigDataUrl;
+    if (certSig) { certSig.src = state.sigDataUrl; certSig.hidden = false; }
+  }
+  if (state.bgDataUrl) {
+    bgDataUrl = state.bgDataUrl;
+    if (bgToggle) { bgToggle.disabled = false; bgToggle.checked = Boolean(state.bgToggleChecked); }
+  }
+
+  if (state.category) updateCategoryTemplateRecommendations(state.category);
+  updatePreview();
+}
+
+function scheduleSave() {
+  showSaveStatus('saving');
+  clearTimeout(_saveTimer);
+  _saveTimer = setTimeout(() => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(getSessionState()));
+      showSaveStatus('saved');
+    } catch (e) {
+      showSaveStatus('error');
+      console.warn('localStorage save failed:', e);
+    }
+  }, 800);
+}
+
+function loadFromLocalStorage() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return false;
+    applySessionState(JSON.parse(raw));
+    showSaveStatus('saved');
+    return true;
+  } catch (e) {
+    console.warn('localStorage load failed:', e);
+    return false;
+  }
+}
+
+function exportSettings() {
+  try {
+    const blob = new Blob([JSON.stringify(getSessionState(), null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'certgen-settings-' + Date.now() + '.json';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  } catch (e) {
+    alert('Export failed: ' + e.message);
+  }
+}
+
+function importSettings(file) {
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    try {
+      const state = JSON.parse(String(e.target.result));
+      applySessionState(state);
+      showSaveStatus('saved');
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    } catch (err) {
+      alert('Import failed — invalid settings file.\n' + err.message);
+    }
+  };
+  reader.onerror = () => alert('Could not read file.');
+  reader.readAsText(file);
+}
+
+// Wire up toolbar buttons
+const exportBtn = document.getElementById('export-btn');
+const importBtn = document.getElementById('import-btn');
+const importFileInput = document.getElementById('import-file-input');
+const clearSaveBtn = document.getElementById('clear-save-btn');
+
+if (exportBtn) exportBtn.addEventListener('click', exportSettings);
+if (importBtn) importBtn.addEventListener('click', () => importFileInput && importFileInput.click());
+if (importFileInput) {
+  importFileInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (file) importSettings(file);
+    importFileInput.value = '';
+  });
+}
+if (clearSaveBtn) {
+  clearSaveBtn.addEventListener('click', () => {
+    if (!confirm('Clear all saved data? This cannot be undone.')) return;
+    localStorage.removeItem(STORAGE_KEY);
+    showSaveStatus('empty');
+  });
+}
+
+// Boot: restore session or run fresh
+const _restored = loadFromLocalStorage();
+if (!_restored) {
+  updateCategoryTemplateRecommendations(categorySelect ? categorySelect.value : '');
+  updatePreview();
+}

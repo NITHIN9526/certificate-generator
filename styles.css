@@ -2234,6 +2234,65 @@ body{
 .certificate.coral-wave .cert-subtitle,.certificate.coral-wave .cert-event{color:#9a3412}
 .certificate.coral-wave .cert-meta{color:#b45309;font-weight:600}
 
+/* Save Toolbar */
+.save-toolbar{
+  background:rgba(0,0,0,0.18);
+  border-bottom:1px solid rgba(255,255,255,0.06);
+  padding:8px 32px;
+}
+.save-toolbar-inner{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  max-width:1600px;
+  margin:0 auto;
+  gap:12px;
+  flex-wrap:wrap;
+}
+.save-status{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  font-size:12px;
+  font-weight:500;
+  transition:color 0.3s;
+  color:rgba(255,255,255,0.45);
+}
+.save-status .material-icons{font-size:16px;transition:all 0.3s}
+.save-status--saved{color:#34d399}
+.save-status--saving{color:#fbbf24}
+.save-status--saving .material-icons{animation:toolbar-spin 0.9s linear infinite}
+.save-status--error{color:#f87171}
+.save-status--empty{color:rgba(255,255,255,0.35)}
+@keyframes toolbar-spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.save-actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn-save-action{
+  background:rgba(255,255,255,0.08);
+  color:rgba(255,255,255,0.8);
+  border:1px solid rgba(255,255,255,0.12);
+  padding:5px 11px;
+  font-size:12px;
+  border-radius:6px;
+  gap:5px;
+  transition:all 0.2s;
+}
+.btn-save-action .material-icons{font-size:14px}
+.btn-save-action:hover{
+  background:rgba(255,255,255,0.16);
+  border-color:rgba(255,255,255,0.25);
+  color:#fff;
+}
+.btn-save-clear{
+  background:rgba(239,68,68,0.1);
+  border-color:rgba(239,68,68,0.2);
+  color:rgba(239,68,68,0.8);
+}
+.btn-save-clear:hover{
+  background:rgba(239,68,68,0.2);
+  border-color:rgba(239,68,68,0.4);
+  color:#f87171;
+}
+
 /* Responsive */
 @media (max-width:860px){
   .app-main{flex-direction:column;align-items:stretch;padding:16px 20px}

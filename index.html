@@ -26,6 +26,31 @@
     </div>
   </header>
 
+  <!-- Save Toolbar -->
+  <div class="save-toolbar">
+    <div class="save-toolbar-inner">
+      <div class="save-status save-status--empty" id="save-status">
+        <span class="material-icons">cloud_queue</span>
+        <span id="save-status-text">No saved session</span>
+      </div>
+      <div class="save-actions">
+        <button id="export-btn" type="button" class="btn btn-save-action">
+          <span class="material-icons">upload_file</span>
+          Export Settings
+        </button>
+        <button id="import-btn" type="button" class="btn btn-save-action">
+          <span class="material-icons">download</span>
+          Import Settings
+        </button>
+        <input id="import-file-input" type="file" accept=".json" style="display:none" />
+        <button id="clear-save-btn" type="button" class="btn btn-save-action btn-save-clear">
+          <span class="material-icons">delete_outline</span>
+          Clear Saved
+        </button>
+      </div>
+    </div>
+  </div>
+
   <main class="app-main">
     <div class="left-sidebar">
       <section class="form-panel">
