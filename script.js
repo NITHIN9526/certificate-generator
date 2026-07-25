@@ -1464,7 +1464,8 @@ function scheduleSave() {
   clearTimeout(_saveTimer);
   _saveTimer = setTimeout(() => {
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(getSessionState()));
+      const stateToPersist = { ...getSessionState(), certTitle: '', certSubtitle: '', certSigLabel: '' };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(stateToPersist));
       showSaveStatus('saved');
     } catch (e) {
       showSaveStatus('error');
@@ -1488,7 +1489,8 @@ function loadFromLocalStorage() {
 
 function exportSettings() {
   try {
-    const blob = new Blob([JSON.stringify(getSessionState(), null, 2)], { type: 'application/json' });
+    const stateToPersist = { ...getSessionState(), certTitle: '', certSubtitle: '', certSigLabel: '' };
+    const blob = new Blob([JSON.stringify(stateToPersist, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
