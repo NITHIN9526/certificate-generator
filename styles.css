@@ -2340,3 +2340,54 @@ body[data-theme="dark"]{--studio-paper:#111a20;--studio-card:#1b272e;--studio-li
 @media(max-width:1050px){.app-main{flex-direction:column}.left-sidebar{width:100%;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:start}.left-sidebar>.notes{grid-column:1/-1}.preview-panel{width:100%;min-height:0}.certificate.studio{max-width:100%}}
 @media(max-width:680px){.app-header{padding:17px 16px}.app-header h1{font-size:18px}.app-header p{font-size:11px}.header-icon{width:38px;height:38px;font-size:22px}.header-badge{display:none}.save-toolbar{padding:9px 12px}.save-toolbar-inner{align-items:flex-start;gap:8px;flex-direction:column}.save-actions{width:100%;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}.btn-save-action{justify-content:center;padding:8px 5px;font-size:10px}.btn-save-action .material-icons{font-size:15px}.app-main{padding:14px 12px 28px;gap:14px}.left-sidebar{display:flex;width:100%}.form-panel{padding:16px;border-radius:11px}.preview-panel{padding:10px;border-radius:11px;gap:10px}.certificate.studio{width:100%;min-height:0}.certificate.studio .cert-inner{padding:4% 7%}.certificate.studio .cert-title{font-size:clamp(15px,4vw,27px)}.certificate.studio .cert-name{font-size:clamp(18px,5.2vw,34px)}.certificate.studio .cert-subtitle{font-size:clamp(6px,1.7vw,10px)}.certificate.studio .cert-event{font-size:clamp(7px,1.8vw,11px)}.certificate.studio .cert-meta{font-size:clamp(6px,1.4vw,9px)}.certificate.studio .sig-label{font-size:clamp(6px,1.3vw,8px)}.editor-grid{grid-template-columns:1fr 1fr}.form-actions .btn{min-width:0}.app-footer{font-size:10px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+
+
+/* ── Modern selectable certificate templates ─────────────────────────── */
+.template-gallery{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}
+.template-card{display:flex;align-items:center;gap:10px;width:100%;padding:9px;border:1px solid #e7e1d8;border-radius:12px;background:#fff;text-align:left;cursor:pointer;transition:border-color .18s,box-shadow .18s,transform .18s}
+.template-card:hover{border-color:#b56c50;transform:translateY(-1px)}
+.template-card.is-selected{border-color:#a85d43;box-shadow:0 0 0 2px rgba(168,93,67,.14);background:#fffaf7}
+.template-card-copy{display:flex;flex-direction:column;gap:3px;min-width:0}
+.template-card-copy strong{font-size:12px;color:#282521}
+.template-card-copy small{font-size:10px;color:#827b72}
+.template-thumb{position:relative;display:block;flex:0 0 76px;height:52px;background:#faf7f0;border:1px solid #e9e0d3;overflow:hidden}
+.template-thumb:before,.template-thumb:after{content:"";position:absolute;pointer-events:none}
+.template-thumb i{position:absolute;left:20%;right:20%;top:14px;height:2px;background:#a66b4e}
+.template-thumb b{position:absolute;left:28%;right:28%;top:23px;height:5px;background:#39332e;opacity:.8}
+.template-thumb em{position:absolute;left:35%;right:35%;bottom:9px;height:1px;background:#a66b4e}
+.thumb-studio:before{inset:4px;border:1px solid #c8a98d}
+.thumb-modern{background:#f5f7f8}
+.thumb-modern:before{left:0;top:0;bottom:0;width:9px;background:#233d4d}
+.thumb-modern i{background:#c08b54}.thumb-modern b{background:#203747}
+.thumb-minimal{background:#fff}
+.thumb-minimal:before{inset:5px;border:1px solid #dedede}
+.thumb-minimal i{background:#9a9a9a}.thumb-minimal b{height:4px;background:#333}
+.thumb-classic{background:#fbf7e9}
+.thumb-classic:before{inset:4px;border:2px double #b89a55}
+.thumb-classic i,.thumb-classic em{background:#9e854b}.thumb-classic b{background:#50462f}
+.thumb-laurel{background:#f8f5ed}
+.thumb-laurel:before{inset:4px;border:1px solid #bca36c;border-radius:2px}
+.thumb-laurel i{background:#9a7a3d}.thumb-laurel b{background:#6d5730}
+.template-select-accessible{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+.certificate.studio{background:#fbf8f1;color:#29251f;border:1px solid #c8a98d}
+.certificate.studio:before{content:"";position:absolute;inset:18px;border:1px solid #c8a98d;pointer-events:none}
+.certificate.modern{background:#f4f7f8;color:#18303d;border:0;box-shadow:inset 18px 0 #203d4b,inset 0 0 0 2px #203d4b}
+.certificate.modern:before{content:"";position:absolute;inset:24px 26px 24px 42px;border:1px solid #b8c7cb;pointer-events:none}
+.certificate.modern .cert-title{font-family:"Montserrat",sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#24495a}
+.certificate.modern .cert-name{font-family:"Playfair Display",serif;color:#172f3a}
+.certificate.minimal{background:#fff;color:#262626;border:1px solid #dedede;box-shadow:inset 0 0 0 12px #fff,inset 0 0 0 13px #e7e7e7}
+.certificate.minimal:before{content:"";position:absolute;inset:26px;border-top:1px solid #ddd;border-bottom:1px solid #ddd;pointer-events:none}
+.certificate.minimal .cert-title{font-family:"Inter",sans-serif;letter-spacing:.16em;text-transform:uppercase;font-weight:500;color:#555}
+.certificate.minimal .cert-name{font-family:"Cormorant Garamond",serif;color:#222}
+.certificate.classic{background:#fbf7e9;color:#403722;border:5px double #b89a55;box-shadow:inset 0 0 0 8px #fbf7e9,inset 0 0 0 9px #dfcf9e}
+.certificate.classic .cert-title{font-family:"Cinzel",serif;letter-spacing:.08em;color:#8a7139}
+.certificate.classic .cert-name{font-family:"Libre Baskerville",serif;color:#403722}
+.certificate.laurel{background:#f8f5ed;color:#302d25;border:1px solid #bca36c;box-shadow:inset 0 0 0 8px #f8f5ed,inset 0 0 0 9px #d7c69e}
+.certificate.laurel:before{content:"✦";position:absolute;top:8%;left:50%;transform:translateX(-50%);font-size:26px;color:#a68a4e;pointer-events:none}
+.certificate.laurel .cert-title{font-family:"Cinzel",serif;color:#8a7139;letter-spacing:.1em}
+.certificate.laurel .cert-name{font-family:"Cormorant Garamond",serif;color:#423a29}
+body[data-theme="dark"] .template-card{background:#222b34;border-color:#394653}
+body[data-theme="dark"] .template-card-copy strong{color:#f0ece6}
+body[data-theme="dark"] .template-card-copy small{color:#a9a39b}
+body[data-theme="dark"] .template-card.is-selected{background:#302923;border-color:#c18468}
+@media(max-width:680px){.template-gallery{grid-template-columns:repeat(2,minmax(0,1fr))}.template-card{gap:7px;padding:7px}.template-thumb{flex-basis:62px;height:44px}}
