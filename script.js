@@ -61,43 +61,8 @@ const progressFill = document.getElementById('progress-fill');
 const progressText = document.getElementById('progress-text');
 const progressPercent = document.getElementById('progress-percent');
 
-const templateClasses = [
-  'classic',
-  'modern',
-  'gold',
-  'sports-dynamic',
-  'sports-medal',
-  'sports-champion',
-  'sports-fitness',
-  'sports-tournament',
-  'sports-achievement',
-  'arts-creative',
-  'arts-vibrant',
-  'arts-gallery',
-  'arts-performance',
-  'arts-design',
-  'arts-photography',
-  'academic-formal',
-  'academic-modern',
-  'academic-distinction',
-  'excellence-premium',
-  'achievement-bold',
-  'leadership-elite',
-  'minimalist-blue',
-  'gradient-sunset',
-  'elegant-vintage',
-  'geometric-modern',
-  'rainbow-vibrant',
-  'dark-professional',
-  'pastel-soft',
-  'bold-statement',
-  'aurora-glass',
-  'emerald-royal',
-  'mono-grid',
-  'nebula-night',
-  'ivory-luxe',
-  'coral-wave'
-];
+const templateCatalog = [["aurora","Aurora","Cool · Contemporary","#f2f7fb","#315c83","#1c3348","#b7cddd","linear"],["monochrome","Monochrome","Black · White","#ffffff","#22252a","#202329","#b9bec5","minimal"],["ocean","Ocean","Blue · Calm","#edf5fa","#176b87","#153c50","#9fc5d2","side"],["forest","Forest","Green · Refined","#f0f5ee","#426b50","#243c2c","#afc4ad","double"],["midnight","Midnight","Dark · Premium","#182333","#d5b36a","#f6f1e6","#52647a","dark"],["royal","Royal","Purple · Formal","#f4f0fa","#67509a","#342b4d","#c8b8df","ornate"],["emerald","Emerald","Deep green · Award","#eff5f0","#28735a","#204535","#a8c8b5","side"],["sapphire","Sapphire","Blue · Executive","#f0f4fb","#315ca8","#20365c","#afc2e4","double"],["coral","Coral","Warm · Vibrant","#fff3ef","#c45f52","#663a36","#edb9ae","corner"],["lavender","Lavender","Soft · Creative","#f7f2fb","#8565a8","#49375c","#d5c4e5","minimal"],["charcoal","Charcoal","Dark · Minimal","#262a2e","#e0c58b","#f4f0e8","#697178","dark"],["champagne","Champagne","Gold · Elegant","#fbf7ed","#a17c3e","#4b4030","#d8c49a","ornate"],["crimson","Crimson","Red · Formal","#fbf0f1","#9f3445","#4c2930","#d8aab1","double"],["teal","Teal","Fresh · Modern","#eef7f6","#287c78","#244a49","#a9d0ca","side"],["copper","Copper","Earth · Warm","#f7f0e9","#a7653f","#4d3529","#d6b39a","corner"],["arctic","Arctic","Ice · Minimal","#f4f9fc","#4e829e","#294655","#bdd5e1","minimal"],["sunrise","Sunrise","Orange · Bright","#fff6e9","#c77b35","#5a4028","#edc99d","corner"],["sakura","Sakura","Pink · Delicate","#fff4f7","#b96f8c","#593b49","#e8bdcd","ornate"],["olive","Olive","Natural · Classic","#f5f5e9","#777b3d","#42452b","#c9c99b","double"],["indigo","Indigo","Blue · Bold","#f1f1fb","#4b50a5","#292d5c","#b9bce2","side"],["slate","Slate","Professional · Neutral","#f1f3f5","#596675","#303943","#c1c9d1","linear"],["sandstone","Sandstone","Earth · Editorial","#f8f2e9","#98734f","#4c3c2e","#d9c4a9","double"],["platinum","Platinum","Silver · Prestige","#f7f8fa","#77828e","#333b45","#c9cfd5","ornate"],["cobalt","Cobalt","Electric · Modern","#edf3ff","#2457bd","#1c3567","#a9c2f0","side"],["burgundy","Burgundy","Wine · Classic","#f8eff1","#813d51","#482b35","#d5aeb9","ornate"],["mint","Mint","Fresh · Light","#eff8f3","#43866d","#294c3d","#b4d8c7","minimal"],["amber","Amber","Golden · Warm","#fff7e8","#b17a22","#59421f","#e5cb91","double"],["pearl","Pearl","Ivory · Elegant","#fcfbf7","#8c8171","#49443d","#ded7ca","linear"],["graphite","Graphite","Dark · Executive","#202328","#c2ccd6","#f3f4f6","#606873","dark"],["skyline","Skyline","Blue · Geometric","#f0f7fb","#397d9c","#274657","#b6d5e2","corner"],["orchid","Orchid","Purple · Artistic","#f8f1f8","#98629a","#503b55","#d9bfdc","ornate"],["terracotta","Terracotta","Rust · Artisan","#f8f0eb","#a65e47","#4e342c","#d8b4a3","corner"],["pine","Pine","Evergreen · Formal","#f0f4f0","#365d49","#263d31","#b5c8ba","double"],["iceberg","Iceberg","Blue-grey · Clean","#f2f6f8","#56788a","#304653","#c1d1d9","linear"],["noir","Noir","Black · Gold","#17191d","#d4b36b","#f7f0df","#555b65","dark"],["citrus","Citrus","Lime · Fresh","#f6f8eb","#7b8b36","#3d4922","#d0d9a2","corner"]].map(([id, name, note, paper, accent, ink, line, frame]) => ({ id: 'tpl-' + id, name, note, paper, accent, ink, line, frame }));
+const templateClasses = ['studio', 'modern', 'minimal', 'classic', 'laurel', ...templateCatalog.map((item) => item.id), 'tpl'];
 
 // Global variables for batch processing
 let logoDataUrl = null;
@@ -111,14 +76,8 @@ const exportRenderDimensions = {
 
 // Category to template suggestions map
 const categoryTemplateMap = {
-  sports: ['sports-dynamic', 'sports-medal', 'sports-champion', 'sports-fitness', 'sports-tournament', 'sports-achievement', 'nebula-night', 'bold-statement'],
-  arts: ['arts-creative', 'arts-vibrant', 'arts-gallery', 'arts-performance', 'arts-design', 'arts-photography', 'aurora-glass', 'coral-wave', 'gradient-sunset', 'rainbow-vibrant', 'pastel-soft'],
-  academics: ['academic-formal', 'academic-modern', 'academic-distinction', 'mono-grid', 'ivory-luxe', 'minimalist-blue', 'classic'],
-  participation: ['modern', 'classic', 'minimalist-blue', 'pastel-soft', 'aurora-glass'],
-  excellence: ['excellence-premium', 'gold', 'ivory-luxe', 'emerald-royal', 'leadership-elite'],
-  achievement: ['achievement-bold', 'excellence-premium', 'sports-medal', 'sports-achievement', 'bold-statement'],
-  leadership: ['leadership-elite', 'emerald-royal', 'excellence-premium', 'modern', 'dark-professional', 'ivory-luxe'],
-  innovation: ['geometric-modern', 'mono-grid', 'aurora-glass', 'modern', 'minimalist-blue', 'gradient-sunset', 'rainbow-vibrant']
+  sports: ['tpl-cobalt', 'tpl-emerald'], arts: ['tpl-orchid', 'tpl-sakura'], academics: ['tpl-sapphire', 'tpl-monochrome'], participation: ['tpl-aurora', 'tpl-teal'],
+  excellence: ['tpl-noir', 'tpl-champagne'], achievement: ['tpl-royal', 'tpl-amber'], leadership: ['tpl-midnight', 'tpl-graphite'], innovation: ['tpl-skyline', 'tpl-indigo']
 };
 
 const certEventPrefix = 'has successfully participated in ';
@@ -597,7 +556,17 @@ function createUniqueFileBaseName(name, index, usedNames) {
 
 function applyCertificateTemplateClass(templateClass) {
   cert.classList.remove(...templateClasses);
-  cert.classList.add(templateClass);
+  cert.classList.add('tpl', templateClass);
+  const design = templateCatalog.find((item) => item.id === templateClass);
+  if (design) {
+    cert.style.setProperty('--tpl-paper', design.paper);
+    cert.style.setProperty('--tpl-accent', design.accent);
+    cert.style.setProperty('--tpl-ink', design.ink);
+    cert.style.setProperty('--tpl-line', design.line);
+  } else {
+    cert.style.removeProperty('--tpl-paper'); cert.style.removeProperty('--tpl-accent');
+    cert.style.removeProperty('--tpl-ink'); cert.style.removeProperty('--tpl-line');
+  }
 }
 
 function applyCertificateOrientation() {
@@ -1349,12 +1318,47 @@ if (orientationLandscapeBtn && orientationPortraitBtn) {
   orientationPortraitBtn.classList.remove('active');
 }
 
+
+function renderTemplateGallery() {
+  if (!templateSelect) return;
+  const gallery = document.getElementById('template-gallery');
+  if (!gallery) return;
+  const options = [{ id: 'studio', name: 'Editorial', note: 'Warm · Refined' }, ...templateCatalog];
+  templateSelect.innerHTML = options.map((item) => '<option value="' + item.id + '">' + item.name + '</option>').join('');
+  options.forEach((item) => templateOptionLabels.set(item.id, item.name));
+  gallery.innerHTML = options.map((item) => {
+    const palette = item.paper ? ' style="--thumb-paper:' + item.paper + ';--thumb-accent:' + item.accent + ';--thumb-ink:' + item.ink + ';--thumb-line:' + item.line + '"' : '';
+    return '<button class="template-card" type="button" data-template="' + item.id + '" aria-pressed="false"><span class="template-thumb"' + palette + '><i></i><b></b><em></em></span><span class="template-card-copy"><strong>' + item.name + '</strong><small>' + item.note + '</small></span></button>';
+  }).join('');
+  gallery.querySelectorAll('.template-card').forEach((card) => card.addEventListener('click', () => {
+    templateSelect.value = card.dataset.template;
+    syncTemplateCards();
+    updatePreview();
+    scheduleSave();
+  }));
+}
+function syncTemplateCards() {
+  const selected = templateSelect ? templateSelect.value : 'studio';
+  document.querySelectorAll('.template-card[data-template]').forEach((card) => {
+    const active = card.dataset.template === selected;
+    card.classList.toggle('is-selected', active);
+    card.setAttribute('aria-pressed', String(active));
+  });
+}
+if (templateSelect) templateSelect.addEventListener('change', () => {
+  syncTemplateCards();
+  updatePreview();
+  scheduleSave();
+});
+renderTemplateGallery();
+syncTemplateCards();
+
 initializeFontSelectors();
 initializeMovableTextEditor();
 
 // ─── Persistence: localStorage + Export/Import ───────────────────────────────
 
-const STORAGE_KEY = 'certgen_session_v25';
+const STORAGE_KEY = 'certgen_session_v26';
 let _saveTimer = null;
 
 function showSaveStatus(status) {
@@ -1403,7 +1407,11 @@ function applySessionState(state) {
   if (eventInput && state.event != null) eventInput.value = state.event;
   if (dateInput && state.date != null) dateInput.value = state.date;
   if (issuerInput && state.issuer != null) issuerInput.value = state.issuer;
-  if (templateSelect && state.template) templateSelect.value = state.template;
+  if (templateSelect && state.template) {
+    const legacyTemplateMap = { modern: 'tpl-cobalt', minimal: 'tpl-monochrome', classic: 'tpl-champagne', laurel: 'tpl-emerald' };
+    const savedTemplate = legacyTemplateMap[state.template] || state.template;
+    templateSelect.value = templateCatalog.some((item) => item.id === savedTemplate) || savedTemplate === 'studio' ? savedTemplate : 'studio';
+  }
 
   if (state.orientation) {
     currentOrientation = state.orientation;
@@ -1456,6 +1464,7 @@ function applySessionState(state) {
   }
 
   if (state.category) updateCategoryTemplateRecommendations(state.category);
+  syncTemplateCards();
   updatePreview();
 }
 
@@ -1545,8 +1554,26 @@ if (clearSaveBtn) {
 }
 
 // Boot: restore session or run fresh
+const themeToggle = document.getElementById('theme-toggle');
+const savedTheme = localStorage.getItem('certgen_theme');
+const preferredTheme = savedTheme || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+document.body.dataset.theme = preferredTheme;
+function syncThemeToggle() {
+  if (!themeToggle) return;
+  const icon = themeToggle.querySelector('.material-icons');
+  if (icon) icon.textContent = document.body.dataset.theme === 'dark' ? 'light_mode' : 'dark_mode';
+  themeToggle.setAttribute('aria-label', document.body.dataset.theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme');
+}
+if (themeToggle) themeToggle.addEventListener('click', () => {
+  document.body.dataset.theme = document.body.dataset.theme === 'dark' ? 'light' : 'dark';
+  localStorage.setItem('certgen_theme', document.body.dataset.theme);
+  syncThemeToggle();
+});
+syncThemeToggle();
+
 const _restored = loadFromLocalStorage();
 if (!_restored) {
   updateCategoryTemplateRecommendations(categorySelect ? categorySelect.value : '');
+  syncTemplateCards();
   updatePreview();
 }

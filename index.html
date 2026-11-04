@@ -6,7 +6,7 @@
   <meta name="google-site-verification" content="bf3IufQ0q4WUcWqoFoYy9JaNCzv95nh03y355L7I9ks" />
   <title>Certificate Generator</title>
   <link rel="icon" type="image/png" href="favicon.png" />
-  <link rel="stylesheet" href="styles.css?v=20260221-preview-orientation-fix" />
+  <link rel="stylesheet" href="styles.css?v=20261104-spectrum-studio" />
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400;500;700&family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&family=Merriweather:wght@400;700&family=Lora:wght@400;700&family=Nunito:wght@400;600;700&family=Raleway:wght@400;500;700&family=Oswald:wght@400;500;700&family=Bebas+Neue&family=Cinzel:wght@400;600;700&family=Libre+Baskerville:wght@400;700&family=Dancing+Script:wght@400;700&family=Pacifico&family=Ubuntu:wght@400;500;700&family=Inter:wght@400;500;600;700&family=Abril+Fatface&family=Cormorant+Garamond:wght@400;600;700&family=Fira+Sans:wght@400;500;700&family=Quicksand:wght@400;500;700&display=swap" rel="stylesheet">
   <!-- Material Icons -->
@@ -18,11 +18,11 @@
       <div class="header-left">
         <span class="material-icons header-icon">card_giftcard</span>
         <div>
-          <h1>Certificate Generator</h1>
-          <p>Professional batch certificate creation</p>
+          <h1>Certificate Studio</h1>
+          <p>Make every achievement worth keeping.</p>
         </div>
       </div>
-      <div class="header-badge">v2.5</div>
+      <div class="header-tools"><span class="header-badge">STUDIO · 03</span><button id="theme-toggle" class="theme-toggle" type="button" aria-label="Switch color theme"><span class="material-icons">dark_mode</span></button></div>
     </div>
   </header>
 
@@ -108,63 +108,14 @@
             <input id="issuer" type="text" placeholder="Organizing Body" value="Acme Academy" />
           </div>
 
-          <div class="form-group">
-            <label>
-              <span class="label-icon material-icons">palette</span>
-              Template Design
-            </label>
-            <select id="template-select">
-              <optgroup label="Professional">
-                <option value="classic">Classic (Elegant)</option>
-                <option value="modern">Modern (Contemporary)</option>
-                <option value="gold">Gold (Premium)</option>
-              </optgroup>
-              <optgroup label="Sports">
-                <option value="sports-dynamic">Sports Dynamic</option>
-                <option value="sports-medal">Sports Medal</option>
-                <option value="sports-champion">Sports Champion</option>
-                <option value="sports-fitness">Sports Fitness</option>
-                <option value="sports-tournament">Sports Tournament</option>
-                <option value="sports-achievement">Sports Achievement</option>
-              </optgroup>
-              <optgroup label="Arts">
-                <option value="arts-creative">Arts Creative</option>
-                <option value="arts-vibrant">Arts Vibrant</option>
-                <option value="arts-gallery">Arts Gallery</option>
-                <option value="arts-performance">Arts Performance</option>
-                <option value="arts-design">Arts Design</option>
-                <option value="arts-photography">Arts Photography</option>
-              </optgroup>
-              <optgroup label="Academics">
-                <option value="academic-formal">Academic Formal</option>
-                <option value="academic-modern">Academic Modern</option>
-                <option value="academic-distinction">Academic Distinction</option>
-              </optgroup>
-              <optgroup label="Specialty">
-                <option value="excellence-premium">Excellence Premium</option>
-                <option value="achievement-bold">Achievement Bold</option>
-                <option value="leadership-elite">Leadership Elite</option>
-              </optgroup>
-              <optgroup label="Modern Designs">
-                <option value="minimalist-blue">Minimalist Blue</option>
-                <option value="gradient-sunset">Gradient Sunset</option>
-                <option value="elegant-vintage">Elegant Vintage</option>
-                <option value="geometric-modern">Geometric Modern</option>
-                <option value="rainbow-vibrant">Rainbow Vibrant</option>
-                <option value="dark-professional">Dark Professional</option>
-                <option value="pastel-soft">Pastel Soft</option>
-                <option value="bold-statement">Bold Statement</option>
-              </optgroup>
-              <optgroup label="Signature Collection">
-                <option value="aurora-glass">Aurora Glass</option>
-                <option value="emerald-royal">Emerald Royal</option>
-                <option value="mono-grid">Mono Grid</option>
-                <option value="nebula-night">Nebula Night</option>
-                <option value="ivory-luxe">Ivory Luxe</option>
-                <option value="coral-wave">Coral Wave</option>
-              </optgroup>
+          
+          <div class="form-group template-picker-group">
+            <label><span class="label-icon material-icons">dashboard_customize</span>Choose a certificate template</label>
+            <p class="field-help">Select a design. The live canvas updates instantly.</p>
+            <div class="template-gallery" id="template-gallery" role="group" aria-label="Certificate templates"></div>
+            <select id="template-select" class="template-select-accessible" aria-label="Certificate template">
+              <option value="studio">Editorial</option>
             </select>
-            <p class="field-help">Templates that best match the selected category are marked as [Recommended].</p>
           </div>
 
           <div class="form-group">
@@ -357,11 +308,11 @@
     <section class="preview-panel">
       <div class="preview-header">
         <span class="material-icons">preview</span>
-        Certificate Preview
+        Live canvas
       </div>
 
       <!-- Certificate container - this will be captured by html2canvas -->
-      <div id="certificate" class="certificate classic">
+      <div id="certificate" class="certificate studio">
         <div id="cert-inner" class="cert-inner">
           <img id="cert-logo" class="cert-logo" src="" alt="" hidden />
           <h2 id="cert-title" class="cert-title">Certificate of Participation</h2>
@@ -405,6 +356,6 @@
   <!-- Libraries -->
   <script src="vendor/html2canvas-1.4.1.min.js"></script>
   <script src="vendor/jspdf-2.5.1.umd.min.js"></script>
-  <script src="script.js?v=20260221-font-styles"></script>
+  <script src="script.js?v=20261104-36-templates"></script>
 </body>
 </html>
