@@ -61,43 +61,7 @@ const progressFill = document.getElementById('progress-fill');
 const progressText = document.getElementById('progress-text');
 const progressPercent = document.getElementById('progress-percent');
 
-const templateClasses = [
-  'classic',
-  'modern',
-  'gold',
-  'sports-dynamic',
-  'sports-medal',
-  'sports-champion',
-  'sports-fitness',
-  'sports-tournament',
-  'sports-achievement',
-  'arts-creative',
-  'arts-vibrant',
-  'arts-gallery',
-  'arts-performance',
-  'arts-design',
-  'arts-photography',
-  'academic-formal',
-  'academic-modern',
-  'academic-distinction',
-  'excellence-premium',
-  'achievement-bold',
-  'leadership-elite',
-  'minimalist-blue',
-  'gradient-sunset',
-  'elegant-vintage',
-  'geometric-modern',
-  'rainbow-vibrant',
-  'dark-professional',
-  'pastel-soft',
-  'bold-statement',
-  'aurora-glass',
-  'emerald-royal',
-  'mono-grid',
-  'nebula-night',
-  'ivory-luxe',
-  'coral-wave'
-];
+const templateClasses = ['studio'];
 
 // Global variables for batch processing
 let logoDataUrl = null;
@@ -111,14 +75,8 @@ const exportRenderDimensions = {
 
 // Category to template suggestions map
 const categoryTemplateMap = {
-  sports: ['sports-dynamic', 'sports-medal', 'sports-champion', 'sports-fitness', 'sports-tournament', 'sports-achievement', 'nebula-night', 'bold-statement'],
-  arts: ['arts-creative', 'arts-vibrant', 'arts-gallery', 'arts-performance', 'arts-design', 'arts-photography', 'aurora-glass', 'coral-wave', 'gradient-sunset', 'rainbow-vibrant', 'pastel-soft'],
-  academics: ['academic-formal', 'academic-modern', 'academic-distinction', 'mono-grid', 'ivory-luxe', 'minimalist-blue', 'classic'],
-  participation: ['modern', 'classic', 'minimalist-blue', 'pastel-soft', 'aurora-glass'],
-  excellence: ['excellence-premium', 'gold', 'ivory-luxe', 'emerald-royal', 'leadership-elite'],
-  achievement: ['achievement-bold', 'excellence-premium', 'sports-medal', 'sports-achievement', 'bold-statement'],
-  leadership: ['leadership-elite', 'emerald-royal', 'excellence-premium', 'modern', 'dark-professional', 'ivory-luxe'],
-  innovation: ['geometric-modern', 'mono-grid', 'aurora-glass', 'modern', 'minimalist-blue', 'gradient-sunset', 'rainbow-vibrant']
+  sports: ['studio'], arts: ['studio'], academics: ['studio'], participation: ['studio'],
+  excellence: ['studio'], achievement: ['studio'], leadership: ['studio'], innovation: ['studio']
 };
 
 const certEventPrefix = 'has successfully participated in ';
@@ -1354,7 +1312,7 @@ initializeMovableTextEditor();
 
 // ─── Persistence: localStorage + Export/Import ───────────────────────────────
 
-const STORAGE_KEY = 'certgen_session_v25';
+const STORAGE_KEY = 'certgen_session_v26';
 let _saveTimer = null;
 
 function showSaveStatus(status) {
@@ -1545,6 +1503,23 @@ if (clearSaveBtn) {
 }
 
 // Boot: restore session or run fresh
+const themeToggle = document.getElementById('theme-toggle');
+const savedTheme = localStorage.getItem('certgen_theme');
+const preferredTheme = savedTheme || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+document.body.dataset.theme = preferredTheme;
+function syncThemeToggle() {
+  if (!themeToggle) return;
+  const icon = themeToggle.querySelector('.material-icons');
+  if (icon) icon.textContent = document.body.dataset.theme === 'dark' ? 'light_mode' : 'dark_mode';
+  themeToggle.setAttribute('aria-label', document.body.dataset.theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme');
+}
+if (themeToggle) themeToggle.addEventListener('click', () => {
+  document.body.dataset.theme = document.body.dataset.theme === 'dark' ? 'light' : 'dark';
+  localStorage.setItem('certgen_theme', document.body.dataset.theme);
+  syncThemeToggle();
+});
+syncThemeToggle();
+
 const _restored = loadFromLocalStorage();
 if (!_restored) {
   updateCategoryTemplateRecommendations(categorySelect ? categorySelect.value : '');
