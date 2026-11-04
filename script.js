@@ -1325,6 +1325,7 @@ function renderTemplateGallery() {
   if (!gallery) return;
   const options = [{ id: 'studio', name: 'Editorial', note: 'Warm · Refined' }, ...templateCatalog];
   templateSelect.innerHTML = options.map((item) => '<option value="' + item.id + '">' + item.name + '</option>').join('');
+  options.forEach((item) => templateOptionLabels.set(item.id, item.name));
   gallery.innerHTML = options.map((item) => {
     const palette = item.paper ? ' style="--thumb-paper:' + item.paper + ';--thumb-accent:' + item.accent + ';--thumb-ink:' + item.ink + ';--thumb-line:' + item.line + '"' : '';
     return '<button class="template-card" type="button" data-template="' + item.id + '" aria-pressed="false"><span class="template-thumb"' + palette + '><i></i><b></b><em></em></span><span class="template-card-copy"><strong>' + item.name + '</strong><small>' + item.note + '</small></span></button>';
@@ -1406,7 +1407,11 @@ function applySessionState(state) {
   if (eventInput && state.event != null) eventInput.value = state.event;
   if (dateInput && state.date != null) dateInput.value = state.date;
   if (issuerInput && state.issuer != null) issuerInput.value = state.issuer;
-  if (templateSelect && state.template) templateSelect.value = state.template;
+  if (templateSelect && state.template) {
+    const legacyTemplateMap = { modern: 'tpl-cobalt', minimal: 'tpl-monochrome', classic: 'tpl-champagne', laurel: 'tpl-emerald' };
+    const savedTemplate = legacyTemplateMap[state.template] || state.template;
+    templateSelect.value = templateCatalog.some((item) => item.id === savedTemplate) || savedTemplate === 'studio' ? savedTemplate : 'studio';
+  }
 
   if (state.orientation) {
     currentOrientation = state.orientation;
