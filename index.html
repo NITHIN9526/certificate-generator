@@ -108,7 +108,40 @@
             <input id="issuer" type="text" placeholder="Organizing Body" value="Acme Academy" />
           </div>
 
-          <input id="template-select" type="hidden" value="studio" />
+          
+          <div class="form-group template-picker-group">
+            <label><span class="label-icon material-icons">dashboard_customize</span>Choose a certificate template</label>
+            <p class="field-help">Select a design. The live canvas updates instantly.</p>
+            <div class="template-gallery" role="group" aria-label="Certificate templates">
+              <button class="template-card is-selected" type="button" data-template="studio" aria-pressed="true">
+                <span class="template-thumb thumb-studio"><i></i><b></b><em></em></span>
+                <span class="template-card-copy"><strong>Editorial</strong><small>Warm · Refined</small></span>
+              </button>
+              <button class="template-card" type="button" data-template="modern" aria-pressed="false">
+                <span class="template-thumb thumb-modern"><i></i><b></b><em></em></span>
+                <span class="template-card-copy"><strong>Modern</strong><small>Bold · Geometric</small></span>
+              </button>
+              <button class="template-card" type="button" data-template="minimal" aria-pressed="false">
+                <span class="template-thumb thumb-minimal"><i></i><b></b><em></em></span>
+                <span class="template-card-copy"><strong>Minimal</strong><small>Clean · Elegant</small></span>
+              </button>
+              <button class="template-card" type="button" data-template="classic" aria-pressed="false">
+                <span class="template-thumb thumb-classic"><i></i><b></b><em></em></span>
+                <span class="template-card-copy"><strong>Classic</strong><small>Formal · Timeless</small></span>
+              </button>
+              <button class="template-card" type="button" data-template="laurel" aria-pressed="false">
+                <span class="template-thumb thumb-laurel"><i></i><b></b><em></em></span>
+                <span class="template-card-copy"><strong>Laurel</strong><small>Award · Prestige</small></span>
+              </button>
+            </div>
+            <select id="template-select" class="template-select-accessible" aria-label="Certificate template">
+              <option value="studio">Editorial</option>
+              <option value="modern">Modern</option>
+              <option value="minimal">Minimal</option>
+              <option value="classic">Classic</option>
+              <option value="laurel">Laurel</option>
+            </select>
+          </div>
 
           <div class="form-group">
             <label>
@@ -348,6 +381,6 @@
   <!-- Libraries -->
   <script src="vendor/html2canvas-1.4.1.min.js"></script>
   <script src="vendor/jspdf-2.5.1.umd.min.js"></script>
-  <script src="script.js?v=20260221-font-styles"></script>
+  <script src="script.js?v=20261104-template-gallery"></script>
 </body>
 </html>
