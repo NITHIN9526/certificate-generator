@@ -1125,6 +1125,44 @@ const certificateTemplateProfiles = {
   }
 };
 
+const certificateLayoutMap = {
+  "classic": "diploma",
+  "academic-formal": "diploma",
+  "academic-distinction": "diploma",
+  "ivory-luxe": "diploma",
+  "elegant-vintage": "vintage",
+  "leadership-elite": "diploma",
+  "modern": "split",
+  "academic-modern": "split",
+  "minimalist-blue": "minimal",
+  "pastel-soft": "minimal",
+  "mono-grid": "tech",
+  "geometric-modern": "tech",
+  "arts-design": "tech",
+  "aurora-glass": "tech",
+  "gold": "medallion",
+  "sports-medal": "medallion",
+  "sports-achievement": "medallion",
+  "excellence-premium": "medallion",
+  "emerald-royal": "medallion",
+  "sports-dynamic": "athletic",
+  "sports-champion": "athletic",
+  "sports-tournament": "athletic",
+  "sports-fitness": "athletic",
+  "achievement-bold": "athletic",
+  "bold-statement": "athletic",
+  "arts-creative": "gallery",
+  "arts-gallery": "gallery",
+  "arts-photography": "gallery",
+  "arts-performance": "gallery",
+  "arts-vibrant": "gallery",
+  "gradient-sunset": "gallery",
+  "rainbow-vibrant": "gallery",
+  "coral-wave": "gallery",
+  "dark-professional": "executive",
+  "nebula-night": "executive"
+};
+
 function applyTemplateProfile(templateClass, syncEditor = false) {
   const profile = certificateTemplateProfiles[templateClass];
   if (!profile) return;
@@ -1144,9 +1182,12 @@ function applyTemplateProfile(templateClass, syncEditor = false) {
 }
 
 function applyCertificateTemplateClass(templateClass) {
-  cert.classList.remove(...templateClasses, 'template-crafted');
+  cert.classList.remove(...templateClasses, 'template-crafted', 'layout-diploma', 'layout-vintage', 'layout-split', 'layout-minimal', 'layout-tech', 'layout-medallion', 'layout-athletic', 'layout-gallery', 'layout-executive');
   cert.classList.add(templateClass, 'template-crafted');
   const profile = certificateTemplateProfiles[templateClass];
+  const layout = certificateLayoutMap[templateClass] || 'diploma';
+  cert.classList.add('layout-' + layout);
+  cert.dataset.layout = layout;
   if (profile) {
     cert.dataset.frame = profile.frame;
     cert.dataset.motif = profile.motif;
@@ -1158,6 +1199,26 @@ function applyCertificateTemplateClass(templateClass) {
     cert.style.setProperty('--cert-name-font', '"' + profile.nameFont + '", serif');
     cert.style.setProperty('--cert-body-font', '"' + profile.bodyFont + '", serif');
   }
+
+  let art = cert.querySelector('.certificate-art');
+  if (!art) {
+    art = document.createElement('div');
+    art.className = 'certificate-art';
+    art.setAttribute('aria-hidden', 'true');
+    cert.insertBefore(art, cert.firstChild);
+  }
+  const artMarkup = {
+    diploma: '<svg viewBox="0 0 1000 640"><path d="M55 55h110M55 55v110M945 55H835M945 55v110M55 585h110M55 585V475M945 585H835M945 585V475" fill="none" stroke="currentColor" stroke-width="3"/><path d="M500 34l14 14-14 14-14-14zM500 578l14 14-14 14-14-14z" fill="currentColor"/></svg>',
+    vintage: '<svg viewBox="0 0 1000 640"><path d="M65 90Q65 45 110 45H890Q935 45 935 90V550Q935 595 890 595H110Q65 595 65 550Z" fill="none" stroke="currentColor" stroke-width="3"/><path d="M95 115q45-45 90 0t90 0M725 525q45 45 90 0t90 0" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="105" cy="105" r="12" fill="none" stroke="currentColor" stroke-width="3"/><circle cx="895" cy="535" r="12" fill="none" stroke="currentColor" stroke-width="3"/></svg>',
+    split: '<svg viewBox="0 0 1000 640"><path d="M0 0H255L175 640H0Z" fill="currentColor" opacity=".11"/><path d="M255 0L175 640" stroke="currentColor" stroke-width="5"/><circle cx="85" cy="105" r="34" fill="none" stroke="currentColor" stroke-width="3"/><path d="M85 65v80M45 105h80" stroke="currentColor" stroke-width="2"/><path d="M850 0h150v150" fill="none" stroke="currentColor" stroke-width="2"/></svg>',
+    minimal: '<svg viewBox="0 0 1000 640"><path d="M70 70H310M690 570H930" stroke="currentColor" stroke-width="2"/><circle cx="500" cy="78" r="5" fill="currentColor"/><circle cx="500" cy="562" r="5" fill="currentColor"/><path d="M70 70l28 28M930 570l-28-28" stroke="currentColor" stroke-width="2"/></svg>',
+    tech: '<svg viewBox="0 0 1000 640"><path d="M0 0H260V18H18V220H0ZM1000 640H740V622H982V420H1000Z" fill="currentColor"/><path d="M730 0h270v270M0 370v270h270" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="7 9"/><circle cx="875" cy="125" r="58" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="875" cy="125" r="43" fill="none" stroke="currentColor" stroke-width="1"/></svg>',
+    medallion: '<svg viewBox="0 0 1000 640"><circle cx="500" cy="105" r="52" fill="none" stroke="currentColor" stroke-width="4"/><circle cx="500" cy="105" r="42" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M470 145l-14 65 44-24 44 24-14-65" fill="currentColor" opacity=".22"/><path d="M90 320Q150 160 300 150M910 320Q850 160 700 150" fill="none" stroke="currentColor" stroke-width="3"/><path d="M105 320q25-35 50 0t50 0t50 0M895 320q-25-35-50 0t-50 0t-50 0" fill="none" stroke="currentColor" stroke-width="2"/></svg>',
+    athletic: '<svg viewBox="0 0 1000 640"><path d="M0 0H330L210 640H0ZM1000 640H670L790 0h210Z" fill="currentColor" opacity=".15"/><path d="M0 520L330 0M1000 120L670 640" stroke="currentColor" stroke-width="9"/><path d="M55 565L375 0M945 75L625 640" stroke="currentColor" stroke-width="2"/><path d="M55 90h130M55 90v130M945 550H815M945 550V420" stroke="currentColor" stroke-width="4"/></svg>',
+    gallery: '<svg viewBox="0 0 1000 640"><path d="M80 0Q150 120 80 240T80 480M920 160Q850 280 920 400T920 640" fill="none" stroke="currentColor" stroke-width="4"/><path d="M65 70q35-35 70 0t70 0M795 570q35-35 70 0t70 0" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="115" cy="320" r="26" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="885" cy="320" r="26" fill="none" stroke="currentColor" stroke-width="2"/></svg>',
+    executive: '<svg viewBox="0 0 1000 640"><path d="M0 0H1000V110H0Z" fill="currentColor" opacity=".12"/><path d="M0 530H1000V640H0Z" fill="currentColor" opacity=".12"/><path d="M65 145H935M65 495H935" stroke="currentColor" stroke-width="2"/><path d="M500 35l18 18-18 18-18-18zM500 570l18 18-18 18-18-18z" fill="currentColor"/></svg>'
+  };
+  art.innerHTML = artMarkup[layout] || artMarkup.diploma;
 }
 
 function applyCertificateOrientation() {
