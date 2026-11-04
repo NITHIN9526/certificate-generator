@@ -2918,12 +2918,12 @@ body[data-theme="dark"] .modal-close{color:#c4cfdd}
   #certificate.layout-athletic .cert-inner::after{font-size:5px}
 }
 
-/* Per-template composition overrides — all 35 have their own layout values */
 
-/* Individually art-directed composition: classic */
+/* Individual art direction for each of the 35 named templates */
+
 #certificate.classic .cert-inner{justify-content:center;align-items:center;text-align:center;padding:9% 11% 8%}
-#certificate.classic .cert-title{width:72%;max-width:72%;text-align:center;margin:0;letter-spacing:.02em;}
-#certificate.classic .cert-name{width:88%;text-align:center;border:0;padding:5px 0 10px;margin:8px auto}
+#certificate.classic .cert-title{width:72%;max-width:72%;text-align:center;letter-spacing:.02em;border-bottom:2px solid var(--cert-accent);}
+#certificate.classic .cert-name{width:88%;text-align:center;border:none;padding:5px 0 10px;margin:8px auto}
 #certificate.classic .cert-meta{width:82%;justify-content:space-between;margin:18px auto 0;gap:12px}
 #certificate.classic .cert-event{max-width:70%;text-align:center;margin:0 auto}
 #certificate.classic .cert-footer{align-items:flex-end;margin-left:auto;margin-top:0px}
@@ -2931,10 +2931,9 @@ body[data-theme="dark"] .modal-close{color:#c4cfdd}
 #certificate.classic .certificate-art svg{transform:none}
 
 
-/* Individually art-directed composition: modern */
 #certificate.modern .cert-inner{justify-content:center;align-items:flex-start;text-align:left;padding:12% 12% 8%}
-#certificate.modern .cert-title{width:88%;max-width:88%;text-align:left;margin:0 auto 0 0;letter-spacing:.08em;}
-#certificate.modern .cert-name{width:92%;text-align:left;border:0 0 0 3px var(--cert-accent);padding:0 0 8px;margin:4px 0}
+#certificate.modern .cert-title{width:88%;max-width:88%;text-align:left;letter-spacing:.08em;border-left:3px double var(--cert-accent);padding-left:12px;}
+#certificate.modern .cert-name{width:92%;text-align:left;border:none;padding:0 0 8px;margin:4px 0}
 #certificate.modern .cert-meta{width:74%;justify-content:space-around;margin:8px 0 0;gap:21px}
 #certificate.modern .cert-event{max-width:82%;text-align:left;margin:0}
 #certificate.modern .cert-footer{align-items:flex-start;margin-right:auto;margin-top:5px}
@@ -2942,10 +2941,9 @@ body[data-theme="dark"] .modal-close{color:#c4cfdd}
 #certificate.modern .certificate-art svg{transform:scale(1.02)}
 
 
-/* Individually art-directed composition: gold */
 #certificate.gold .cert-inner{justify-content:flex-end;align-items:flex-end;text-align:right;padding:13% 10% 8%}
-#certificate.gold .cert-title{width:78%;max-width:78%;text-align:right;margin:0;letter-spacing:.14em;}
-#certificate.gold .cert-name{width:82%;text-align:right;border:1px solid var(--cert-line);padding:5px 0 10px;margin:4px 0}
+#certificate.gold .cert-title{width:78%;max-width:78%;text-align:right;letter-spacing:.14em;border-top:1px solid var(--cert-line);padding-top:8px;}
+#certificate.gold .cert-name{width:82%;text-align:right;border:none;padding:5px 0 10px;margin:4px 0}
 #certificate.gold .cert-meta{width:78%;justify-content:flex-start;margin:8px 0 0;gap:30px}
 #certificate.gold .cert-event{max-width:90%;text-align:right;margin:0 auto}
 #certificate.gold .cert-footer{align-items:center;margin-left:auto;margin-right:auto;margin-top:10px}
@@ -2953,10 +2951,9 @@ body[data-theme="dark"] .modal-close{color:#c4cfdd}
 #certificate.gold .certificate-art svg{transform:scaleX(-1)}
 
 
-/* Individually art-directed composition: sports-dynamic */
 #certificate.sports-dynamic .cert-inner{justify-content:flex-end;align-items:center;text-align:center;padding:8% 14% 9%}
-#certificate.sports-dynamic .cert-title{width:74%;max-width:74%;text-align:center;margin:0 auto 0 0;letter-spacing:.01em;}
-#certificate.sports-dynamic .cert-name{width:78%;text-align:center;border:0 0 1px 0 var(--cert-accent);padding:0 0 8px;margin:8px auto}
+#certificate.sports-dynamic .cert-title{width:74%;max-width:74%;text-align:center;letter-spacing:.01em;text-decoration:underline;text-decoration-color:var(--cert-line);text-underline-offset:8px;}
+#certificate.sports-dynamic .cert-name{width:78%;text-align:center;border:1px solid var(--cert-line);padding:0 0 8px;margin:8px auto}
 #certificate.sports-dynamic .cert-meta{width:88%;justify-content:flex-end;margin:8px 0 0;gap:39px}
 #certificate.sports-dynamic .cert-event{max-width:76%;text-align:center;margin:0}
 #certificate.sports-dynamic .cert-footer{align-items:flex-end;margin-left:auto;margin-top:15px}
@@ -2964,10 +2961,9 @@ body[data-theme="dark"] .modal-close{color:#c4cfdd}
 #certificate.sports-dynamic .certificate-art svg{transform:scaleY(-1)}
 
 
-/* Individually art-directed composition: sports-medal */
 #certificate.sports-medal .cert-inner{justify-content:space-evenly;align-items:flex-start;text-align:left;padding:9% 8% 12%}
-#certificate.sports-medal .cert-title{width:82%;max-width:82%;text-align:center;margin:0;letter-spacing:.19em;}
-#certificate.sports-medal .cert-name{width:72%;text-align:left;border:0 0 2px 0 solid var(--cert-accent);padding:5px 0 10px;margin:4px 0}
+#certificate.sports-medal .cert-title{width:82%;max-width:82%;text-align:center;letter-spacing:.19em;}
+#certificate.sports-medal .cert-name{width:72%;text-align:left;border:3px solid var(--cert-accent);padding:5px 0 10px;margin:4px 0}
 #certificate.sports-medal .cert-meta{width:72%;justify-content:center;margin:18px auto 0;gap:12px}
 #certificate.sports-medal .cert-event{max-width:86%;text-align:left;margin:0 auto}
 #certificate.sports-medal .cert-footer{align-items:flex-start;margin-right:auto;margin-top:0px}
@@ -2975,10 +2971,9 @@ body[data-theme="dark"] .modal-close{color:#c4cfdd}
 #certificate.sports-medal .certificate-art svg{transform:rotate(180deg)}
 
 
-/* Individually art-directed composition: sports-champion */
 #certificate.sports-champion .cert-inner{justify-content:center;align-items:center;text-align:center;padding:11% 9% 8%}
-#certificate.sports-champion .cert-title{width:66%;max-width:66%;text-align:left;margin:0 auto 0 0;letter-spacing:.02em;}
-#certificate.sports-champion .cert-name{width:66%;text-align:center;border:0;padding:0 0 8px;margin:4px 0}
+#certificate.sports-champion .cert-title{width:66%;max-width:66%;text-align:left;letter-spacing:.02em;border-bottom:2px solid var(--cert-accent);}
+#certificate.sports-champion .cert-name{width:66%;text-align:center;border:none;padding:0 0 8px;margin:4px 0}
 #certificate.sports-champion .cert-meta{width:92%;justify-content:space-between;margin:8px 0 0;gap:21px}
 #certificate.sports-champion .cert-event{max-width:70%;text-align:center;margin:0}
 #certificate.sports-champion .cert-footer{align-items:center;margin-left:auto;margin-right:auto;margin-top:5px}
@@ -2986,10 +2981,9 @@ body[data-theme="dark"] .modal-close{color:#c4cfdd}
 #certificate.sports-champion .certificate-art svg{transform:none}
 
 
-/* Individually art-directed composition: sports-fitness */
 #certificate.sports-fitness .cert-inner{justify-content:center;align-items:flex-start;text-align:left;padding:10% 16% 8%}
-#certificate.sports-fitness .cert-title{width:92%;max-width:92%;text-align:right;margin:0;letter-spacing:.08em;}
-#certificate.sports-fitness .cert-name{width:74%;text-align:left;border:0 0 0 3px var(--cert-accent);padding:5px 0 10px;margin:8px auto}
+#certificate.sports-fitness .cert-title{width:92%;max-width:92%;text-align:right;letter-spacing:.08em;border-left:3px double var(--cert-accent);padding-left:12px;}
+#certificate.sports-fitness .cert-name{width:74%;text-align:left;border:none;padding:5px 0 10px;margin:8px auto}
 #certificate.sports-fitness .cert-meta{width:66%;justify-content:space-around;margin:8px 0 0;gap:30px}
 #certificate.sports-fitness .cert-event{max-width:82%;text-align:left;margin:0 auto}
 #certificate.sports-fitness .cert-footer{align-items:flex-end;margin-left:auto;margin-top:10px}
@@ -2997,10 +2991,9 @@ body[data-theme="dark"] .modal-close{color:#c4cfdd}
 #certificate.sports-fitness .certificate-art svg{transform:none}
 
 
-/* Individually art-directed composition: sports-tournament */
 #certificate.sports-tournament .cert-inner{justify-content:flex-end;align-items:flex-end;text-align:right;padding:9% 11% 8%}
-#certificate.sports-tournament .cert-title{width:72%;max-width:72%;text-align:center;margin:0 auto 0 0;letter-spacing:.14em;}
-#certificate.sports-tournament .cert-name{width:88%;text-align:right;border:1px solid var(--cert-line);padding:0 0 8px;margin:4px 0}
+#certificate.sports-tournament .cert-title{width:72%;max-width:72%;text-align:center;letter-spacing:.14em;border-top:1px solid var(--cert-line);padding-top:8px;}
+#certificate.sports-tournament .cert-name{width:88%;text-align:right;border:none;padding:0 0 8px;margin:4px 0}
 #certificate.sports-tournament .cert-meta{width:82%;justify-content:flex-start;margin:8px 0 0;gap:39px}
 #certificate.sports-tournament .cert-event{max-width:90%;text-align:right;margin:0}
 #certificate.sports-tournament .cert-footer{align-items:flex-start;margin-right:auto;margin-top:15px}
@@ -3008,10 +3001,9 @@ body[data-theme="dark"] .modal-close{color:#c4cfdd}
 #certificate.sports-tournament .certificate-art svg{transform:scale(1.02)}
 
 
-/* Individually art-directed composition: sports-achievement */
 #certificate.sports-achievement .cert-inner{justify-content:flex-end;align-items:center;text-align:center;padding:12% 12% 8%}
-#certificate.sports-achievement .cert-title{width:88%;max-width:88%;text-align:center;margin:0;letter-spacing:.01em;}
-#certificate.sports-achievement .cert-name{width:92%;text-align:center;border:0 0 1px 0 var(--cert-accent);padding:5px 0 10px;margin:4px 0}
+#certificate.sports-achievement .cert-title{width:88%;max-width:88%;text-align:center;letter-spacing:.01em;text-decoration:underline;text-decoration-color:var(--cert-line);text-underline-offset:8px;}
+#certificate.sports-achievement .cert-name{width:92%;text-align:center;border:1px solid var(--cert-line);padding:5px 0 10px;margin:4px 0}
 #certificate.sports-achievement .cert-meta{width:74%;justify-content:flex-end;margin:18px auto 0;gap:12px}
 #certificate.sports-achievement .cert-event{max-width:76%;text-align:center;margin:0 auto}
 #certificate.sports-achievement .cert-footer{align-items:center;margin-left:auto;margin-right:auto;margin-top:0px}
@@ -3019,10 +3011,9 @@ body[data-theme="dark"] .modal-close{color:#c4cfdd}
 #certificate.sports-achievement .certificate-art svg{transform:scaleX(-1)}
 
 
-/* Individually art-directed composition: arts-creative */
 #certificate.arts-creative .cert-inner{justify-content:space-evenly;align-items:flex-start;text-align:left;padding:13% 10% 8%}
-#certificate.arts-creative .cert-title{width:78%;max-width:78%;text-align:left;margin:0 auto 0 0;letter-spacing:.19em;}
-#certificate.arts-creative .cert-name{width:82%;text-align:left;border:0 0 2px 0 solid var(--cert-accent);padding:0 0 8px;margin:8px auto}
+#certificate.arts-creative .cert-title{width:78%;max-width:78%;text-align:left;letter-spacing:.19em;}
+#certificate.arts-creative .cert-name{width:82%;text-align:left;border:3px solid var(--cert-accent);padding:0 0 8px;margin:8px auto}
 #certificate.arts-creative .cert-meta{width:78%;justify-content:center;margin:8px 0 0;gap:21px}
 #certificate.arts-creative .cert-event{max-width:86%;text-align:left;margin:0}
 #certificate.arts-creative .cert-footer{align-items:flex-end;margin-left:auto;margin-top:5px}
@@ -3030,10 +3021,9 @@ body[data-theme="dark"] .modal-close{color:#c4cfdd}
 #certificate.arts-creative .certificate-art svg{transform:scaleY(-1)}
 
 
-/* Individually art-directed composition: arts-vibrant */
 #certificate.arts-vibrant .cert-inner{justify-content:center;align-items:center;text-align:center;padding:8% 14% 9%}
-#certificate.arts-vibrant .cert-title{width:74%;max-width:74%;text-align:right;margin:0;letter-spacing:.02em;}
-#certificate.arts-vibrant .cert-name{width:78%;text-align:center;border:0;padding:5px 0 10px;margin:4px 0}
+#certificate.arts-vibrant .cert-title{width:74%;max-width:74%;text-align:right;letter-spacing:.02em;border-bottom:2px solid var(--cert-accent);}
+#certificate.arts-vibrant .cert-name{width:78%;text-align:center;border:none;padding:5px 0 10px;margin:4px 0}
 #certificate.arts-vibrant .cert-meta{width:88%;justify-content:space-between;margin:8px 0 0;gap:30px}
 #certificate.arts-vibrant .cert-event{max-width:70%;text-align:center;margin:0 auto}
 #certificate.arts-vibrant .cert-footer{align-items:flex-start;margin-right:auto;margin-top:10px}
@@ -3041,10 +3031,9 @@ body[data-theme="dark"] .modal-close{color:#c4cfdd}
 #certificate.arts-vibrant .certificate-art svg{transform:rotate(180deg)}
 
 
-/* Individually art-directed composition: arts-gallery */
 #certificate.arts-gallery .cert-inner{justify-content:center;align-items:flex-start;text-align:left;padding:9% 8% 12%}
-#certificate.arts-gallery .cert-title{width:82%;max-width:82%;text-align:center;margin:0 auto 0 0;letter-spacing:.08em;}
-#certificate.arts-gallery .cert-name{width:72%;text-align:left;border:0 0 0 3px var(--cert-accent);padding:0 0 8px;margin:4px 0}
+#certificate.arts-gallery .cert-title{width:82%;max-width:82%;text-align:center;letter-spacing:.08em;border-left:3px double var(--cert-accent);padding-left:12px;}
+#certificate.arts-gallery .cert-name{width:72%;text-align:left;border:none;padding:0 0 8px;margin:4px 0}
 #certificate.arts-gallery .cert-meta{width:72%;justify-content:space-around;margin:8px 0 0;gap:39px}
 #certificate.arts-gallery .cert-event{max-width:82%;text-align:left;margin:0}
 #certificate.arts-gallery .cert-footer{align-items:center;margin-left:auto;margin-right:auto;margin-top:15px}
@@ -3052,10 +3041,9 @@ body[data-theme="dark"] .modal-close{color:#c4cfdd}
 #certificate.arts-gallery .certificate-art svg{transform:none}
 
 
-/* Individually art-directed composition: arts-performance */
 #certificate.arts-performance .cert-inner{justify-content:flex-end;align-items:flex-end;text-align:right;padding:11% 9% 8%}
-#certificate.arts-performance .cert-title{width:66%;max-width:66%;text-align:center;margin:0;letter-spacing:.14em;}
-#certificate.arts-performance .cert-name{width:66%;text-align:right;border:1px solid var(--cert-line);padding:5px 0 10px;margin:8px auto}
+#certificate.arts-performance .cert-title{width:66%;max-width:66%;text-align:center;letter-spacing:.14em;border-top:1px solid var(--cert-line);padding-top:8px;}
+#certificate.arts-performance .cert-name{width:66%;text-align:right;border:none;padding:5px 0 10px;margin:8px auto}
 #certificate.arts-performance .cert-meta{width:92%;justify-content:flex-start;margin:18px auto 0;gap:12px}
 #certificate.arts-performance .cert-event{max-width:90%;text-align:right;margin:0 auto}
 #certificate.arts-performance .cert-footer{align-items:flex-end;margin-left:auto;margin-top:0px}
@@ -3063,10 +3051,9 @@ body[data-theme="dark"] .modal-close{color:#c4cfdd}
 #certificate.arts-performance .certificate-art svg{transform:none}
 
 
-/* Individually art-directed composition: arts-design */
 #certificate.arts-design .cert-inner{justify-content:flex-end;align-items:center;text-align:center;padding:10% 16% 8%}
-#certificate.arts-design .cert-title{width:92%;max-width:92%;text-align:left;margin:0 auto 0 0;letter-spacing:.01em;}
-#certificate.arts-design .cert-name{width:74%;text-align:center;border:0 0 1px 0 var(--cert-accent);padding:0 0 8px;margin:4px 0}
+#certificate.arts-design .cert-title{width:92%;max-width:92%;text-align:left;letter-spacing:.01em;text-decoration:underline;text-decoration-color:var(--cert-line);text-underline-offset:8px;}
+#certificate.arts-design .cert-name{width:74%;text-align:center;border:1px solid var(--cert-line);padding:0 0 8px;margin:4px 0}
 #certificate.arts-design .cert-meta{width:66%;justify-content:flex-end;margin:8px 0 0;gap:21px}
 #certificate.arts-design .cert-event{max-width:76%;text-align:center;margin:0}
 #certificate.arts-design .cert-footer{align-items:flex-start;margin-right:auto;margin-top:5px}
@@ -3074,10 +3061,9 @@ body[data-theme="dark"] .modal-close{color:#c4cfdd}
 #certificate.arts-design .certificate-art svg{transform:scale(1.02)}
 
 
-/* Individually art-directed composition: arts-photography */
 #certificate.arts-photography .cert-inner{justify-content:space-evenly;align-items:flex-start;text-align:left;padding:9% 11% 8%}
-#certificate.arts-photography .cert-title{width:72%;max-width:72%;text-align:right;margin:0;letter-spacing:.19em;}
-#certificate.arts-photography .cert-name{width:88%;text-align:left;border:0 0 2px 0 solid var(--cert-accent);padding:5px 0 10px;margin:4px 0}
+#certificate.arts-photography .cert-title{width:72%;max-width:72%;text-align:right;letter-spacing:.19em;}
+#certificate.arts-photography .cert-name{width:88%;text-align:left;border:3px solid var(--cert-accent);padding:5px 0 10px;margin:4px 0}
 #certificate.arts-photography .cert-meta{width:82%;justify-content:center;margin:8px 0 0;gap:30px}
 #certificate.arts-photography .cert-event{max-width:86%;text-align:left;margin:0 auto}
 #certificate.arts-photography .cert-footer{align-items:center;margin-left:auto;margin-right:auto;margin-top:10px}
@@ -3085,10 +3071,9 @@ body[data-theme="dark"] .modal-close{color:#c4cfdd}
 #certificate.arts-photography .certificate-art svg{transform:scaleX(-1)}
 
 
-/* Individually art-directed composition: academic-formal */
 #certificate.academic-formal .cert-inner{justify-content:center;align-items:center;text-align:center;padding:12% 12% 8%}
-#certificate.academic-formal .cert-title{width:88%;max-width:88%;text-align:center;margin:0 auto 0 0;letter-spacing:.02em;}
-#certificate.academic-formal .cert-name{width:92%;text-align:center;border:0;padding:0 0 8px;margin:8px auto}
+#certificate.academic-formal .cert-title{width:88%;max-width:88%;text-align:center;letter-spacing:.02em;border-bottom:2px solid var(--cert-accent);}
+#certificate.academic-formal .cert-name{width:92%;text-align:center;border:none;padding:0 0 8px;margin:8px auto}
 #certificate.academic-formal .cert-meta{width:74%;justify-content:space-between;margin:8px 0 0;gap:39px}
 #certificate.academic-formal .cert-event{max-width:70%;text-align:center;margin:0}
 #certificate.academic-formal .cert-footer{align-items:flex-end;margin-left:auto;margin-top:15px}
@@ -3096,10 +3081,9 @@ body[data-theme="dark"] .modal-close{color:#c4cfdd}
 #certificate.academic-formal .certificate-art svg{transform:scaleY(-1)}
 
 
-/* Individually art-directed composition: academic-modern */
 #certificate.academic-modern .cert-inner{justify-content:center;align-items:flex-start;text-align:left;padding:13% 10% 8%}
-#certificate.academic-modern .cert-title{width:78%;max-width:78%;text-align:center;margin:0;letter-spacing:.08em;}
-#certificate.academic-modern .cert-name{width:82%;text-align:left;border:0 0 0 3px var(--cert-accent);padding:5px 0 10px;margin:4px 0}
+#certificate.academic-modern .cert-title{width:78%;max-width:78%;text-align:center;letter-spacing:.08em;border-left:3px double var(--cert-accent);padding-left:12px;}
+#certificate.academic-modern .cert-name{width:82%;text-align:left;border:none;padding:5px 0 10px;margin:4px 0}
 #certificate.academic-modern .cert-meta{width:78%;justify-content:space-around;margin:18px auto 0;gap:12px}
 #certificate.academic-modern .cert-event{max-width:82%;text-align:left;margin:0 auto}
 #certificate.academic-modern .cert-footer{align-items:flex-start;margin-right:auto;margin-top:0px}
@@ -3107,10 +3091,9 @@ body[data-theme="dark"] .modal-close{color:#c4cfdd}
 #certificate.academic-modern .certificate-art svg{transform:rotate(180deg)}
 
 
-/* Individually art-directed composition: academic-distinction */
 #certificate.academic-distinction .cert-inner{justify-content:flex-end;align-items:flex-end;text-align:right;padding:8% 14% 9%}
-#certificate.academic-distinction .cert-title{width:74%;max-width:74%;text-align:left;margin:0 auto 0 0;letter-spacing:.14em;}
-#certificate.academic-distinction .cert-name{width:78%;text-align:right;border:1px solid var(--cert-line);padding:0 0 8px;margin:4px 0}
+#certificate.academic-distinction .cert-title{width:74%;max-width:74%;text-align:left;letter-spacing:.14em;border-top:1px solid var(--cert-line);padding-top:8px;}
+#certificate.academic-distinction .cert-name{width:78%;text-align:right;border:none;padding:0 0 8px;margin:4px 0}
 #certificate.academic-distinction .cert-meta{width:88%;justify-content:flex-start;margin:8px 0 0;gap:21px}
 #certificate.academic-distinction .cert-event{max-width:90%;text-align:right;margin:0}
 #certificate.academic-distinction .cert-footer{align-items:center;margin-left:auto;margin-right:auto;margin-top:5px}
@@ -3118,10 +3101,9 @@ body[data-theme="dark"] .modal-close{color:#c4cfdd}
 #certificate.academic-distinction .certificate-art svg{transform:none}
 
 
-/* Individually art-directed composition: excellence-premium */
 #certificate.excellence-premium .cert-inner{justify-content:flex-end;align-items:center;text-align:center;padding:9% 8% 12%}
-#certificate.excellence-premium .cert-title{width:82%;max-width:82%;text-align:right;margin:0;letter-spacing:.01em;}
-#certificate.excellence-premium .cert-name{width:72%;text-align:center;border:0 0 1px 0 var(--cert-accent);padding:5px 0 10px;margin:8px auto}
+#certificate.excellence-premium .cert-title{width:82%;max-width:82%;text-align:right;letter-spacing:.01em;text-decoration:underline;text-decoration-color:var(--cert-line);text-underline-offset:8px;}
+#certificate.excellence-premium .cert-name{width:72%;text-align:center;border:1px solid var(--cert-line);padding:5px 0 10px;margin:8px auto}
 #certificate.excellence-premium .cert-meta{width:72%;justify-content:flex-end;margin:8px 0 0;gap:30px}
 #certificate.excellence-premium .cert-event{max-width:76%;text-align:center;margin:0 auto}
 #certificate.excellence-premium .cert-footer{align-items:flex-end;margin-left:auto;margin-top:10px}
@@ -3129,10 +3111,9 @@ body[data-theme="dark"] .modal-close{color:#c4cfdd}
 #certificate.excellence-premium .certificate-art svg{transform:none}
 
 
-/* Individually art-directed composition: achievement-bold */
 #certificate.achievement-bold .cert-inner{justify-content:space-evenly;align-items:flex-start;text-align:left;padding:11% 9% 8%}
-#certificate.achievement-bold .cert-title{width:66%;max-width:66%;text-align:center;margin:0 auto 0 0;letter-spacing:.19em;}
-#certificate.achievement-bold .cert-name{width:66%;text-align:left;border:0 0 2px 0 solid var(--cert-accent);padding:0 0 8px;margin:4px 0}
+#certificate.achievement-bold .cert-title{width:66%;max-width:66%;text-align:center;letter-spacing:.19em;}
+#certificate.achievement-bold .cert-name{width:66%;text-align:left;border:3px solid var(--cert-accent);padding:0 0 8px;margin:4px 0}
 #certificate.achievement-bold .cert-meta{width:92%;justify-content:center;margin:8px 0 0;gap:39px}
 #certificate.achievement-bold .cert-event{max-width:86%;text-align:left;margin:0}
 #certificate.achievement-bold .cert-footer{align-items:flex-start;margin-right:auto;margin-top:15px}
@@ -3140,10 +3121,9 @@ body[data-theme="dark"] .modal-close{color:#c4cfdd}
 #certificate.achievement-bold .certificate-art svg{transform:scale(1.02)}
 
 
-/* Individually art-directed composition: leadership-elite */
 #certificate.leadership-elite .cert-inner{justify-content:center;align-items:center;text-align:center;padding:10% 16% 8%}
-#certificate.leadership-elite .cert-title{width:92%;max-width:92%;text-align:center;margin:0;letter-spacing:.02em;}
-#certificate.leadership-elite .cert-name{width:74%;text-align:center;border:0;padding:5px 0 10px;margin:4px 0}
+#certificate.leadership-elite .cert-title{width:92%;max-width:92%;text-align:center;letter-spacing:.02em;border-bottom:2px solid var(--cert-accent);}
+#certificate.leadership-elite .cert-name{width:74%;text-align:center;border:none;padding:5px 0 10px;margin:4px 0}
 #certificate.leadership-elite .cert-meta{width:66%;justify-content:space-between;margin:18px auto 0;gap:12px}
 #certificate.leadership-elite .cert-event{max-width:70%;text-align:center;margin:0 auto}
 #certificate.leadership-elite .cert-footer{align-items:center;margin-left:auto;margin-right:auto;margin-top:0px}
@@ -3151,10 +3131,9 @@ body[data-theme="dark"] .modal-close{color:#c4cfdd}
 #certificate.leadership-elite .certificate-art svg{transform:scaleX(-1)}
 
 
-/* Individually art-directed composition: minimalist-blue */
 #certificate.minimalist-blue .cert-inner{justify-content:center;align-items:flex-start;text-align:left;padding:9% 11% 8%}
-#certificate.minimalist-blue .cert-title{width:72%;max-width:72%;text-align:left;margin:0 auto 0 0;letter-spacing:.08em;}
-#certificate.minimalist-blue .cert-name{width:88%;text-align:left;border:0 0 0 3px var(--cert-accent);padding:0 0 8px;margin:8px auto}
+#certificate.minimalist-blue .cert-title{width:72%;max-width:72%;text-align:left;letter-spacing:.08em;border-left:3px double var(--cert-accent);padding-left:12px;}
+#certificate.minimalist-blue .cert-name{width:88%;text-align:left;border:none;padding:0 0 8px;margin:8px auto}
 #certificate.minimalist-blue .cert-meta{width:82%;justify-content:space-around;margin:8px 0 0;gap:21px}
 #certificate.minimalist-blue .cert-event{max-width:82%;text-align:left;margin:0}
 #certificate.minimalist-blue .cert-footer{align-items:flex-end;margin-left:auto;margin-top:5px}
@@ -3162,10 +3141,9 @@ body[data-theme="dark"] .modal-close{color:#c4cfdd}
 #certificate.minimalist-blue .certificate-art svg{transform:scaleY(-1)}
 
 
-/* Individually art-directed composition: gradient-sunset */
 #certificate.gradient-sunset .cert-inner{justify-content:flex-end;align-items:flex-end;text-align:right;padding:12% 12% 8%}
-#certificate.gradient-sunset .cert-title{width:88%;max-width:88%;text-align:right;margin:0;letter-spacing:.14em;}
-#certificate.gradient-sunset .cert-name{width:92%;text-align:right;border:1px solid var(--cert-line);padding:5px 0 10px;margin:4px 0}
+#certificate.gradient-sunset .cert-title{width:88%;max-width:88%;text-align:right;letter-spacing:.14em;border-top:1px solid var(--cert-line);padding-top:8px;}
+#certificate.gradient-sunset .cert-name{width:92%;text-align:right;border:none;padding:5px 0 10px;margin:4px 0}
 #certificate.gradient-sunset .cert-meta{width:74%;justify-content:flex-start;margin:8px 0 0;gap:30px}
 #certificate.gradient-sunset .cert-event{max-width:90%;text-align:right;margin:0 auto}
 #certificate.gradient-sunset .cert-footer{align-items:flex-start;margin-right:auto;margin-top:10px}
@@ -3173,10 +3151,9 @@ body[data-theme="dark"] .modal-close{color:#c4cfdd}
 #certificate.gradient-sunset .certificate-art svg{transform:rotate(180deg)}
 
 
-/* Individually art-directed composition: elegant-vintage */
 #certificate.elegant-vintage .cert-inner{justify-content:flex-end;align-items:center;text-align:center;padding:13% 10% 8%}
-#certificate.elegant-vintage .cert-title{width:78%;max-width:78%;text-align:center;margin:0 auto 0 0;letter-spacing:.01em;}
-#certificate.elegant-vintage .cert-name{width:82%;text-align:center;border:0 0 1px 0 var(--cert-accent);padding:0 0 8px;margin:4px 0}
+#certificate.elegant-vintage .cert-title{width:78%;max-width:78%;text-align:center;letter-spacing:.01em;text-decoration:underline;text-decoration-color:var(--cert-line);text-underline-offset:8px;}
+#certificate.elegant-vintage .cert-name{width:82%;text-align:center;border:1px solid var(--cert-line);padding:0 0 8px;margin:4px 0}
 #certificate.elegant-vintage .cert-meta{width:78%;justify-content:flex-end;margin:8px 0 0;gap:39px}
 #certificate.elegant-vintage .cert-event{max-width:76%;text-align:center;margin:0}
 #certificate.elegant-vintage .cert-footer{align-items:center;margin-left:auto;margin-right:auto;margin-top:15px}
@@ -3184,10 +3161,9 @@ body[data-theme="dark"] .modal-close{color:#c4cfdd}
 #certificate.elegant-vintage .certificate-art svg{transform:none}
 
 
-/* Individually art-directed composition: geometric-modern */
 #certificate.geometric-modern .cert-inner{justify-content:space-evenly;align-items:flex-start;text-align:left;padding:8% 14% 9%}
-#certificate.geometric-modern .cert-title{width:74%;max-width:74%;text-align:center;margin:0;letter-spacing:.19em;}
-#certificate.geometric-modern .cert-name{width:78%;text-align:left;border:0 0 2px 0 solid var(--cert-accent);padding:5px 0 10px;margin:8px auto}
+#certificate.geometric-modern .cert-title{width:74%;max-width:74%;text-align:center;letter-spacing:.19em;}
+#certificate.geometric-modern .cert-name{width:78%;text-align:left;border:3px solid var(--cert-accent);padding:5px 0 10px;margin:8px auto}
 #certificate.geometric-modern .cert-meta{width:88%;justify-content:center;margin:18px auto 0;gap:12px}
 #certificate.geometric-modern .cert-event{max-width:86%;text-align:left;margin:0 auto}
 #certificate.geometric-modern .cert-footer{align-items:flex-end;margin-left:auto;margin-top:0px}
@@ -3195,10 +3171,9 @@ body[data-theme="dark"] .modal-close{color:#c4cfdd}
 #certificate.geometric-modern .certificate-art svg{transform:none}
 
 
-/* Individually art-directed composition: rainbow-vibrant */
 #certificate.rainbow-vibrant .cert-inner{justify-content:center;align-items:center;text-align:center;padding:9% 8% 12%}
-#certificate.rainbow-vibrant .cert-title{width:82%;max-width:82%;text-align:left;margin:0 auto 0 0;letter-spacing:.02em;}
-#certificate.rainbow-vibrant .cert-name{width:72%;text-align:center;border:0;padding:0 0 8px;margin:4px 0}
+#certificate.rainbow-vibrant .cert-title{width:82%;max-width:82%;text-align:left;letter-spacing:.02em;border-bottom:2px solid var(--cert-accent);}
+#certificate.rainbow-vibrant .cert-name{width:72%;text-align:center;border:none;padding:0 0 8px;margin:4px 0}
 #certificate.rainbow-vibrant .cert-meta{width:72%;justify-content:space-between;margin:8px 0 0;gap:21px}
 #certificate.rainbow-vibrant .cert-event{max-width:70%;text-align:center;margin:0}
 #certificate.rainbow-vibrant .cert-footer{align-items:flex-start;margin-right:auto;margin-top:5px}
@@ -3206,10 +3181,9 @@ body[data-theme="dark"] .modal-close{color:#c4cfdd}
 #certificate.rainbow-vibrant .certificate-art svg{transform:scale(1.02)}
 
 
-/* Individually art-directed composition: dark-professional */
 #certificate.dark-professional .cert-inner{justify-content:center;align-items:flex-start;text-align:left;padding:11% 9% 8%}
-#certificate.dark-professional .cert-title{width:66%;max-width:66%;text-align:right;margin:0;letter-spacing:.08em;}
-#certificate.dark-professional .cert-name{width:66%;text-align:left;border:0 0 0 3px var(--cert-accent);padding:5px 0 10px;margin:4px 0}
+#certificate.dark-professional .cert-title{width:66%;max-width:66%;text-align:right;letter-spacing:.08em;border-left:3px double var(--cert-accent);padding-left:12px;}
+#certificate.dark-professional .cert-name{width:66%;text-align:left;border:none;padding:5px 0 10px;margin:4px 0}
 #certificate.dark-professional .cert-meta{width:92%;justify-content:space-around;margin:8px 0 0;gap:30px}
 #certificate.dark-professional .cert-event{max-width:82%;text-align:left;margin:0 auto}
 #certificate.dark-professional .cert-footer{align-items:center;margin-left:auto;margin-right:auto;margin-top:10px}
@@ -3217,10 +3191,9 @@ body[data-theme="dark"] .modal-close{color:#c4cfdd}
 #certificate.dark-professional .certificate-art svg{transform:scaleX(-1)}
 
 
-/* Individually art-directed composition: pastel-soft */
 #certificate.pastel-soft .cert-inner{justify-content:flex-end;align-items:flex-end;text-align:right;padding:10% 16% 8%}
-#certificate.pastel-soft .cert-title{width:92%;max-width:92%;text-align:center;margin:0 auto 0 0;letter-spacing:.14em;}
-#certificate.pastel-soft .cert-name{width:74%;text-align:right;border:1px solid var(--cert-line);padding:0 0 8px;margin:8px auto}
+#certificate.pastel-soft .cert-title{width:92%;max-width:92%;text-align:center;letter-spacing:.14em;border-top:1px solid var(--cert-line);padding-top:8px;}
+#certificate.pastel-soft .cert-name{width:74%;text-align:right;border:none;padding:0 0 8px;margin:8px auto}
 #certificate.pastel-soft .cert-meta{width:66%;justify-content:flex-start;margin:8px 0 0;gap:39px}
 #certificate.pastel-soft .cert-event{max-width:90%;text-align:right;margin:0}
 #certificate.pastel-soft .cert-footer{align-items:flex-end;margin-left:auto;margin-top:15px}
@@ -3228,10 +3201,9 @@ body[data-theme="dark"] .modal-close{color:#c4cfdd}
 #certificate.pastel-soft .certificate-art svg{transform:scaleY(-1)}
 
 
-/* Individually art-directed composition: bold-statement */
 #certificate.bold-statement .cert-inner{justify-content:flex-end;align-items:center;text-align:center;padding:9% 11% 8%}
-#certificate.bold-statement .cert-title{width:72%;max-width:72%;text-align:center;margin:0;letter-spacing:.01em;}
-#certificate.bold-statement .cert-name{width:88%;text-align:center;border:0 0 1px 0 var(--cert-accent);padding:5px 0 10px;margin:4px 0}
+#certificate.bold-statement .cert-title{width:72%;max-width:72%;text-align:center;letter-spacing:.01em;text-decoration:underline;text-decoration-color:var(--cert-line);text-underline-offset:8px;}
+#certificate.bold-statement .cert-name{width:88%;text-align:center;border:1px solid var(--cert-line);padding:5px 0 10px;margin:4px 0}
 #certificate.bold-statement .cert-meta{width:82%;justify-content:flex-end;margin:18px auto 0;gap:12px}
 #certificate.bold-statement .cert-event{max-width:76%;text-align:center;margin:0 auto}
 #certificate.bold-statement .cert-footer{align-items:flex-start;margin-right:auto;margin-top:0px}
@@ -3239,10 +3211,9 @@ body[data-theme="dark"] .modal-close{color:#c4cfdd}
 #certificate.bold-statement .certificate-art svg{transform:rotate(180deg)}
 
 
-/* Individually art-directed composition: aurora-glass */
 #certificate.aurora-glass .cert-inner{justify-content:space-evenly;align-items:flex-start;text-align:left;padding:12% 12% 8%}
-#certificate.aurora-glass .cert-title{width:88%;max-width:88%;text-align:left;margin:0 auto 0 0;letter-spacing:.19em;}
-#certificate.aurora-glass .cert-name{width:92%;text-align:left;border:0 0 2px 0 solid var(--cert-accent);padding:0 0 8px;margin:4px 0}
+#certificate.aurora-glass .cert-title{width:88%;max-width:88%;text-align:left;letter-spacing:.19em;}
+#certificate.aurora-glass .cert-name{width:92%;text-align:left;border:3px solid var(--cert-accent);padding:0 0 8px;margin:4px 0}
 #certificate.aurora-glass .cert-meta{width:74%;justify-content:center;margin:8px 0 0;gap:21px}
 #certificate.aurora-glass .cert-event{max-width:86%;text-align:left;margin:0}
 #certificate.aurora-glass .cert-footer{align-items:center;margin-left:auto;margin-right:auto;margin-top:5px}
@@ -3250,10 +3221,9 @@ body[data-theme="dark"] .modal-close{color:#c4cfdd}
 #certificate.aurora-glass .certificate-art svg{transform:none}
 
 
-/* Individually art-directed composition: emerald-royal */
 #certificate.emerald-royal .cert-inner{justify-content:center;align-items:center;text-align:center;padding:13% 10% 8%}
-#certificate.emerald-royal .cert-title{width:78%;max-width:78%;text-align:right;margin:0;letter-spacing:.02em;}
-#certificate.emerald-royal .cert-name{width:82%;text-align:center;border:0;padding:5px 0 10px;margin:8px auto}
+#certificate.emerald-royal .cert-title{width:78%;max-width:78%;text-align:right;letter-spacing:.02em;border-bottom:2px solid var(--cert-accent);}
+#certificate.emerald-royal .cert-name{width:82%;text-align:center;border:none;padding:5px 0 10px;margin:8px auto}
 #certificate.emerald-royal .cert-meta{width:78%;justify-content:space-between;margin:8px 0 0;gap:30px}
 #certificate.emerald-royal .cert-event{max-width:70%;text-align:center;margin:0 auto}
 #certificate.emerald-royal .cert-footer{align-items:flex-end;margin-left:auto;margin-top:10px}
@@ -3261,10 +3231,9 @@ body[data-theme="dark"] .modal-close{color:#c4cfdd}
 #certificate.emerald-royal .certificate-art svg{transform:none}
 
 
-/* Individually art-directed composition: mono-grid */
 #certificate.mono-grid .cert-inner{justify-content:center;align-items:flex-start;text-align:left;padding:8% 14% 9%}
-#certificate.mono-grid .cert-title{width:74%;max-width:74%;text-align:center;margin:0 auto 0 0;letter-spacing:.08em;}
-#certificate.mono-grid .cert-name{width:78%;text-align:left;border:0 0 0 3px var(--cert-accent);padding:0 0 8px;margin:4px 0}
+#certificate.mono-grid .cert-title{width:74%;max-width:74%;text-align:center;letter-spacing:.08em;border-left:3px double var(--cert-accent);padding-left:12px;}
+#certificate.mono-grid .cert-name{width:78%;text-align:left;border:none;padding:0 0 8px;margin:4px 0}
 #certificate.mono-grid .cert-meta{width:88%;justify-content:space-around;margin:8px 0 0;gap:39px}
 #certificate.mono-grid .cert-event{max-width:82%;text-align:left;margin:0}
 #certificate.mono-grid .cert-footer{align-items:flex-start;margin-right:auto;margin-top:15px}
@@ -3272,10 +3241,9 @@ body[data-theme="dark"] .modal-close{color:#c4cfdd}
 #certificate.mono-grid .certificate-art svg{transform:scale(1.02)}
 
 
-/* Individually art-directed composition: nebula-night */
 #certificate.nebula-night .cert-inner{justify-content:flex-end;align-items:flex-end;text-align:right;padding:9% 8% 12%}
-#certificate.nebula-night .cert-title{width:82%;max-width:82%;text-align:center;margin:0;letter-spacing:.14em;}
-#certificate.nebula-night .cert-name{width:72%;text-align:right;border:1px solid var(--cert-line);padding:5px 0 10px;margin:4px 0}
+#certificate.nebula-night .cert-title{width:82%;max-width:82%;text-align:center;letter-spacing:.14em;border-top:1px solid var(--cert-line);padding-top:8px;}
+#certificate.nebula-night .cert-name{width:72%;text-align:right;border:none;padding:5px 0 10px;margin:4px 0}
 #certificate.nebula-night .cert-meta{width:72%;justify-content:flex-start;margin:18px auto 0;gap:12px}
 #certificate.nebula-night .cert-event{max-width:90%;text-align:right;margin:0 auto}
 #certificate.nebula-night .cert-footer{align-items:center;margin-left:auto;margin-right:auto;margin-top:0px}
@@ -3283,10 +3251,9 @@ body[data-theme="dark"] .modal-close{color:#c4cfdd}
 #certificate.nebula-night .certificate-art svg{transform:scaleX(-1)}
 
 
-/* Individually art-directed composition: ivory-luxe */
 #certificate.ivory-luxe .cert-inner{justify-content:flex-end;align-items:center;text-align:center;padding:11% 9% 8%}
-#certificate.ivory-luxe .cert-title{width:66%;max-width:66%;text-align:left;margin:0 auto 0 0;letter-spacing:.01em;}
-#certificate.ivory-luxe .cert-name{width:66%;text-align:center;border:0 0 1px 0 var(--cert-accent);padding:0 0 8px;margin:8px auto}
+#certificate.ivory-luxe .cert-title{width:66%;max-width:66%;text-align:left;letter-spacing:.01em;text-decoration:underline;text-decoration-color:var(--cert-line);text-underline-offset:8px;}
+#certificate.ivory-luxe .cert-name{width:66%;text-align:center;border:1px solid var(--cert-line);padding:0 0 8px;margin:8px auto}
 #certificate.ivory-luxe .cert-meta{width:92%;justify-content:flex-end;margin:8px 0 0;gap:21px}
 #certificate.ivory-luxe .cert-event{max-width:76%;text-align:center;margin:0}
 #certificate.ivory-luxe .cert-footer{align-items:flex-end;margin-left:auto;margin-top:5px}
@@ -3294,10 +3261,9 @@ body[data-theme="dark"] .modal-close{color:#c4cfdd}
 #certificate.ivory-luxe .certificate-art svg{transform:scaleY(-1)}
 
 
-/* Individually art-directed composition: coral-wave */
 #certificate.coral-wave .cert-inner{justify-content:space-evenly;align-items:flex-start;text-align:left;padding:10% 16% 8%}
-#certificate.coral-wave .cert-title{width:92%;max-width:92%;text-align:right;margin:0;letter-spacing:.19em;}
-#certificate.coral-wave .cert-name{width:74%;text-align:left;border:0 0 2px 0 solid var(--cert-accent);padding:5px 0 10px;margin:4px 0}
+#certificate.coral-wave .cert-title{width:92%;max-width:92%;text-align:right;letter-spacing:.19em;}
+#certificate.coral-wave .cert-name{width:74%;text-align:left;border:3px solid var(--cert-accent);padding:5px 0 10px;margin:4px 0}
 #certificate.coral-wave .cert-meta{width:66%;justify-content:center;margin:8px 0 0;gap:30px}
 #certificate.coral-wave .cert-event{max-width:86%;text-align:left;margin:0 auto}
 #certificate.coral-wave .cert-footer{align-items:flex-start;margin-right:auto;margin-top:10px}
