@@ -2593,3 +2593,210 @@ body[data-theme="dark"] .modal-close{color:#c4cfdd}
 .header-icon{display:grid;place-items:center;flex:0 0 44px;width:44px;height:44px;padding:8px;border-radius:12px;background:#263957;color:#b9cbf2}
 .header-icon svg{display:block;width:100%;height:100%}
 @media(max-width:600px){.header-icon{flex-basis:38px;width:38px;height:38px;padding:7px}}
+
+
+/* =====================================================================
+   CRAFTED CERTIFICATE SYSTEM
+   Each template uses its own typographic pairing, seal, ornamental
+   language and border construction. These styles apply to preview + export.
+   ===================================================================== */
+#certificate.template-crafted{
+  background-color:var(--cert-paper,#fff);
+  background-image:
+    radial-gradient(ellipse at 50% 0%,color-mix(in srgb,var(--cert-accent) 8%,transparent),transparent 52%);
+  color:var(--cert-ink,#273444);
+  border:1px solid var(--cert-line,#cbd5e1);
+  border-radius:2px;
+  box-shadow:inset 0 0 0 8px var(--cert-paper),inset 0 0 0 9px var(--cert-line),0 18px 46px rgba(20,30,45,.15);
+  overflow:hidden;
+}
+#certificate.template-crafted::before{
+  content:"";
+  position:absolute;
+  inset:22px;
+  border:1px solid var(--cert-line);
+  opacity:.9;
+  pointer-events:none;
+  z-index:0;
+}
+#certificate.template-crafted::after{
+  content:attr(data-motif);
+  position:absolute;
+  z-index:0;
+  top:7%;
+  left:50%;
+  transform:translateX(-50%);
+  width:52px;height:52px;
+  display:grid;place-items:center;
+  border:1px solid var(--cert-line);
+  border-radius:50%;
+  color:var(--cert-accent);
+  background:var(--cert-paper);
+  font-size:26px;
+  line-height:1;
+  box-shadow:0 0 0 5px var(--cert-paper),0 0 0 6px var(--cert-line);
+  pointer-events:none;
+}
+#certificate.template-crafted .cert-inner{
+  position:relative;
+  z-index:1;
+  padding:8% 9% 7%;
+  gap:clamp(10px,1.6vw,18px);
+}
+#certificate.template-crafted .cert-inner::before{
+  content:"";
+  position:absolute;
+  left:50%;top:0;
+  transform:translateX(-50%);
+  width:90px;height:2px;
+  background:var(--cert-accent);
+}
+#certificate.template-crafted .cert-inner::after{
+  content:attr(data-template-kicker);
+  position:absolute;
+  left:50%;bottom:2%;
+  transform:translateX(-50%);
+  width:80%;
+  text-align:center;
+  color:var(--cert-accent);
+  font:600 clamp(7px,.85vw,10px)/1.3 "Montserrat",sans-serif;
+  letter-spacing:.22em;
+}
+#certificate.template-crafted .cert-logo{max-width:94px;max-height:70px}
+#certificate.template-crafted .cert-title{
+  margin-top:2%;
+  color:var(--cert-accent);
+  font-family:var(--cert-title-font,"Cinzel",serif);
+  font-size:clamp(22px,3.2vw,36px);
+  font-weight:600;
+  line-height:1.15;
+  letter-spacing:.09em;
+  text-transform:uppercase;
+}
+#certificate.template-crafted .cert-subtitle{
+  color:var(--cert-ink);
+  font-family:var(--cert-body-font,"Libre Baskerville",serif);
+  font-size:clamp(11px,1.35vw,15px);
+  font-style:italic;
+  line-height:1.5;
+}
+#certificate.template-crafted .cert-name{
+  color:var(--cert-ink);
+  font-family:var(--cert-name-font,"Playfair Display",serif);
+  font-size:clamp(36px,5vw,58px);
+  font-weight:600;
+  line-height:1.05;
+  letter-spacing:.015em;
+  padding:0 3% 10px;
+  border-bottom:1px solid var(--cert-line);
+}
+#certificate.template-crafted .cert-event{
+  max-width:82%;
+  margin:0 auto;
+  color:var(--cert-ink);
+  font-family:var(--cert-body-font,"Libre Baskerville",serif);
+  font-size:clamp(12px,1.35vw,16px);
+  line-height:1.6;
+}
+#certificate.template-crafted .cert-event strong{color:var(--cert-accent);font-weight:700}
+#certificate.template-crafted .cert-meta{
+  width:78%;
+  margin:1.5% auto 0;
+  padding-top:12px;
+  border-top:1px solid var(--cert-line);
+  color:var(--cert-ink);
+  font-family:var(--cert-body-font,"Libre Baskerville",serif);
+  font-size:clamp(9px,1vw,12px);
+  justify-content:space-around;
+}
+#certificate.template-crafted .cert-footer{
+  margin-top:2%;
+  min-width:160px;
+  border-top:1px solid var(--cert-line);
+  padding-top:8px;
+}
+#certificate.template-crafted .cert-sig{max-width:130px;max-height:45px}
+#certificate.template-crafted .sig-label{
+  color:var(--cert-ink);
+  font-family:var(--cert-body-font,"Libre Baskerville",serif);
+  font-size:11px;
+  letter-spacing:.04em;
+}
+#certificate.template-crafted[data-frame="academic"]{
+  box-shadow:inset 0 0 0 8px var(--cert-paper),inset 0 0 0 10px var(--cert-line),inset 0 0 0 17px var(--cert-paper),inset 0 0 0 18px var(--cert-line),0 18px 46px rgba(20,30,45,.15);
+}
+#certificate.template-crafted[data-frame="academic"]::before{inset:28px;border:1px solid var(--cert-line)}
+#certificate.template-crafted[data-frame="award"]{
+  border:8px double var(--cert-accent);
+  box-shadow:inset 0 0 0 8px var(--cert-paper),inset 0 0 0 10px var(--cert-line),0 18px 46px rgba(20,30,45,.15);
+}
+#certificate.template-crafted[data-frame="award"]::after{width:64px;height:64px;font-size:30px;top:5%}
+#certificate.template-crafted[data-frame="athletic"]{
+  border:0;
+  box-shadow:inset 0 0 0 12px var(--cert-accent),inset 0 0 0 15px var(--cert-paper),inset 0 0 0 17px var(--cert-line),0 18px 46px rgba(20,30,45,.15);
+}
+#certificate.template-crafted[data-frame="athletic"]::before{
+  inset:0;border:0;
+  background:linear-gradient(135deg,transparent 0 76%,color-mix(in srgb,var(--cert-accent) 12%,transparent) 76% 82%,transparent 82%),
+             linear-gradient(315deg,transparent 0 76%,color-mix(in srgb,var(--cert-accent) 12%,transparent) 76% 82%,transparent 82%);
+}
+#certificate.template-crafted[data-frame="athletic"]::after{
+  border-radius:10px;width:66px;height:66px;
+  background:var(--cert-accent);color:var(--cert-paper);
+  border:3px solid var(--cert-paper);box-shadow:0 0 0 2px var(--cert-accent);
+}
+#certificate.template-crafted[data-frame="gallery"]{
+  border:0;
+  box-shadow:inset 0 0 0 2px var(--cert-accent),inset 0 0 0 10px var(--cert-paper),inset 0 0 0 11px var(--cert-line),0 18px 46px rgba(20,30,45,.15);
+}
+#certificate.template-crafted[data-frame="gallery"]::before{
+  inset:0;border:0;
+  background:radial-gradient(circle at 8% 12%,var(--cert-line) 0 2px,transparent 3px),
+    radial-gradient(circle at 92% 12%,var(--cert-line) 0 2px,transparent 3px),
+    radial-gradient(circle at 8% 88%,var(--cert-line) 0 2px,transparent 3px),
+    radial-gradient(circle at 92% 88%,var(--cert-line) 0 2px,transparent 3px);
+}
+#certificate.template-crafted[data-frame="geometric"]{
+  border:0;
+  box-shadow:inset 0 0 0 2px var(--cert-accent),0 18px 46px rgba(20,30,45,.15);
+}
+#certificate.template-crafted[data-frame="geometric"]::before{
+  inset:0;border:0;
+  background:linear-gradient(135deg,var(--cert-accent) 0 12%,transparent 12% 88%,var(--cert-accent) 88%),
+    linear-gradient(45deg,transparent 0 48%,var(--cert-line) 48% 48.3%,transparent 48.3%);
+  opacity:.18;
+}
+#certificate.template-crafted[data-frame="minimal"]{border:1px solid var(--cert-line);box-shadow:0 18px 46px rgba(20,30,45,.12)}
+#certificate.template-crafted[data-frame="minimal"]::before{inset:30px;border:0;border-top:1px solid var(--cert-line);border-bottom:1px solid var(--cert-line)}
+#certificate.template-crafted[data-frame="minimal"]::after{width:34px;height:34px;border:0;box-shadow:none;font-size:22px;top:5%}
+#certificate.template-crafted[data-frame="vintage"]{
+  border:12px double var(--cert-line);
+  box-shadow:inset 0 0 0 7px var(--cert-paper),0 18px 46px rgba(20,30,45,.15);
+}
+#certificate.template-crafted[data-frame="vintage"]::before{inset:18px;border:1px solid var(--cert-accent);outline:1px solid var(--cert-line);outline-offset:5px}
+#certificate.template-crafted[data-frame="dark"]{
+  border:1px solid var(--cert-line);
+  background-image:radial-gradient(ellipse at 50% 0%,color-mix(in srgb,var(--cert-accent) 18%,transparent),transparent 58%),linear-gradient(145deg,var(--cert-paper),color-mix(in srgb,var(--cert-paper) 88%,black));
+}
+#certificate.template-crafted[data-frame="dark"]::before{inset:18px;border:1px solid var(--cert-line);box-shadow:inset 0 0 0 5px var(--cert-paper),inset 0 0 0 6px var(--cert-line)}
+#certificate.template-crafted[data-frame="dark"]::after{background:var(--cert-paper)}
+#certificate.template-crafted.portrait .cert-inner{padding:12% 8% 9%;gap:clamp(12px,2vh,22px)}
+#certificate.template-crafted.portrait .cert-title{font-size:clamp(21px,4.4vw,34px)}
+#certificate.template-crafted.portrait .cert-name{font-size:clamp(32px,6vw,48px)}
+#certificate.template-crafted.portrait .cert-meta{width:85%;flex-direction:column;gap:4px}
+#certificate.template-crafted.portrait .cert-inner::after{bottom:1%}
+@media(max-width:600px){
+  #certificate.template-crafted{box-shadow:inset 0 0 0 4px var(--cert-paper),inset 0 0 0 5px var(--cert-line),0 8px 20px rgba(20,30,45,.12)}
+  #certificate.template-crafted::before{inset:12px}
+  #certificate.template-crafted::after{top:5%;width:30px;height:30px;font-size:16px}
+  #certificate.template-crafted .cert-inner{padding:7% 7% 6%;gap:clamp(4px,1vw,8px)}
+  #certificate.template-crafted .cert-title{font-size:clamp(10px,2.7vw,18px)}
+  #certificate.template-crafted .cert-subtitle{font-size:clamp(6px,1.6vw,10px)}
+  #certificate.template-crafted .cert-name{font-size:clamp(14px,4vw,26px);padding-bottom:4px}
+  #certificate.template-crafted .cert-event{font-size:clamp(6px,1.5vw,10px);line-height:1.35}
+  #certificate.template-crafted .cert-meta{font-size:clamp(5px,1.15vw,8px);padding-top:4px}
+  #certificate.template-crafted .cert-footer{margin-top:1%;min-width:0;padding-top:3px}
+  #certificate.template-crafted .cert-sig{max-width:55px;max-height:20px}
+  #certificate.template-crafted .sig-label{font-size:clamp(5px,1.1vw,7px)}
+  #certificate.template-crafted .cert-inner::after{font-size:clamp(5px,1vw,7px);letter-spacing:.12em}
+}
