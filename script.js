@@ -1550,3 +1550,32 @@ if (!_restored) {
   updateCategoryTemplateRecommendations(categorySelect ? categorySelect.value : '');
   updatePreview();
 }
+
+
+/* Enterprise light/dark application theme. Certificate artwork is not recolored. */
+(function initializeEnterpriseTheme(){
+  const toggle = document.getElementById('theme-toggle');
+  if (!toggle) return;
+  const storageKey = 'certgen_theme_preference';
+  let saved = null;
+  try { saved = localStorage.getItem(storageKey); } catch (_) {}
+  const systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const initial = saved === 'light' || saved === 'dark' ? saved : (systemDark ? 'dark' : 'light');
+  function applyTheme(theme, persist) {
+    const dark = theme === 'dark';
+    document.body.dataset.theme = dark ? 'dark' : 'light';
+    toggle.setAttribute('aria-pressed', String(dark));
+    toggle.setAttribute('aria-label', dark ? 'Switch to light theme' : 'Switch to dark theme');
+    const icon = toggle.querySelector('.material-icons');
+    const label = toggle.querySelector('.theme-toggle-label');
+    if (icon) icon.textContent = dark ? 'light_mode' : 'dark_mode';
+    if (label) label.textContent = dark ? 'Light mode' : 'Dark mode';
+    if (persist) {
+      try { localStorage.setItem(storageKey, dark ? 'dark' : 'light'); } catch (_) {}
+    }
+  }
+  applyTheme(initial, false);
+  toggle.addEventListener('click', () => {
+    applyTheme(document.body.dataset.theme === 'dark' ? 'light' : 'dark', true);
+  });
+})();
