@@ -2800,3 +2800,120 @@ body[data-theme="dark"] .modal-close{color:#c4cfdd}
   #certificate.template-crafted .sig-label{font-size:clamp(5px,1.1vw,7px)}
   #certificate.template-crafted .cert-inner::after{font-size:clamp(5px,1vw,7px);letter-spacing:.12em}
 }
+
+
+/* REAL LAYOUT VARIANTS — intentionally different compositions, not palette swaps */
+#certificate.template-crafted .certificate-art{position:absolute;inset:0;z-index:0;pointer-events:none;color:var(--cert-accent);overflow:hidden}
+#certificate.template-crafted .certificate-art svg{display:block;width:100%;height:100%;opacity:.72}
+#certificate.template-crafted .cert-inner{z-index:2}
+#certificate.template-crafted .cert-logo{z-index:3;position:relative}
+
+/* Formal diploma: centered hierarchy, institutional crest, double rule */
+#certificate.layout-diploma .cert-inner{justify-content:center;padding:10% 12% 8%;gap:clamp(9px,1.45vw,17px)}
+#certificate.layout-diploma .cert-title{max-width:76%;margin:3% auto 0;font-size:clamp(20px,2.7vw,32px);letter-spacing:.16em}
+#certificate.layout-diploma .cert-name{width:76%;margin:1% auto;padding:0 0 12px;border-bottom:2px solid var(--cert-accent);font-size:clamp(38px,5.2vw,60px)}
+#certificate.layout-diploma .cert-meta{width:80%;margin:2% auto 0;justify-content:space-between;border-top:1px solid var(--cert-line)}
+#certificate.layout-diploma .cert-footer{position:absolute;bottom:8%;right:12%;min-width:150px}
+#certificate.layout-diploma .cert-inner::after{bottom:3%;font-size:9px}
+
+/* Vintage: engraved frame and old-world letterpress, left aligned */
+#certificate.layout-vintage .cert-inner{justify-content:center;text-align:left;padding:11% 14% 9%;gap:14px}
+#certificate.layout-vintage .cert-logo{margin:0 auto 0 0;width:90px}
+#certificate.layout-vintage .cert-title{max-width:78%;font-size:clamp(24px,3.2vw,38px);letter-spacing:.04em;text-transform:none}
+#certificate.layout-vintage .cert-subtitle{font-style:italic}
+#certificate.layout-vintage .cert-name{width:88%;font-size:clamp(40px,5vw,58px);border-bottom:0;border-left:4px double var(--cert-accent);padding:5px 0 5px 18px}
+#certificate.layout-vintage .cert-event{margin:0;max-width:75%;text-align:left}
+#certificate.layout-vintage .cert-meta{justify-content:flex-start;width:100%;gap:40px;margin:8px 0 0}
+#certificate.layout-vintage .cert-footer{position:absolute;right:12%;bottom:12%;margin:0}
+
+/* Split: strong vertical identity rail with offset content */
+#certificate.layout-split .cert-inner{justify-content:center;text-align:left;padding:9% 9% 8% 29%;gap:clamp(10px,1.8vw,20px)}
+#certificate.layout-split .cert-logo{margin:0 0 0 auto;width:86px}
+#certificate.layout-split .cert-title{font-size:clamp(23px,3vw,36px);max-width:95%;margin:0;letter-spacing:.025em}
+#certificate.layout-split .cert-subtitle,#certificate.layout-split .cert-event{margin:0;max-width:90%;text-align:left}
+#certificate.layout-split .cert-name{font-size:clamp(38px,5.1vw,60px);border:0;border-bottom:3px solid var(--cert-accent);padding:0 0 10px;text-align:left}
+#certificate.layout-split .cert-meta{width:100%;justify-content:flex-start;gap:28px;margin:0}
+#certificate.layout-split .cert-footer{align-items:flex-start;margin:5px 0 0}
+#certificate.layout-split .cert-inner::after{left:3%;bottom:9%;width:19%;transform:none;writing-mode:vertical-rl;letter-spacing:.28em}
+
+/* Minimal: editorial whitespace and fine rules */
+#certificate.layout-minimal{border:0!important;box-shadow:inset 0 0 0 1px var(--cert-line),0 18px 46px rgba(20,30,45,.12)!important}
+#certificate.layout-minimal::before{inset:26px!important;border:0!important;border-top:1px solid var(--cert-line);border-bottom:1px solid var(--cert-line)}
+#certificate.layout-minimal::after{display:none}
+#certificate.layout-minimal .cert-inner{justify-content:center;padding:12% 15% 10%;gap:clamp(12px,2vw,22px)}
+#certificate.layout-minimal .cert-title{font-size:clamp(22px,3vw,34px);letter-spacing:.02em;text-transform:none}
+#certificate.layout-minimal .cert-name{font-size:clamp(42px,5.5vw,64px);border:0;padding:0}
+#certificate.layout-minimal .cert-meta{width:70%;border-top:1px solid var(--cert-line);border-bottom:1px solid var(--cert-line);padding:8px 0}
+#certificate.layout-minimal .cert-footer{margin-top:4px}
+#certificate.layout-minimal .cert-inner::after{bottom:5%;font-size:8px;letter-spacing:.12em}
+
+/* Technical: grid system, mono labels, asymmetrical top-right mark */
+#certificate.layout-tech .cert-inner{justify-content:flex-end;align-items:flex-start;text-align:left;padding:13% 12% 11%;gap:clamp(9px,1.4vw,16px)}
+#certificate.layout-tech .cert-logo{position:absolute;top:12%;right:13%;width:90px}
+#certificate.layout-tech .cert-title{max-width:70%;font-size:clamp(22px,3vw,36px);letter-spacing:.015em}
+#certificate.layout-tech .cert-subtitle,#certificate.layout-tech .cert-event{margin:0;text-align:left;max-width:78%}
+#certificate.layout-tech .cert-name{width:82%;font-size:clamp(38px,5vw,58px);border:0;border-bottom:1px solid var(--cert-accent);padding:0 0 8px;text-align:left}
+#certificate.layout-tech .cert-meta{width:82%;justify-content:flex-start;gap:36px;margin:5px 0 0;font-family:"IBM Plex Mono",monospace;font-size:11px}
+#certificate.layout-tech .cert-footer{align-items:flex-start;margin:10px 0 0}
+#certificate.layout-tech .cert-inner::after{left:auto;right:12%;bottom:8%;width:25%;text-align:right;font-family:"IBM Plex Mono",monospace;font-size:8px;letter-spacing:.08em}
+
+/* Medallion: symmetrical award stage with centered seal and signature */
+#certificate.layout-medallion .cert-inner{justify-content:center;padding:14% 10% 10%;gap:clamp(8px,1.5vw,16px)}
+#certificate.layout-medallion .cert-logo{width:72px}
+#certificate.layout-medallion .cert-title{max-width:84%;font-size:clamp(23px,3.1vw,37px);letter-spacing:.13em}
+#certificate.layout-medallion .cert-name{width:72%;margin:1% auto;border:0;border-bottom:1px solid var(--cert-accent);font-size:clamp(42px,5.2vw,60px)}
+#certificate.layout-medallion .cert-event{max-width:72%}
+#certificate.layout-medallion .cert-meta{width:75%;justify-content:space-around}
+#certificate.layout-medallion .cert-footer{position:absolute;bottom:8%;left:50%;transform:translateX(-50%);margin:0;min-width:170px}
+#certificate.layout-medallion .cert-inner::after{bottom:2%;font-size:8px}
+
+/* Athletic: dynamic diagonal panels, left-aligned title and championship ribbon */
+#certificate.layout-athletic .cert-inner{justify-content:center;align-items:flex-start;text-align:left;padding:9% 12% 8% 17%;gap:clamp(8px,1.3vw,15px)}
+#certificate.layout-athletic .cert-logo{position:absolute;right:12%;top:12%;width:82px}
+#certificate.layout-athletic .cert-title{max-width:76%;font-size:clamp(28px,4vw,46px);line-height:.98;letter-spacing:.015em}
+#certificate.layout-athletic .cert-subtitle,#certificate.layout-athletic .cert-event{text-align:left;margin:0;max-width:72%;font-family:"Roboto",sans-serif;font-style:normal}
+#certificate.layout-athletic .cert-name{width:76%;text-align:left;border:0;border-bottom:4px solid var(--cert-accent);padding:0 0 8px;font-family:"Oswald",sans-serif;font-size:clamp(42px,5.7vw,66px);text-transform:uppercase}
+#certificate.layout-athletic .cert-meta{width:75%;justify-content:flex-start;gap:28px;margin:4px 0 0;font-weight:700}
+#certificate.layout-athletic .cert-footer{align-items:flex-start;margin:3px 0 0}
+#certificate.layout-athletic .cert-inner::after{left:auto;right:8%;bottom:8%;width:18%;writing-mode:vertical-rl;transform:none;text-align:center;font-size:9px}
+
+/* Gallery: artistic asymmetry, ornamental side rails and expressive type */
+#certificate.layout-gallery .cert-inner{justify-content:center;padding:9% 16% 9% 13%;gap:clamp(10px,1.6vw,18px)}
+#certificate.layout-gallery .cert-logo{position:absolute;right:10%;top:12%;width:76px}
+#certificate.layout-gallery .cert-title{max-width:78%;text-align:left;font-size:clamp(25px,3.5vw,42px);text-transform:none;letter-spacing:.01em}
+#certificate.layout-gallery .cert-subtitle{max-width:75%;text-align:left;font-style:italic}
+#certificate.layout-gallery .cert-name{width:88%;text-align:left;border:0;font-size:clamp(42px,5.4vw,62px);padding:0}
+#certificate.layout-gallery .cert-event{max-width:75%;margin:0;text-align:left}
+#certificate.layout-gallery .cert-meta{width:100%;justify-content:flex-start;gap:32px;margin:4px 0 0}
+#certificate.layout-gallery .cert-footer{position:absolute;right:12%;bottom:12%;margin:0}
+#certificate.layout-gallery .cert-inner::after{left:13%;bottom:5%;width:65%;text-align:left;transform:none;font-size:8px}
+
+/* Executive: dark boardroom style with formal top and bottom bands */
+#certificate.layout-executive .cert-inner{justify-content:center;padding:13% 13% 12%;gap:clamp(9px,1.4vw,16px)}
+#certificate.layout-executive .cert-title{font-size:clamp(22px,3vw,35px);letter-spacing:.17em}
+#certificate.layout-executive .cert-name{width:78%;margin:1% auto;border:0;border-bottom:1px solid var(--cert-accent);font-size:clamp(40px,5.3vw,62px)}
+#certificate.layout-executive .cert-meta{width:82%;justify-content:space-between}
+#certificate.layout-executive .cert-footer{position:absolute;bottom:10%;right:13%;margin:0}
+#certificate.layout-executive .cert-inner::after{bottom:4%;font-size:8px;letter-spacing:.22em}
+
+/* Portrait adjustments preserve each layout's visual character */
+#certificate.portrait.layout-split .cert-inner{padding:17% 8% 12% 23%}
+#certificate.portrait.layout-athletic .cert-inner{padding:15% 9% 12% 14%}
+#certificate.portrait.layout-gallery .cert-inner{padding:14% 11% 12%}
+#certificate.portrait.layout-tech .cert-inner{padding:20% 10% 12%}
+#certificate.portrait.layout-minimal .cert-inner{padding:18% 10% 14%}
+#certificate.portrait.layout-diploma .cert-inner{padding:18% 9% 13%}
+#certificate.portrait.layout-vintage .cert-inner{padding:18% 11% 13%}
+#certificate.portrait.layout-medallion .cert-inner{padding:20% 9% 15%}
+#certificate.portrait.layout-executive .cert-inner{padding:20% 10% 15%}
+@media(max-width:600px){
+  #certificate.portrait.layout-split .cert-inner{padding:18% 7% 13% 21%}
+  #certificate.portrait.layout-athletic .cert-inner{padding:16% 7% 12% 12%}
+  #certificate.portrait.layout-gallery .cert-inner{padding:15% 8% 13%}
+  #certificate.layout-athletic .cert-title{font-size:clamp(10px,2.8vw,18px)}
+  #certificate.layout-athletic .cert-name{font-size:clamp(14px,4vw,26px)}
+  #certificate.layout-split .cert-title,#certificate.layout-gallery .cert-title,#certificate.layout-tech .cert-title{font-size:clamp(10px,2.7vw,18px)}
+  #certificate.layout-split .cert-name,#certificate.layout-gallery .cert-name,#certificate.layout-tech .cert-name{font-size:clamp(15px,4vw,27px)}
+  #certificate.layout-split .cert-inner::after{font-size:5px}
+  #certificate.layout-athletic .cert-inner::after{font-size:5px}
+}
