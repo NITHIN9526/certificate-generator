@@ -595,9 +595,569 @@ function createUniqueFileBaseName(name, index, usedNames) {
   return candidate;
 }
 
+
+// Distinct editorial identity for every certificate design.
+const certificateTemplateProfiles = {
+  "classic": {
+    "title": "CERTIFICATE OF ACHIEVEMENT",
+    "subtitle": "This distinction is proudly presented to",
+    "signature": "Authorized Signatory",
+    "titleFont": "Cinzel",
+    "nameFont": "Libre Baskerville",
+    "bodyFont": "Lora",
+    "paper": "#f7f5ee",
+    "accent": "#a88b50",
+    "ink": "#393326",
+    "line": "#d8c99f",
+    "frame": "academic",
+    "motif": "✦",
+    "kicker": "IN RECOGNITION OF MERIT"
+  },
+  "modern": {
+    "title": "CERTIFICATE OF COMPLETION",
+    "subtitle": "Awarded in recognition of successful completion to",
+    "signature": "Program Director",
+    "titleFont": "Montserrat",
+    "nameFont": "Manrope",
+    "bodyFont": "Inter",
+    "paper": "#f3f7fb",
+    "accent": "#315c91",
+    "ink": "#20364d",
+    "line": "#b8cadd",
+    "frame": "modern",
+    "motif": "◆",
+    "kicker": "PROFESSIONAL DEVELOPMENT"
+  },
+  "gold": {
+    "title": "DISTINCTION AWARD",
+    "subtitle": "Presented with honour to",
+    "signature": "Chairperson",
+    "titleFont": "Cinzel",
+    "nameFont": "Cormorant Garamond",
+    "bodyFont": "Merriweather",
+    "paper": "#fbf5e8",
+    "accent": "#a77a2d",
+    "ink": "#49391f",
+    "line": "#d9bd7d",
+    "frame": "award",
+    "motif": "✥",
+    "kicker": "HONOUR • EXCELLENCE • ACHIEVEMENT"
+  },
+  "sports-dynamic": {
+    "title": "ATHLETIC ACHIEVEMENT AWARD",
+    "subtitle": "Presented for outstanding sporting performance to",
+    "signature": "Tournament Director",
+    "titleFont": "Anton",
+    "nameFont": "Oswald",
+    "bodyFont": "Roboto",
+    "paper": "#142b46",
+    "accent": "#f0b429",
+    "ink": "#f8f7f1",
+    "line": "#53718c",
+    "frame": "athletic",
+    "motif": "✦",
+    "kicker": "COMPETE • PERFORM • EXCEL"
+  },
+  "sports-medal": {
+    "title": "CHAMPIONSHIP HONOURS",
+    "subtitle": "Awarded in recognition of exceptional athletic achievement to",
+    "signature": "Sports Commissioner",
+    "titleFont": "Cinzel",
+    "nameFont": "Playfair Display",
+    "bodyFont": "Lora",
+    "paper": "#173b2b",
+    "accent": "#d5ae52",
+    "ink": "#fff8e7",
+    "line": "#9b8550",
+    "frame": "medal",
+    "motif": "✪",
+    "kicker": "OFFICIAL CHAMPIONSHIP RECOGNITION"
+  },
+  "sports-champion": {
+    "title": "CHAMPION OF THE TOURNAMENT",
+    "subtitle": "This honour is conferred upon",
+    "signature": "Head of Competition",
+    "titleFont": "Bebas Neue",
+    "nameFont": "Oswald",
+    "bodyFont": "Roboto",
+    "paper": "#171d2d",
+    "accent": "#e85d5d",
+    "ink": "#ffffff",
+    "line": "#68748e",
+    "frame": "athletic",
+    "motif": "★",
+    "kicker": "FIRST PLACE • CHAMPION"
+  },
+  "sports-fitness": {
+    "title": "FITNESS & PERFORMANCE AWARD",
+    "subtitle": "Presented for dedication, discipline and personal progress to",
+    "signature": "Fitness Director",
+    "titleFont": "Oswald",
+    "nameFont": "Montserrat",
+    "bodyFont": "Inter",
+    "paper": "#f0f5f2",
+    "accent": "#25856b",
+    "ink": "#213d34",
+    "line": "#a8c9bc",
+    "frame": "modern",
+    "motif": "✧",
+    "kicker": "STRENGTH • DISCIPLINE • PROGRESS"
+  },
+  "sports-tournament": {
+    "title": "OFFICIAL TOURNAMENT CERTIFICATE",
+    "subtitle": "Recognising participation in the following competition",
+    "signature": "Event Convenor",
+    "titleFont": "Barlow Condensed",
+    "nameFont": "Barlow",
+    "bodyFont": "Roboto",
+    "paper": "#f4f5f7",
+    "accent": "#254b78",
+    "ink": "#1d2e43",
+    "line": "#b6c3d2",
+    "frame": "athletic",
+    "motif": "◆",
+    "kicker": "TOURNAMENT SERIES"
+  },
+  "sports-achievement": {
+    "title": "SPORTING EXCELLENCE",
+    "subtitle": "In recognition of outstanding performance and sportsmanship",
+    "signature": "Athletic Director",
+    "titleFont": "Teko",
+    "nameFont": "Oswald",
+    "bodyFont": "Roboto",
+    "paper": "#f8f4e9",
+    "accent": "#b17a31",
+    "ink": "#3d3326",
+    "line": "#d5bd94",
+    "frame": "medal",
+    "motif": "✪",
+    "kicker": "SPORTSMANSHIP • PERFORMANCE"
+  },
+  "arts-creative": {
+    "title": "CERTIFICATE OF CREATIVE MERIT",
+    "subtitle": "Celebrating imagination, originality and artistic expression by",
+    "signature": "Creative Director",
+    "titleFont": "Abril Fatface",
+    "nameFont": "Cormorant Garamond",
+    "bodyFont": "Raleway",
+    "paper": "#f5eff9",
+    "accent": "#7651a0",
+    "ink": "#392c49",
+    "line": "#c9b4d8",
+    "frame": "gallery",
+    "motif": "✿",
+    "kicker": "A CELEBRATION OF CREATIVE VOICE"
+  },
+  "arts-vibrant": {
+    "title": "ARTS & CULTURAL FESTIVAL HONOUR",
+    "subtitle": "Presented in celebration of creative participation by",
+    "signature": "Festival Curator",
+    "titleFont": "Bebas Neue",
+    "nameFont": "Pacifico",
+    "bodyFont": "Nunito",
+    "paper": "#fff0f3",
+    "accent": "#cf557d",
+    "ink": "#593448",
+    "line": "#e6b6c8",
+    "frame": "gallery",
+    "motif": "✺",
+    "kicker": "ART • CULTURE • EXPRESSION"
+  },
+  "arts-gallery": {
+    "title": "EXHIBITION OF ARTISTIC WORK",
+    "subtitle": "This certificate recognises the creative contribution of",
+    "signature": "Gallery Curator",
+    "titleFont": "Cormorant Garamond",
+    "nameFont": "Playfair Display",
+    "bodyFont": "Lora",
+    "paper": "#f7f2e8",
+    "accent": "#9a6549",
+    "ink": "#44352b",
+    "line": "#d6bca4",
+    "frame": "gallery",
+    "motif": "❦",
+    "kicker": "SELECTED WORKS • ARTISTIC PRACTICE"
+  },
+  "arts-performance": {
+    "title": "PERFORMANCE & STAGE ARTS AWARD",
+    "subtitle": "In recognition of expressive talent and stage excellence",
+    "signature": "Artistic Director",
+    "titleFont": "Cinzel",
+    "nameFont": "Dancing Script",
+    "bodyFont": "Lora",
+    "paper": "#211b2c",
+    "accent": "#c79a60",
+    "ink": "#fff7eb",
+    "line": "#76617c",
+    "frame": "gallery",
+    "motif": "✧",
+    "kicker": "PERFORMANCE • PRESENCE • PASSION"
+  },
+  "arts-design": {
+    "title": "DESIGN INNOVATION CERTIFICATE",
+    "subtitle": "Recognising thoughtful design and visual problem-solving by",
+    "signature": "Design Lead",
+    "titleFont": "Space Grotesk",
+    "nameFont": "Manrope",
+    "bodyFont": "Inter",
+    "paper": "#f3f5f7",
+    "accent": "#de684d",
+    "ink": "#26323d",
+    "line": "#c2cbd2",
+    "frame": "geometric",
+    "motif": "◇",
+    "kicker": "FORM • FUNCTION • ORIGINALITY"
+  },
+  "arts-photography": {
+    "title": "PHOTOGRAPHIC DISTINCTION",
+    "subtitle": "Awarded for visual storytelling and photographic craft to",
+    "signature": "Exhibition Jury",
+    "titleFont": "DM Serif Display",
+    "nameFont": "Cormorant Garamond",
+    "bodyFont": "Raleway",
+    "paper": "#f4f1ec",
+    "accent": "#806b53",
+    "ink": "#342f2a",
+    "line": "#cfc2b0",
+    "frame": "gallery",
+    "motif": "◉",
+    "kicker": "LIGHT • FRAME • PERSPECTIVE"
+  },
+  "academic-formal": {
+    "title": "ACADEMIC MERIT CERTIFICATE",
+    "subtitle": "The institution hereby recognises the academic achievement of",
+    "signature": "Academic Registrar",
+    "titleFont": "Libre Baskerville",
+    "nameFont": "Libre Baskerville",
+    "bodyFont": "Merriweather",
+    "paper": "#f8f6ed",
+    "accent": "#294c70",
+    "ink": "#263342",
+    "line": "#c8b98e",
+    "frame": "academic",
+    "motif": "⚜",
+    "kicker": "OFFICIAL ACADEMIC RECORD"
+  },
+  "academic-modern": {
+    "title": "CERTIFICATE OF COURSE COMPLETION",
+    "subtitle": "This certifies the successful completion of the prescribed programme by",
+    "signature": "Head of Department",
+    "titleFont": "Inter",
+    "nameFont": "Manrope",
+    "bodyFont": "Inter",
+    "paper": "#f4f7fa",
+    "accent": "#286a8c",
+    "ink": "#233848",
+    "line": "#b7cbd6",
+    "frame": "modern",
+    "motif": "▰",
+    "kicker": "LEARNING • KNOWLEDGE • APPLICATION"
+  },
+  "academic-distinction": {
+    "title": "DEAN'S LIST DISTINCTION",
+    "subtitle": "Conferred in recognition of exceptional scholastic achievement upon",
+    "signature": "Dean / Principal",
+    "titleFont": "Cinzel",
+    "nameFont": "Playfair Display",
+    "bodyFont": "Libre Baskerville",
+    "paper": "#f5f2e8",
+    "accent": "#9a793d",
+    "ink": "#403725",
+    "line": "#d2c39c",
+    "frame": "academic",
+    "motif": "✦",
+    "kicker": "SCHOLARLY EXCELLENCE"
+  },
+  "excellence-premium": {
+    "title": "AWARD FOR EXCELLENCE",
+    "subtitle": "Presented in recognition of exceptional standards and achievement to",
+    "signature": "Awards Committee",
+    "titleFont": "Cinzel",
+    "nameFont": "Cormorant Garamond",
+    "bodyFont": "Merriweather",
+    "paper": "#f7f3e9",
+    "accent": "#a77e39",
+    "ink": "#403626",
+    "line": "#d7c49a",
+    "frame": "award",
+    "motif": "✥",
+    "kicker": "EXCELLENCE BEYOND EXPECTATION"
+  },
+  "achievement-bold": {
+    "title": "OUTSTANDING ACHIEVEMENT",
+    "subtitle": "This award celebrates a remarkable accomplishment by",
+    "signature": "Awards Director",
+    "titleFont": "Anton",
+    "nameFont": "Montserrat",
+    "bodyFont": "Roboto",
+    "paper": "#f4f5f8",
+    "accent": "#bd573d",
+    "ink": "#282d37",
+    "line": "#c9b7ac",
+    "frame": "modern",
+    "motif": "★",
+    "kicker": "RECOGNISING EXTRAORDINARY RESULTS"
+  },
+  "leadership-elite": {
+    "title": "LEADERSHIP & SERVICE HONOUR",
+    "subtitle": "In appreciation of exemplary leadership and meaningful service by",
+    "signature": "Institutional Chair",
+    "titleFont": "Cinzel",
+    "nameFont": "Libre Baskerville",
+    "bodyFont": "Lora",
+    "paper": "#eef3ee",
+    "accent": "#3c654d",
+    "ink": "#263c2e",
+    "line": "#b8c9b9",
+    "frame": "academic",
+    "motif": "⚜",
+    "kicker": "LEADERSHIP • INTEGRITY • SERVICE"
+  },
+  "minimalist-blue": {
+    "title": "CERTIFICATE OF RECOGNITION",
+    "subtitle": "Presented with appreciation to",
+    "signature": "Authorised Representative",
+    "titleFont": "DM Sans",
+    "nameFont": "DM Serif Display",
+    "bodyFont": "Inter",
+    "paper": "#ffffff",
+    "accent": "#315e8d",
+    "ink": "#273647",
+    "line": "#d5dce4",
+    "frame": "minimal",
+    "motif": "—",
+    "kicker": "A RECORD OF CONTRIBUTION"
+  },
+  "gradient-sunset": {
+    "title": "CREATIVE PARTICIPATION AWARD",
+    "subtitle": "Celebrating bold ideas and a distinctive contribution by",
+    "signature": "Creative Lead",
+    "titleFont": "Abril Fatface",
+    "nameFont": "Cormorant Garamond",
+    "bodyFont": "Nunito",
+    "paper": "#fff4ed",
+    "accent": "#b85e4b",
+    "ink": "#4b3530",
+    "line": "#e5b9a8",
+    "frame": "gallery",
+    "motif": "✺",
+    "kicker": "INSPIRED IDEAS • BRIGHTER POSSIBILITIES"
+  },
+  "elegant-vintage": {
+    "title": "HONOURABLE CERTIFICATE",
+    "subtitle": "Let it be known that this honour is bestowed upon",
+    "signature": "Secretary of the Society",
+    "titleFont": "Old Standard TT",
+    "nameFont": "Cormorant Garamond",
+    "bodyFont": "Crimson Text",
+    "paper": "#f4ead8",
+    "accent": "#815b39",
+    "ink": "#493a2b",
+    "line": "#c9ad87",
+    "frame": "vintage",
+    "motif": "❦",
+    "kicker": "BY MERIT AND DISTINCTION"
+  },
+  "geometric-modern": {
+    "title": "INNOVATION & DESIGN AWARD",
+    "subtitle": "Recognising original thinking and forward-looking achievement by",
+    "signature": "Innovation Director",
+    "titleFont": "Space Grotesk",
+    "nameFont": "Space Grotesk",
+    "bodyFont": "DM Sans",
+    "paper": "#f1f5f8",
+    "accent": "#286b91",
+    "ink": "#203644",
+    "line": "#b9ccd7",
+    "frame": "geometric",
+    "motif": "◇",
+    "kicker": "IDEAS INTO IMPACT"
+  },
+  "rainbow-vibrant": {
+    "title": "CELEBRATION OF PARTICIPATION",
+    "subtitle": "With appreciation for energy, creativity and contribution by",
+    "signature": "Programme Host",
+    "titleFont": "Quicksand",
+    "nameFont": "Pacifico",
+    "bodyFont": "Nunito",
+    "paper": "#fff8f1",
+    "accent": "#bd5b82",
+    "ink": "#493548",
+    "line": "#e6c0cd",
+    "frame": "gallery",
+    "motif": "✿",
+    "kicker": "TOGETHER WE CREATE • TOGETHER WE GROW"
+  },
+  "dark-professional": {
+    "title": "CERTIFICATE OF PROFESSIONAL MERIT",
+    "subtitle": "This distinction is awarded in recognition of professional contribution to",
+    "signature": "Executive Director",
+    "titleFont": "Montserrat",
+    "nameFont": "DM Serif Display",
+    "bodyFont": "Inter",
+    "paper": "#1d2735",
+    "accent": "#c5a86b",
+    "ink": "#f4f0e6",
+    "line": "#596b82",
+    "frame": "dark",
+    "motif": "✦",
+    "kicker": "PROFESSIONAL STANDARD • VERIFIED"
+  },
+  "pastel-soft": {
+    "title": "CERTIFICATE OF APPRECIATION",
+    "subtitle": "Gratefully presented in recognition of the contribution made by",
+    "signature": "Programme Coordinator",
+    "titleFont": "Quicksand",
+    "nameFont": "Cormorant Garamond",
+    "bodyFont": "Nunito",
+    "paper": "#fbf3f2",
+    "accent": "#b77991",
+    "ink": "#493943",
+    "line": "#e4c4ce",
+    "frame": "minimal",
+    "motif": "❀",
+    "kicker": "WITH GRATITUDE AND APPRECIATION"
+  },
+  "bold-statement": {
+    "title": "MERIT & PERFORMANCE AWARD",
+    "subtitle": "Awarded for outstanding commitment and measurable achievement to",
+    "signature": "Awarding Authority",
+    "titleFont": "Bebas Neue",
+    "nameFont": "Barlow Condensed",
+    "bodyFont": "Roboto",
+    "paper": "#202b3b",
+    "accent": "#e0a43b",
+    "ink": "#fffaf0",
+    "line": "#65778c",
+    "frame": "athletic",
+    "motif": "★",
+    "kicker": "RECOGNITION OF EXCEPTIONAL PERFORMANCE"
+  },
+  "aurora-glass": {
+    "title": "CERTIFICATE OF PARTICIPATION",
+    "subtitle": "Recognising active contribution and meaningful engagement by",
+    "signature": "Event Coordinator",
+    "titleFont": "Outfit",
+    "nameFont": "Manrope",
+    "bodyFont": "Inter",
+    "paper": "#eef5f5",
+    "accent": "#347f83",
+    "ink": "#253c40",
+    "line": "#b9d5d2",
+    "frame": "modern",
+    "motif": "✧",
+    "kicker": "PARTICIPATION • COLLABORATION • IMPACT"
+  },
+  "emerald-royal": {
+    "title": "ROYAL ORDER OF ACHIEVEMENT",
+    "subtitle": "Conferred with distinction upon",
+    "signature": "Chancellor",
+    "titleFont": "Cinzel",
+    "nameFont": "DM Serif Display",
+    "bodyFont": "Merriweather",
+    "paper": "#edf2e9",
+    "accent": "#416b4e",
+    "ink": "#263c2d",
+    "line": "#c0cfb5",
+    "frame": "award",
+    "motif": "⚜",
+    "kicker": "DISTINCTION • HONOUR • PRESTIGE"
+  },
+  "mono-grid": {
+    "title": "CERTIFICATE OF COMPLETION",
+    "subtitle": "This document confirms that",
+    "signature": "Certification Officer",
+    "titleFont": "IBM Plex Mono",
+    "nameFont": "Space Grotesk",
+    "bodyFont": "IBM Plex Sans",
+    "paper": "#f4f5f5",
+    "accent": "#333f4a",
+    "ink": "#252e35",
+    "line": "#c4cbd0",
+    "frame": "geometric",
+    "motif": "▦",
+    "kicker": "VERIFIED COMPLETION RECORD"
+  },
+  "nebula-night": {
+    "title": "EXPLORATION & DISCOVERY AWARD",
+    "subtitle": "Presented for curiosity, discovery and exceptional creative thinking to",
+    "signature": "Mission Director",
+    "titleFont": "Orbitron",
+    "nameFont": "Exo 2",
+    "bodyFont": "Rajdhani",
+    "paper": "#171c36",
+    "accent": "#9c8de0",
+    "ink": "#f2efff",
+    "line": "#5f5b91",
+    "frame": "dark",
+    "motif": "✧",
+    "kicker": "EXPLORE • DISCOVER • TRANSCEND"
+  },
+  "ivory-luxe": {
+    "title": "CERTIFICATE OF DISTINGUISHED SERVICE",
+    "subtitle": "In grateful recognition of distinguished service by",
+    "signature": "Board of Trustees",
+    "titleFont": "Bodoni Moda",
+    "nameFont": "Cormorant Garamond",
+    "bodyFont": "Libre Baskerville",
+    "paper": "#faf6eb",
+    "accent": "#9a7b4c",
+    "ink": "#403729",
+    "line": "#d9c7a2",
+    "frame": "academic",
+    "motif": "❦",
+    "kicker": "WITH ESTEEM AND GRATITUDE"
+  },
+  "coral-wave": {
+    "title": "COMMUNITY IMPACT AWARD",
+    "subtitle": "Celebrating a positive contribution to the community by",
+    "signature": "Community Director",
+    "titleFont": "Jost",
+    "nameFont": "DM Serif Display",
+    "bodyFont": "DM Sans",
+    "paper": "#fff2ed",
+    "accent": "#c86a5d",
+    "ink": "#503832",
+    "line": "#e7b9ad",
+    "frame": "gallery",
+    "motif": "✺",
+    "kicker": "PEOPLE • PURPOSE • POSITIVE CHANGE"
+  }
+};
+
+function applyTemplateProfile(templateClass, syncEditor = false) {
+  const profile = certificateTemplateProfiles[templateClass];
+  if (!profile) return;
+  if (syncEditor) {
+    if (certTitleInput) certTitleInput.value = profile.title;
+    if (certSubtitleInput) certSubtitleInput.value = profile.subtitle;
+    if (certSigLabelInput) certSigLabelInput.value = profile.signature;
+    Object.keys(textStyleOverrides).forEach((key) => { textStyleOverrides[key] = null; });
+    [titleFontSelect, subtitleFontSelect, nameFontSelect, eventFontSelect, metaFontSelect, sigFontSelect].forEach((select) => { if (select) select.value = ''; });
+    [titleSizeInput, nameSizeInput, eventSizeInput].forEach((input) => { if (input) input.value = input.defaultValue; });
+    [titleColorInput, nameColorInput, bodyColorInput].forEach((input) => { if (input) input.value = input.defaultValue; });
+  }
+  if (certTitle) certTitle.textContent = profile.title;
+  if (certSubtitle) certSubtitle.textContent = profile.subtitle;
+  if (certSigLabel) certSigLabel.textContent = profile.signature;
+  if (certInner) certInner.dataset.templateKicker = profile.kicker;
+}
+
 function applyCertificateTemplateClass(templateClass) {
-  cert.classList.remove(...templateClasses);
-  cert.classList.add(templateClass);
+  cert.classList.remove(...templateClasses, 'template-crafted');
+  cert.classList.add(templateClass, 'template-crafted');
+  const profile = certificateTemplateProfiles[templateClass];
+  if (profile) {
+    cert.dataset.frame = profile.frame;
+    cert.dataset.motif = profile.motif;
+    cert.style.setProperty('--cert-paper', profile.paper);
+    cert.style.setProperty('--cert-accent', profile.accent);
+    cert.style.setProperty('--cert-ink', profile.ink);
+    cert.style.setProperty('--cert-line', profile.line);
+    cert.style.setProperty('--cert-title-font', '"' + profile.titleFont + '", serif');
+    cert.style.setProperty('--cert-name-font', '"' + profile.nameFont + '", serif');
+    cert.style.setProperty('--cert-body-font', '"' + profile.bodyFont + '", serif');
+  }
 }
 
 function applyCertificateOrientation() {
@@ -702,6 +1262,7 @@ function setCertificateData(participant, templateClass) {
   applyCertificateOrientation();
   applyCustomBackground();
   applyTextEditorStyles();
+  applyTemplateProfile(templateClass, false);
 }
 
 function resolveTemplateForParticipant(participant, defaultTemplate) {
@@ -1337,6 +1898,13 @@ function closeBatchModal() {
 
 window.closeBatchModal = closeBatchModal;
 
+if (templateSelect) {
+  templateSelect.addEventListener('change', () => {
+    applyTemplateProfile(templateSelect.value, true);
+    updatePreview();
+  });
+}
+
 [participantInput, eventInput, dateInput, issuerInput, templateSelect, categorySelect]
   .filter(Boolean)
   .forEach((el) => {
@@ -1548,6 +2116,7 @@ if (clearSaveBtn) {
 const _restored = loadFromLocalStorage();
 if (!_restored) {
   updateCategoryTemplateRecommendations(categorySelect ? categorySelect.value : '');
+  applyTemplateProfile(templateSelect ? templateSelect.value : 'classic', true);
   updatePreview();
 }
 
