@@ -61,7 +61,7 @@ const progressFill = document.getElementById('progress-fill');
 const progressText = document.getElementById('progress-text');
 const progressPercent = document.getElementById('progress-percent');
 
-const templateClasses = ['studio'];
+const templateClasses = ['studio', 'modern', 'minimal', 'classic', 'laurel'];
 
 // Global variables for batch processing
 let logoDataUrl = null;
@@ -75,8 +75,8 @@ const exportRenderDimensions = {
 
 // Category to template suggestions map
 const categoryTemplateMap = {
-  sports: ['studio'], arts: ['studio'], academics: ['studio'], participation: ['studio'],
-  excellence: ['studio'], achievement: ['studio'], leadership: ['studio'], innovation: ['studio']
+  sports: ['modern', 'laurel'], arts: ['minimal', 'studio'], academics: ['classic', 'minimal'], participation: ['studio', 'modern'],
+  excellence: ['laurel', 'classic'], achievement: ['modern', 'laurel'], leadership: ['classic', 'modern'], innovation: ['minimal', 'modern']
 };
 
 const certEventPrefix = 'has successfully participated in ';
@@ -1307,6 +1307,34 @@ if (orientationLandscapeBtn && orientationPortraitBtn) {
   orientationPortraitBtn.classList.remove('active');
 }
 
+
+function syncTemplateCards() {
+  const selected = templateSelect ? templateSelect.value : 'studio';
+  document.querySelectorAll('.template-card[data-template]').forEach((card) => {
+    const active = card.dataset.template === selected;
+    card.classList.toggle('is-selected', active);
+    card.setAttribute('aria-pressed', String(active));
+  });
+}
+
+document.querySelectorAll('.template-card[data-template]').forEach((card) => {
+  card.addEventListener('click', () => {
+    if (!templateSelect) return;
+    templateSelect.value = card.dataset.template;
+    syncTemplateCards();
+    updatePreview();
+    scheduleSave();
+  });
+});
+
+if (templateSelect) {
+  templateSelect.addEventListener('change', () => {
+    syncTemplateCards();
+    updatePreview();
+    scheduleSave();
+  });
+}
+
 initializeFontSelectors();
 initializeMovableTextEditor();
 
@@ -1414,6 +1442,7 @@ function applySessionState(state) {
   }
 
   if (state.category) updateCategoryTemplateRecommendations(state.category);
+  syncTemplateCards();
   updatePreview();
 }
 
@@ -1523,5 +1552,6 @@ syncThemeToggle();
 const _restored = loadFromLocalStorage();
 if (!_restored) {
   updateCategoryTemplateRecommendations(categorySelect ? categorySelect.value : '');
+  syncTemplateCards();
   updatePreview();
 }
