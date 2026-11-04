@@ -1972,6 +1972,9 @@ function applySessionState(state) {
   if (dateInput && state.date != null) dateInput.value = state.date;
   if (issuerInput && state.issuer != null) issuerInput.value = state.issuer;
   if (templateSelect && state.template) templateSelect.value = state.template;
+  if (templateSelect && (!state.certTitle || !state.certSubtitle || !state.certSigLabel)) {
+    applyTemplateProfile(templateSelect.value, true);
+  }
 
   if (state.orientation) {
     currentOrientation = state.orientation;
@@ -1982,9 +1985,9 @@ function applySessionState(state) {
     }
   }
 
-  if (certTitleInput && state.certTitle != null) certTitleInput.value = state.certTitle;
-  if (certSubtitleInput && state.certSubtitle != null) certSubtitleInput.value = state.certSubtitle;
-  if (certSigLabelInput && state.certSigLabel != null) certSigLabelInput.value = state.certSigLabel;
+  if (certTitleInput && state.certTitle) certTitleInput.value = state.certTitle;
+  if (certSubtitleInput && state.certSubtitle) certSubtitleInput.value = state.certSubtitle;
+  if (certSigLabelInput && state.certSigLabel) certSigLabelInput.value = state.certSigLabel;
 
   if (state.textStyleOverrides && typeof state.textStyleOverrides === 'object') {
     Object.assign(textStyleOverrides, state.textStyleOverrides);
