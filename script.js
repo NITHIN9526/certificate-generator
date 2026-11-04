@@ -1550,3 +1550,36 @@ if (!_restored) {
   updateCategoryTemplateRecommendations(categorySelect ? categorySelect.value : '');
   updatePreview();
 }
+
+
+// Premium Studio appearance preference (independent of certificate export styling).
+(() => {
+  const root = document.documentElement;
+  const toggle = document.getElementById('theme-toggle');
+  const savedTheme = (() => {
+    try { return localStorage.getItem('certgen-theme'); } catch (_) { return null; }
+  })();
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  let theme = savedTheme === 'dark' || savedTheme === 'light' ? savedTheme : (prefersDark ? 'dark' : 'light');
+
+  const renderTheme = () => {
+    root.dataset.theme = theme;
+    if (!toggle) return;
+    const dark = theme === 'dark';
+    const icon = toggle.querySelector('.material-icons');
+    const label = toggle.querySelector('.theme-toggle-label');
+    if (icon) icon.textContent = dark ? 'light_mode' : 'dark_mode';
+    if (label) label.textContent = dark ? 'Light mode' : 'Dark mode';
+    toggle.setAttribute('aria-label', dark ? 'Switch to light theme' : 'Switch to dark theme');
+    toggle.setAttribute('title', dark ? 'Switch to light theme' : 'Switch to dark theme');
+  };
+
+  renderTheme();
+  if (toggle) {
+    toggle.addEventListener('click', () => {
+      theme = theme === 'dark' ? 'light' : 'dark';
+      try { localStorage.setItem('certgen-theme', theme); } catch (_) {}
+      renderTheme();
+    });
+  }
+})();
